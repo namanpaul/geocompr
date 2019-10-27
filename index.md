@@ -2,7 +2,7 @@
 --- 
 title: 'Geocomputation with R'
 author: 'Robin Lovelace, Jakub Nowosad, Jannes Muenchow'
-date: '2019-10-23'
+date: '2019-10-27'
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 documentclass: krantz
