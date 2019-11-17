@@ -2,7 +2,7 @@
 --- 
 title: 'Geocomputation with R'
 author: 'Robin Lovelace, Jakub Nowosad, Jannes Muenchow'
-date: '2019-11-14'
+date: '2019-11-17'
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 documentclass: krantz
@@ -52,6 +52,8 @@ This will take you to an editable version of the the source [R Markdown](http://
 [![](figures/editme.png)](https://github.com/Robinlovelace/geocompr/edit/master/index.Rmd)
 
 To raise an issue about the book's content (e.g. code not running) or make a feature request, check-out the [issue tracker](https://github.com/Robinlovelace/geocompr/issues).
+
+Maintainers and contributors must follow this repository’s [CODE OF CONDUCT](CODE_OF_CONDUCT.md).
 
 ## Reproducibility {-}
 
