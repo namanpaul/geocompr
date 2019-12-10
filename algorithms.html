@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -472,8 +472,8 @@ Saved scripts can be called and executed in their entirety with <code>source()</
 <p>There are no strict rules on what can and cannot go into script files and nothing to prevent you from saving broken, non-reproducible code.<a href="#fn53" class="footnote-ref" id="fnref53"><sup>53</sup></a>
 There are, however, some conventions worth following:</p>
 <ul>
-<li>Write the script in order: just like the script of a film, scripts should have a clear order such as ‘setup’, ‘data processing’ and ‘save results’ (roughly equivalent to ‘beginning’, ‘middle’ and ‘end’ in a film).</li>
-<li><p>Add comments to the script so other people (and your future self) can understand it. At a minimum, a comment should state the purpose of the script (see Figure <a href="algorithms.html#fig:codecheck">10.1</a>) and (for long scripts) divide it into sections. This can be done in RStudio, for example, with the shortcut <code>Ctrl+Shift+R</code>, which creates ‘foldable’ code section headings.</p></li>
+<li>Write the script in order: just like the script of a film, scripts should have a clear order such as ‘setup’, ‘data processing’ and ‘save results’ (roughly equivalent to ‘beginning’, ‘middle’ and ‘end’ in a film)</li>
+<li><p>Add comments to the script so other people (and your future self) can understand it. At a minimum, a comment should state the purpose of the script (see Figure <a href="algorithms.html#fig:codecheck">10.1</a>) and (for long scripts) divide it into sections This can be done in RStudio, for example, with the shortcut <code>Ctrl+Shift+R</code>, which creates ‘foldable’ code section headings</p></li>
 <li><p>Above all, scripts should be reproducible: self-contained scripts that will work on any computer are more useful than scripts that only run on your computer, on a good day. This involves attaching required packages at the beginning, reading-in data from persistent sources (such as a reliable website) and ensuring that previous steps have been taken.<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a></p></li>
 </ul>
 <p>It is hard to enforce reproducibility in R scripts, but there are tools that can help.
@@ -684,9 +684,9 @@ To return the result as an object of class <code>sfg</code>, for example, a ‘w
 <p>In this chapter we have moved quickly, from scripts to functions via the tricky topic of algorithms.
 Not only have we discussed them in the abstract, but we have also created working examples of each to solve a specific problem:</p>
 <ul>
-<li>The script <code>10-centroid-alg.R</code> was introduced and demonstrated on a ‘polygon matrix’.</li>
-<li>The individual steps that allowed this script to work were described as an algorithm, a computational recipe.</li>
-<li>To generalize the algorithm we converted it into modular functions which were eventually combined to create the function <code>poly_centroid()</code> in the previous section.</li>
+<li>The script <code>10-centroid-alg.R</code> was introduced and demonstrated on a ‘polygon matrix’</li>
+<li>The individual steps that allowed this script to work were described as an algorithm, a computational recipe</li>
+<li>To generalize the algorithm we converted it into modular functions which were eventually combined to create the function <code>poly_centroid()</code> in the previous section</li>
 </ul>
 <p>Taken on its own, each of these steps is straightforward.
 But the skill of programming is combining scripts, algorithms and functions in a way that produces performant, robust and user-friendly tools that other people can use.

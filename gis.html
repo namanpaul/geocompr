@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -452,21 +452,21 @@ can do it with a GUI.</p>
 The advantages of a good CLI such as that provided by R (and enhanced by IDEs such as RStudio) are numerous.
 A good CLI</p>
 <ul>
-<li>Facilitates the automation of repetitive tasks.</li>
-<li>Enables transparency and reproducibility, the backbone of good scientific practice and data science.</li>
-<li>Encourages software development by providing tools to modify existing functions and implement new ones.</li>
-<li>Helps develop future-proof programming skills which are in high demand in many disciplines and industries.</li>
-<li>Is user-friendly and fast, allowing an efficient workflow.</li>
+<li>facilitates the automation of repetitive tasks;</li>
+<li>enables transparency and reproducibility, the backbone of good scientific practice and data science;</li>
+<li>encourages software development by providing tools to modify existing functions and implement new ones;</li>
+<li>helps develop future-proof programming skills which are in high demand in many disciplines and industries; and</li>
+<li>is user-friendly and fast, allowing an efficient workflow.</li>
 </ul>
 <p>On the other hand, GUI-based GIS systems (particularly QGIS) are also advantageous.
 A good GIS GUI</p>
 <ul>
-<li>Has a ‘shallow’ learning curve meaning geographic data can be explored and visualized without hours of learning a new language.</li>
-<li>Provides excellent support for ‘digitizing’ (creating new vector datasets), including trace, snap and topological tools.<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a></li>
-<li>Enables georeferencing (matching raster images to existing maps) with ground control points and orthorectification.
-<!-- The process of locating control points, choosing the right transformation model, and evaluating the registration error are inherently interactive, and thus unsuitable to be done with R, or any other programming language. --></li>
-<li>Supports stereoscopic mapping (e.g., LiDAR and structure from motion).</li>
-<li>Provides access to spatial database management systems with object-oriented relational data models, topology and fast (spatial) querying.</li>
+<li>has a ‘shallow’ learning curve meaning geographic data can be explored and visualized without hours of learning a new language;</li>
+<li>provides excellent support for ‘digitizing’ (creating new vector datasets), including trace, snap and topological tools;<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a></li>
+<li>enables georeferencing (matching raster images to existing maps) with ground control points and orthorectification;
+<!-- The process of locating control points, choosing the right transformation model, and evaluating the registration error are inherently interactive, and thus unsuitable to be done with R, or any other programming language; --></li>
+<li>supports stereoscopic mapping (e.g., LiDAR and structure from motion); and</li>
+<li>provides access to spatial database management systems with object-oriented relational data models, topology and fast (spatial) querying.</li>
 </ul>
 <p>Another advantage of dedicated GISs is that they provide access to hundreds of ‘geoalgorithms’ (computational recipes to solve geographic problems — see Chapter <a href="algorithms.html#algorithms">10</a>).
 Many of these are unavailable from the R command line, except via ‘GIS bridges’, the topic of (and motivation for) this chapter.<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a></p>
@@ -634,13 +634,13 @@ To find out about the default values, run <code>get_args_man()</code>.</p>
 FIGURE 9.1: Sliver polygons colored in blue (left panel). Cleaned polygons (right panel).
 </p>
 </div>
-<p>Other notes</p>
+<p>In the code chunk above note that</p>
 <ul>
-<li>Leaving the output parameter(s) unspecified saves the resulting QGIS output to a temporary folder created by QGIS.
-<code>run_qgis()</code> prints these paths to the console after successfully running the QGIS engine.</li>
-<li>If the output consists of multiple files and you have set <code>load_output</code> to <code>TRUE</code>, <code>run_qgis()</code> will return a list with each element corresponding to one output file.</li>
+<li>leaving the output parameter(s) unspecified saves the resulting QGIS output to a temporary folder created by QGIS;
+<code>run_qgis()</code> prints these paths to the console after successfully running the QGIS engine; and</li>
+<li>if the output consists of multiple files and you have set <code>load_output</code> to <code>TRUE</code>, <code>run_qgis()</code> will return a list with each element corresponding to one output file.</li>
 </ul>
-<p>To learn more about <strong>RQGIS</strong>, please refer to <span class="citation">Muenchow, Schratz, and Brenning (<a href="#ref-muenchow_rqgis:_2017">2017</a>)</span>.</p>
+<p>To learn more about <strong>RQGIS</strong>, see <span class="citation">Muenchow, Schratz, and Brenning (<a href="#ref-muenchow_rqgis:_2017">2017</a>)</span>.</p>
 </div>
 <div id="rsaga" class="section level2">
 <h2><span class="header-section-number">9.3</span> (R)SAGA</h2>
@@ -831,9 +831,9 @@ FIGURE 9.3: Shortest route (blue line) between 24 cycle hire stations (blue dots
 <a class="sourceLine" id="cb337-3" data-line-number="3"><span class="st">  </span><span class="kw">st_geometry</span>()</a>
 <a class="sourceLine" id="cb337-4" data-line-number="4">mapview<span class="op">::</span><span class="kw">mapview</span>(route, <span class="dt">map.types =</span> <span class="st">&quot;OpenStreetMap.BlackAndWhite&quot;</span>, <span class="dt">lwd =</span> <span class="dv">7</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb337-5" data-line-number="5"><span class="st">  </span>points</a></code></pre></div>
-<p>Further notes</p>
+<p>There are a few important considerations to note in the process:</p>
 <ul>
-<li>Please note that we have used GRASS’s spatial database (based on SQLite) which allows faster processing.
+<li>We could have used GRASS’s spatial database (based on SQLite) which allows faster processing.
 That means we have only exported geographic data at the beginning.
 Then we created new objects but only imported the final result back into R.
 To find out which datasets are currently available, run <code>execGRASS(&quot;g.list&quot;, type = &quot;vector,raster&quot;, flags = &quot;p&quot;)</code>.</li>
@@ -855,13 +855,10 @@ QGIS is much more user-friendly compared to GRASS- and SAGA-GIS, especially for 
 Therefore, <strong>RQGIS</strong> is an appropriate choice for most use cases.
 Its main advantages are</p>
 <ul>
-<li>A unified access to several GIS, and therefore the provision of &gt;1000 geoalgorithms (Table <a href="gis.html#tab:gis-comp">9.1</a>).
-This includes duplicated functionality, e.g., you can perform overlay-operations using QGIS-, SAGA- or GRASS-geoalgorithms.</li>
-<li>The automatic data format conversions.
-For instance, SAGA uses <code>.sdat</code> grid files and GRASS uses its own database format but QGIS will handle the corresponding conversions for you on the fly.</li>
-<li><strong>RQGIS</strong> can also handle spatial objects residing in R as input for geoalgorithms, and loads QGIS output automatically back into R if desired.</li>
-<li>Its convenience functions to support the access of the online help, R named arguments and automatic default value retrieval.
-Please note that <strong>rgrass7</strong> inspired the latter two features.</li>
+<li>a unified access to several GIS, and therefore the provision of &gt;1000 geoalgorithms (Table <a href="gis.html#tab:gis-comp">9.1</a>) including duplicated functionality, e.g., you can perform overlay-operations using QGIS-, SAGA- or GRASS-geoalgorithms;</li>
+<li>automatic data format conversions (SAGA uses <code>.sdat</code> grid files and GRASS uses its own database format but QGIS will handle the corresponding conversions);</li>
+<li>its automatic passing of geographic R objects to QGIS geoalgorithms and back into R; and</li>
+<li>convenience functions to support the access of the online help, named arguments and automatic default value retrieval (<strong>rgrass7</strong> inspired the latter two features).</li>
 </ul>
 <p>By all means, there are use cases when you certainly should use one of the other R-GIS bridges.
 Though QGIS is the only GIS providing a unified interface to several GIS software packages, it only provides access to a subset of the corresponding third-party geoalgorithms (for more information please refer to <span class="citation">Muenchow, Schratz, and Brenning (<a href="#ref-muenchow_rqgis:_2017">2017</a>)</span>).
@@ -1080,7 +1077,7 @@ GRASS, one of the longest-standing GIS programs, for example, relied primarily o
 <!-- Therefore, frequently users store their spatial data in PostGIS, and interact with it through a dedicated GIS software such as QGIS. Of course, you can also use R to access data from PostGIS (**sf**, **rgdal**, **rpostgis**). -->
 <!-- In summary,  a typical workflow would be: perform a large spatial query with PostGIS, then load the result into a further application (QGIS, R) for further geoprocessing.--><a href="gis.html#fnref42" class="footnote-back">↩</a></p></li>
 <li id="fn43"><p>
-The <strong>mapedit</strong> package allows the quick editing of a few spatial features but not professional, large-scale cartographic digitizing.<a href="gis.html#fnref43" class="footnote-back">↩</a></p></li>
+The <strong>mapedit</strong> package allows the quick editing of a few spatial features but not professional, large-scale cartographic digitizing;<a href="gis.html#fnref43" class="footnote-back">↩</a></p></li>
 <li id="fn44"><p>
 An early use of the term ‘bridge’ referred to the coupling of R with GRASS <span class="citation">(Neteler and Mitasova <a href="#ref-neteler_open_2008">2008</a>)</span>.
 Roger Bivand elaborated on this in his talk, “Bridges between GIS and R”, delivered at the 2016 GEOSTAT summer school (see slides at: <a href="http://spatial.nhh.no/misc/" class="uri">http://spatial.nhh.no/misc/</a>).

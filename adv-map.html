@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -611,10 +611,10 @@ Color settings are an important part of map design.
 They can have a major impact on how spatial variability is portrayed as illustrated in Figure <a href="adv-map.html#fig:tmpal">8.5</a>.
 This shows four ways of coloring regions in New Zealand depending on median income, from left to right (and demonstrated in the code chunk below):</p>
 <ul>
-<li>The default setting uses ‘pretty’ breaks, described in the next paragraph.</li>
-<li><code>breaks</code> allows you to manually set the breaks.</li>
-<li><code>n</code> sets the number of bins into which numeric variables are categorized.</li>
-<li><code>palette</code> defines the color scheme, for example <code>BuGn</code>.</li>
+<li>The default setting uses ‘pretty’ breaks, described in the next paragraph</li>
+<li><code>breaks</code> allows you to manually set the breaks</li>
+<li><code>n</code> sets the number of bins into which numeric variables are categorized</li>
+<li><code>palette</code> defines the color scheme, for example <code>BuGn</code></li>
 </ul>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="kw">tm_shape</span>(nz) <span class="op">+</span><span class="st"> </span><span class="kw">tm_polygons</span>(<span class="dt">col =</span> <span class="st">&quot;Median_income&quot;</span>)</a>
 <a class="sourceLine" id="cb274-2" data-line-number="2">breaks =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10000</span></a>
@@ -713,12 +713,12 @@ FIGURE 8.9: Layout options specified by (from left to right) title, scale, bg.co
 <p>The other arguments in <code>tm_layout()</code> provide control over many more aspects of the map in relation to the canvas on which it is placed.
 Here are some useful layout settings (some of which are illustrated in Figure <a href="adv-map.html#fig:layout2">8.10</a>):</p>
 <ul>
-<li>Frame width (<code>frame.lwd</code>) and an option to allow double lines (<code>frame.double.line</code>).</li>
-<li>Margin settings including <code>outer.margin</code> and <code>inner.margin</code>.</li>
-<li>Font settings controlled by <code>fontface</code> and <code>fontfamily</code>.</li>
-<li>Legend settings including binary options such as <code>legend.show</code> (whether or not to show the legend) <code>legend.only</code> (omit the map) and <code>legend.outside</code> (should the legend go outside the map?), as well as multiple choice settings such as <code>legend.position</code>.</li>
-<li>Default colors of aesthetic layers (<code>aes.color</code>), map attributes such as the frame (<code>attr.color</code>).</li>
-<li>Color settings controlling <code>sepia.intensity</code> (how yellowy the map looks) and <code>saturation</code> (a color-grayscale).</li>
+<li>Frame width (<code>frame.lwd</code>) and an option to allow double lines (<code>frame.double.line</code>)</li>
+<li>Margin settings including <code>outer.margin</code> and <code>inner.margin</code></li>
+<li>Font settings controlled by <code>fontface</code> and <code>fontfamily</code></li>
+<li>Legend settings including binary options such as <code>legend.show</code> (whether or not to show the legend) <code>legend.only</code> (omit the map) and <code>legend.outside</code> (should the legend go outside the map?), as well as multiple choice settings such as <code>legend.position</code></li>
+<li>Default colors of aesthetic layers (<code>aes.color</code>), map attributes such as the frame (<code>attr.color</code>)</li>
+<li>Color settings controlling <code>sepia.intensity</code> (how yellowy the map looks) and <code>saturation</code> (a color-grayscale)</li>
 </ul>
 <div class="figure" style="text-align: center"><span id="fig:layout2"></span>
 <img src="figures/layout2-1.png" alt="Illustration of selected layout options." width="100%" />
@@ -784,10 +784,10 @@ FIGURE 8.13: Faceted map showing the top 30 largest urban agglomerations from 19
 </div>
 <p>The preceding code chunk demonstrates key features of faceted maps created with <strong>tmap</strong>:</p>
 <ul>
-<li>Shapes that do not have a facet variable are repeated (the countries in <code>world</code> in this case).</li>
+<li>Shapes that do not have a facet variable are repeated (the countries in <code>world</code> in this case)</li>
 <li>The <code>by</code> argument which varies depending on a variable (<code>year</code> in this case).</li>
-<li>The <code>nrow</code>/<code>ncol</code> setting specifying the number of rows and columns that facets should be arranged into.</li>
-<li>The <code>free.coords</code> parameter specifying if each map has its own bounding box.</li>
+<li>The <code>nrow</code>/<code>ncol</code> setting specifying the number of rows and columns that facets should be arranged into</li>
+<li>The <code>free.coords</code> parameter specifying if each map has its own bounding box</li>
 </ul>
 <p>In addition to their utility for showing changing spatial relationships, faceted maps are also useful as the foundation for animated maps (see Section <a href="adv-map.html#animated-maps">8.3</a>).</p>
 </div>
@@ -1030,9 +1030,9 @@ The interactive web maps demonstrated in Section <a href="adv-map.html#interacti
 Careful selection of layers to display, base-maps and pop-ups can be used to communicate the main results of many projects involving geocomputation.
 But the web mapping approach to interactivity has limitations:</p>
 <ul>
-<li>Although the map is interactive in terms of panning, zooming and clicking, the code is static, meaning the user interface is fixed.</li>
-<li>All map content is generally static in a web map, meaning that web maps cannot scale to handle large datasets easily.</li>
-<li>Additional layers of interactivity, such a graphs showing relationships between variables and ‘dashboards’ are difficult to create using the web-mapping approach.</li>
+<li>Although the map is interactive in terms of panning, zooming and clicking, the code is static, meaning the user interface is fixed</li>
+<li>All map content is generally static in a web map, meaning that web maps cannot scale to handle large datasets easily</li>
+<li>Additional layers of interactivity, such a graphs showing relationships between variables and ‘dashboards’ are difficult to create using the web-mapping approach</li>
 </ul>
 <p>Overcoming these limitations involves going beyond static web mapping and towards geospatial frameworks and map servers.
 Products in this field include <a href="https://docs.djangoproject.com/en/2.0/ref/contrib/gis/">GeoDjango</a> (which extends the Django web framework and is written in <a href="https://github.com/django/django">Python</a>), <a href="https://www.osgeo.org/projects/mapguide-open-source/">MapGuide</a> (a framework for developing web applications, largely written in <a href="https://trac.osgeo.org/mapguide/wiki/MapGuideArchitecture">C++</a>) and <a href="http://geoserver.org/">GeoServer</a> (a mature and powerful map server written in <a href="https://github.com/geoserver/geoserver">Java</a>).

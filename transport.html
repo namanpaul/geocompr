@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -493,10 +493,10 @@ There is an ambitious <a href="http://www.cyclingweekly.com/news/interview-brist
 <p>In this policy context, the aim of this chapter, beyond demonstrating how geocomputation with R can be used to support sustainable transport planning, is to provide evidence for decision-makers in Bristol to decide how best to increase the share of walking and cycling in particular in the city.
 This high-level aim will be met via the following objectives:</p>
 <ul>
-<li>Describe the geographical pattern of transport behavior in the city.</li>
-<li>Identify key public transport nodes and routes along which cycling to rail stations could be encouraged, as the first stage in multi-model trips.</li>
-<li>Analyze travel ‘desire lines’, to find where many people drive short distances.</li>
-<li>Identify cycle route locations that will encourage less car driving and more cycling.</li>
+<li>Describe the geographical pattern of transport behavior in the city</li>
+<li>Identify key public transport nodes and routes along which cycling to rail stations could be encouraged, as the first stage in multi-model trips</li>
+<li>Analyze travel ‘desire lines’, to find where many people drive short distances</li>
+<li>Identify cycle route locations that will encourage less car driving and more cycling</li>
 </ul>
 <p>To get the wheels rolling on the practical aspects of this chapter, we begin by loading zonal data on travel patterns.
 These zone-level data are small but often vital for gaining a basic understanding of a settlement’s overall transport system.</p>
@@ -510,8 +510,8 @@ However, different zoning systems, such as ‘<a href="https://data.gov.uk/datas
 <p>The simplest way to define a study area is often the first matching boundary returned by OpenStreetMap, which can be obtained using <strong>osmdata</strong> with a command such as <code>bristol_region = osmdata::getbb(&quot;Bristol&quot;, format_out = &quot;sf_polygon&quot;)</code>. This results in an <code>sf</code> object representing the bounds of the largest matching city region, either a rectangular polygon of the bounding box or a detailed polygonal boundary.<a href="#fn69" class="footnote-ref" id="fnref69"><sup>69</sup></a>
 For Bristol, UK, a detailed polygon is returned, representing the official boundary of Bristol (see the inner blue boundary in Figure <a href="transport.html#fig:bristol">12.1</a>) but there are a couple of issues with this approach:</p>
 <ul>
-<li>The first OSM boundary returned by OSM may not be the official boundary used by local authorities.</li>
-<li>Even if OSM returns the official boundary, this may be inappropriate for transport research because they bear little relation to where people travel.</li>
+<li>The first OSM boundary returned by OSM may not be the official boundary used by local authorities</li>
+<li>Even if OSM returns the official boundary, this may be inappropriate for transport research because they bear little relation to where people travel</li>
 </ul>
 <p>Travel to Work Areas (TTWAs) address these issues by creating a zoning system analogous to hydrological watersheds.
 TTWAs were first defined as contiguous zones within which 75% of the population travels to work <span class="citation">(Coombes, Green, and Openshaw <a href="#ref-coombes_efficient_1986">1986</a>)</span>, and this is the definition used in this chapter.
@@ -545,11 +545,11 @@ The first column is the ID of the zone of origin and the second column is the zo
 <a class="sourceLine" id="cb397-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(o) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb397-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize_if</span>(is.numeric, sum) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb397-4" data-line-number="4"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">geo_code =</span> o)</a></code></pre></div>
-<p>The preceding chunk performed three main steps:</p>
+<p>The preceding chunk:</p>
 <ul>
-<li>Grouped the data by zone of origin (contained in the column <code>o</code>).</li>
-<li>Aggregated the variables in the <code>bristol_od</code> dataset <em>if</em> they were numeric, to find the total number of people living in each zone by mode of transport.<a href="#fn70" class="footnote-ref" id="fnref70"><sup>70</sup></a></li>
-<li>Renamed the grouping variable <code>o</code> so it matches the ID column <code>geo_code</code> in the <code>bristol_zones</code> object.</li>
+<li>grouped the data by zone of origin (contained in the column <code>o</code>);</li>
+<li>aggregated the variables in the <code>bristol_od</code> dataset <em>if</em> they were numeric, to find the total number of people living in each zone by mode of transport; and<a href="#fn70" class="footnote-ref" id="fnref70"><sup>70</sup></a></li>
+<li>renamed the grouping variable <code>o</code> so it matches the ID column <code>geo_code</code> in the <code>bristol_zones</code> object.</li>
 </ul>
 <p>The resulting object <code>zones_attr</code> is a data frame with rows representing zones and an ID variable.
 We can verify that the IDs match those in the <code>zones</code> dataset using the <code>%in%</code> operator as follows:</p>
@@ -703,11 +703,11 @@ Routes are generated from desire lines — or more commonly origin-destination p
 <p><strong>Local routing</strong> can be advantageous in terms of speed of execution and control over the weighting profile for different modes of transport.
 Disadvantages include the difficulty of representing complex networks locally; temporal dynamics (primarily due to traffic); and the need for specialized software such as ‘pgRouting’, an issue that developers of packages <strong>stplanr</strong> and <strong>dodgr</strong> seek to address.</p>
 <p><strong>Remote routing</strong> services, by contrast, use a web API to send queries about origins and destinations and return results generated on a powerful server running specialised software.
-This gives remote routing services various advantages, including that they usually:</p>
+This gives remote routing services various advantages, including that they usually</p>
 <ul>
-<li>Update regularly.</li>
-<li>Have global coverage.</li>
-<li>Run on specialist hardware and software set-up for the job.</li>
+<li>have global coverage;</li>
+<li>are update regularly; and</li>
+<li>run on specialist hardware and software set-up for the job.</li>
 </ul>
 <!-- , explaining this section's focus on online routing services. -->
 <p>Disadvantages of remote routing services include speed (they rely on data transfer over the internet) and price (the Google routing API, for example, limits the number of free queries).
@@ -768,9 +768,9 @@ Public transport can reduce this barrier by providing a fast and high-volume opt
 From an active travel perspective, public transport ‘legs’ of longer journeys divide trips into three:</p>
 <!-- Add image to show this if needs be (RL) -->
 <ul>
-<li>The origin leg, typically from residential areas to public transport stations.</li>
-<li>The public transport leg, which typically goes from the station nearest a trip’s origin to the station nearest its destination.</li>
-<li>The destination leg, from the station of alighting to the destination.</li>
+<li>The origin leg, typically from residential areas to public transport stations</li>
+<li>The public transport leg, which typically goes from the station nearest a trip’s origin to the station nearest its destination</li>
+<li>The destination leg, from the station of alighting to the destination</li>
 </ul>
 <p>Building on the analysis conducted in Section <a href="transport.html#desire-lines">12.4</a>, public transport nodes can be used to construct three-part desire lines for trips that can be taken by bus and (the mode used in this example) rail.
 The first stage is to identify the desire lines with most public transport travel, which in our case is easy because our previously created dataset <code>desire_lines</code> already contains a variable describing the number of trips by train (the public transport potential could also be estimated using public transport routing services such as <a href="http://www.opentripplanner.org/">OpenTripPlanner</a>).

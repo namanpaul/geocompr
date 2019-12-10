@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -433,9 +433,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb418-5" data-line-number="5"><span class="kw">library</span>(osmdata)</a>
 <a class="sourceLine" id="cb418-6" data-line-number="6"><span class="kw">library</span>(spDataLarge)</a></code></pre></div>
 <ul>
-<li>Required data will be downloaded in due course.
-As a convenience to the reader and to ensure easy reproducibility, we have made available the downloaded data in the <strong>spDataLarge</strong> package.</li>
+<li>Required data, that will be downloaded in due course</li>
 </ul>
+<p>As a convenience to the reader and to ensure easy reproducibility, we have made available the downloaded data in the <strong>spDataLarge</strong> package.</p>
 </div>
 <div id="introduction-8" class="section level2">
 <h2><span class="header-section-number">13.1</span> Introduction</h2>
@@ -472,13 +472,13 @@ You are in the lucky position to have sufficient capital to open a number of sho
 But where should they be placed?
 Consulting companies (employing geomarketing analysts) would happily charge high rates to answer such questions.
 Luckily, we can do so ourselves with the help of open data and open source software.
-The following sections will demonstrate how the techniques learned during the first chapters of the book can be applied to undertake the following steps:</p>
+The following sections will demonstrate how the techniques learned during the first chapters of the book can be applied to undertake common steps in service location analysis:</p>
 <ul>
-<li>Tidy the input data from the German census (Section <a href="location.html#tidy-the-input-data">13.3</a>).</li>
-<li>Convert the tabulated census data into raster objects (Section <a href="location.html#create-census-rasters">13.4</a>).</li>
-<li>Identify metropolitan areas with high population densities (Section <a href="location.html#define-metropolitan-areas">13.5</a>).</li>
-<li>Download detailed geographic data (from OpenStreetMap, with <strong>osmdata</strong>) for these areas (Section <a href="location.html#points-of-interest">13.6</a>).</li>
-<li>Create rasters for scoring the relative desirability of different locations using map algebra (Section <a href="location.html#identifying-suitable-locations">13.7</a>).</li>
+<li>Tidy the input data from the German census (Section <a href="location.html#tidy-the-input-data">13.3</a>)</li>
+<li>Convert the tabulated census data into raster objects (Section <a href="location.html#create-census-rasters">13.4</a>)</li>
+<li>Identify metropolitan areas with high population densities (Section <a href="location.html#define-metropolitan-areas">13.5</a>)</li>
+<li>Download detailed geographic data (from OpenStreetMap, with <strong>osmdata</strong>) for these areas (Section <a href="location.html#points-of-interest">13.6</a>)</li>
+<li>Create rasters for scoring the relative desirability of different locations using map algebra (Section <a href="location.html#identifying-suitable-locations">13.7</a>)</li>
 </ul>
 <p>Although we have applied these steps to a specific case study, they could be generalized to many scenarios of store location or public service provision.</p>
 </div>
@@ -890,27 +890,21 @@ FIGURE 13.3: Suitable areas (i.e., raster cells with a score &gt; 9) in accordan
 <h2><span class="header-section-number">13.8</span> Discussion and next steps</h2>
 <p>The presented approach is a typical example of the normative usage of a GIS <span class="citation">(Longley <a href="#ref-longley_geographic_2015">2015</a>)</span>.
 We combined survey data with expert-based knowledge and assumptions (definition of metropolitan areas, defining class intervals, definition of a final score threshold).
-It should be clear that this approach is not suitable for scientific knowledge advancement but is a very applied way of information extraction.
-This is to say, we can only suspect based on common sense that we have identified areas suitable for bike shops.
-However, we have no proof that this is in fact the case.</p>
-<p>A few other things remained unconsidered but might improve the analysis:</p>
+This approach is less suitable for scientific research than applied analysis that provides an evidence based indication of areas suitable for bike shops that should be compared with other sources of information.
+A number of changes to the approach could improve the analysis:</p>
 <ul>
-<li>We used equal weights when calculating the final scores.
-But is, for example, the household size as important as the portion of women or the mean age?</li>
-<li>We used all points of interest.
-Maybe it would be wiser to use only those which might be interesting for bike shops such as do-it-yourself, hardware, bicycle, fishing, hunting, motorcycles, outdoor and sports shops (see the range of shop values available on the <a href="http://wiki.openstreetmap.org/wiki/Map_Features#Shop">OSM Wiki</a>).</li>
-<li>Data at a better resolution may change and improve the output. For example, there is also population data at a finer resolution (100 m; see exercises).</li>
-<li>We have used only a limited set of variables.
-For example, the <a href="http://inspire-geoportal.ec.europa.eu/discovery/">INSPIRE geoportal</a> might contain much more data of possible interest to our analysis (see also Section <a href="read-write.html#retrieving-data">7.2</a>).
-The bike paths density might be another interesting variable as well as the purchasing power or even better the retail purchasing power for bikes.</li>
-<li>Interactions remained unconsidered, such as a possible interaction between the portion of men and single households.
-However, to find out about such an interaction we would need customer data.</li>
+<li>We used equal weights when calculating the final scores but other factors, such as the household size, could be as important as the portion of women or the mean age</li>
+<li>We used all points of interest but only those related to bike shops, such as do-it-yourself, hardware, bicycle, fishing, hunting, motorcycles, outdoor and sports shops (see the range of shop values available on the <a href="http://wiki.openstreetmap.org/wiki/Map_Features#Shop">OSM Wiki</a>) may have yielded more refined results</li>
+<li>Data at a higher resolution may improve the output (see exercises)</li>
+<li>We have used only a limited set of variables and data from other sources, such as the <a href="http://inspire-geoportal.ec.europa.eu/discovery/">INSPIRE geoportal</a> or data on cycle paths from OpenStreetMap, may enrich the analysis (see also Section <a href="read-write.html#retrieving-data">7.2</a>)</li>
+<li>Interactions remained unconsidered, such as a possible relationships between the portion of men and single households
+<!-- However, to find out about such an interaction we would need customer data. --></li>
 </ul>
-<p>In short, the presented analysis is far from perfect.
+<p>In short, the analysis could be extended in multiple directions.
 Nevertheless, it should have given you a first impression and understanding of how to obtain and deal with spatial data in R within a geomarketing context.</p>
 <p>Finally, we have to point out that the presented analysis would be merely the first step of finding suitable locations.
-So far we have identified areas, 1 by 1 km in size, potentially suitable for a bike shop in accordance with our survey.
-We could continue the analysis as follows:</p>
+So far we have identified areas, 1 by 1 km in size, representing potentially suitable locations for a bike shop in accordance with our survey.
+Subsequent steps in the analysis could be taken:</p>
 <ul>
 <li>Find an optimal location based on number of inhabitants within a specific catchment area.
 For example, the shop should be reachable for as many people as possible within 15 minutes of traveling bike distance (catchment area routing).

@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -847,8 +847,8 @@ This is illustrated in the code chunk below, which finds the distance between th
 <a class="sourceLine" id="cb134-6" data-line-number="6"><span class="co">#&gt; [1,] 115540</span></a></code></pre></div>
 <p>There are two potentially surprising things about the result:</p>
 <ul>
-<li>It has <code>units</code>, telling us the distance is 100,000 meters, not 100,000 inches, or any other measure of distance.</li>
-<li>It is returned as a matrix, even though the result only contains a single value.</li>
+<li>It has <code>units</code>, telling us the distance is 100,000 meters, not 100,000 inches, or any other measure of distance</li>
+<li>It is returned as a matrix, even though the result only contains a single value</li>
 </ul>
 <p>This second feature hints at another useful feature of <code>st_distance()</code>, its ability to return <em>distance matrices</em> between all combinations of features in objects <code>x</code> and <code>y</code>.
 This is illustrated in the command below, which finds the distances between the first three features in <code>nz_height</code> and the Otago and Canterbury regions of New Zealand represented by the object <code>co</code>.</p>

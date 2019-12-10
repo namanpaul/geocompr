@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -898,12 +898,11 @@ FIGURE 5.12: Examples of type casting between MULTILINESTRING (left) and LINESTR
 <p>
 Geometric raster operations include the shift, flipping, mirroring, scaling, rotation or warping of images.
 These operations are necessary for a variety of applications including georeferencing, used to allow images to be overlaid on an accurate map with a known CRS <span class="citation">(Liu and Mason <a href="#ref-liu_essential_2009">2009</a>)</span>.
-A variety of georeferencing techniques exist, including:</p>
+A variety of georeferencing techniques exist, including</p>
 <ul>
-<li>Georeferencing based on known <a href="http://www.qgistutorials.com/en/docs/georeferencing_basics.html">ground control points</a>.</li>
-<li>Orthorectification also georeferences an image, but additionally takes into account local topography.</li>
-<li>Image (co-)registration is the process of aligning one image with another (in terms of coordinate reference system, origin and resolution).
-Registration becomes necessary for images from the same scene but shot from different sensors or from different angles or at different points in time.</li>
+<li>georectification based on known <a href="http://www.qgistutorials.com/en/docs/georeferencing_basics.html">ground control points</a>;</li>
+<li>orthorectification, which also accounts for local topography; and</li>
+<li>image <a href="https://en.wikipedia.org/wiki/Image_registration">registration</a> is used to combine images of the same thing but shot from different sensors the process of aligning one image with another (in terms of coordinate system, and resolution).</li>
 </ul>
 <p>R is unsuitable for the first two points since these often require manual intervention which is why they are usually done with the help of dedicated GIS software (see also Chapter <a href="gis.html#gis">9</a>).
 On the other hand, aligning several images is possible in R and this section shows among others how to do so.
@@ -1170,10 +1169,10 @@ FIGURE 5.20: Area used for continuous (left) and categorical (right) raster extr
 An issue with the function, however, is that it is relatively slow.
 If this is a problem, it is useful to know about alternatives and work-arounds, three of which are presented below.</p>
 <ul>
-<li><strong>Parallelization</strong>: this approach works when using many geographic vector selector objects by splitting them into groups and extracting cell values independently for each group (see <code>?raster::clusterR()</code> for details of this approach).
+<li><strong>Parallelization</strong>: this approach works when using many geographic vector selector objects by splitting them into groups and extracting cell values independently for each group (see <code>?raster::clusterR()</code> for details of this approach)
 <!-- tabularaster (ref to the vignette - https://cran.r-project.org/web/packages/tabularaster/vignettes/tabularaster-usage.html)--></li>
-<li>Use the <strong>velox</strong> package <span class="citation">(Hunziker <a href="#ref-hunziker_velox:_2017">2017</a>)</span>, which provides a fast method for extracting raster data that fits in memory (see the package’s <a href="https://hunzikp.github.io/velox/extract.html"><code>extract</code></a> vignette for details).</li>
-<li>Using <strong>R-GIS bridges</strong> (see Chapter <a href="gis.html#gis">9</a>): efficient calculation of raster statistics from polygons can be found in the SAGA function <code>saga:gridstatisticsforpolygons</code>, for example, which can be accessed via <strong>RQGIS</strong>.
+<li>Use the <strong>velox</strong> package <span class="citation">(Hunziker <a href="#ref-hunziker_velox:_2017">2017</a>)</span>, which provides a fast method for extracting raster data that fits in memory (see the package’s <a href="https://hunzikp.github.io/velox/extract.html"><code>extract</code></a> vignette for details)</li>
+<li>Using <strong>R-GIS bridges</strong> (see Chapter <a href="gis.html#gis">9</a>): efficient calculation of raster statistics from polygons can be found in the SAGA function <code>saga:gridstatisticsforpolygons</code>, for example, which can be accessed via <strong>RQGIS</strong>
 <!-- Methods similar to `raster::extract` can be found in GRASS GIS (e.g. v.rast.stats) -->
 <!-- https://grass.osgeo.org/grass74/manuals/v.rast.stats.html - test -->
 <!-- https://twitter.com/mdsumner/status/976978499402571776 -->

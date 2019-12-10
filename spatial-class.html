@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-08" />
+<meta name="date" content="2019-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -470,8 +470,8 @@ Rasters aggregate spatially specific features to a given resolution, meaning tha
 <p>Which to use?
 The answer likely depends on your domain of application:</p>
 <ul>
-<li>Vector data tends to dominate the social sciences because human settlements tend to have discrete borders.</li>
-<li>Raster often dominates in environmental sciences because of the reliance on remote sensing data.</li>
+<li>Vector data tends to dominate the social sciences because human settlements tend to have discrete borders</li>
+<li>Raster dominates many environmental sciences because of the reliance on remote sensing data</li>
 </ul>
 <p>There is much overlap in some fields and raster and vector datasets can be used together:
 ecologists and demographers, for example, commonly use both vector and raster data.
@@ -633,13 +633,13 @@ Which to use is largely a matter of preference as long as you’re consistent (p
 A major advantage of this is that using the data model ensures your work is cross-transferable to other set-ups, for example importing from and exporting to spatial databases.
 </p>
 <p>A more specific question from an R perspective is “why use the <strong>sf</strong> package when <strong>sp</strong> is already tried and tested”?
-There are many reasons (linked to the advantages of the simple features model) including:</p>
+There are many reasons (linked to the advantages of the simple features model):</p>
 <ul>
-<li>Fast reading and writing of data.</li>
-<li>Enhanced plotting performance.</li>
-<li><strong>sf</strong> objects can be treated as data frames in most operations.</li>
+<li>Fast reading and writing of data</li>
+<li>Enhanced plotting performance</li>
+<li><strong>sf</strong> objects can be treated as data frames in most operations</li>
 <li><strong>sf</strong> functions can be combined using <code>%&gt;%</code> operator and works well with the <a href="http://tidyverse.org/">tidyverse</a> collection of R packages.</li>
-<li><strong>sf</strong> function names are relatively consistent and intuitive (all begin with <code>st_</code>).</li>
+<li><strong>sf</strong> function names are relatively consistent and intuitive (all begin with <code>st_</code>)</li>
 </ul>
 <p>Due to such advantages, some spatial packages (including <strong>tmap</strong>, <strong>mapview</strong> and <strong>tidycensus</strong>) have added support for <strong>sf</strong>.
 However, it will take many years for most packages to transition and some will never switch.
@@ -1111,8 +1111,8 @@ FIGURE 2.12: Basic raster plot.
 <!-- ``` -->
 <p>There are several other approaches for plotting raster data in R that are outside the scope of this section, including:</p>
 <ul>
-<li>Functions such as <code>spplot()</code> and <code>levelplot()</code> (from the <strong>sp</strong> and <strong>rasterVis</strong> packages, respectively) to create facets, a common technique for visualizing change over time.</li>
-<li>Packages such as <strong>tmap</strong>, <strong>mapview</strong> and <strong>leaflet</strong> to create interactive maps of raster and vector objects (see Chapter <a href="adv-map.html#adv-map">8</a>).</li>
+<li>functions such as <code>spplot()</code> and <code>levelplot()</code> (from the <strong>sp</strong> and <strong>rasterVis</strong> packages, respectively) to create facets, a common technique for visualizing change over time; and</li>
+<li>packages such as <strong>tmap</strong>, <strong>mapview</strong> and <strong>leaflet</strong> to create interactive maps of raster and vector objects (see Chapter <a href="adv-map.html#adv-map">8</a>).</li>
 </ul>
 </div>
 <div id="raster-classes" class="section level3">
