@@ -397,7 +397,7 @@ world_laea2 = st_transform(world,
 <!-- plot(world_laea2$geom, graticule = TRUE) -->
 
 <div class="figure" style="text-align: center">
-<img src="figures/laeaproj2-1.png" alt="Lambert azimuthal equal-area projection of the world centered on New York City." width="100%" />
+<img src="https://user-images.githubusercontent.com/1825120/72223267-c79a4780-3564-11ea-9d7e-9644523e349b.png" alt="Lambert azimuthal equal-area projection of the world centered on New York City." width="100%" />
 <p class="caption">(\#fig:laeaproj2)Lambert azimuthal equal-area projection of the world centered on New York City.</p>
 </div>
 

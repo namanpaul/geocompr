@@ -920,10 +920,9 @@ dplyr::select(zion_nlcd, ID, levels) %>%
   tidyr::spread(value, n, fill = 0)
 #> # A tibble: 1 x 9
 #> # Groups:   ID, key [1]
-#>      ID key   Barren Cultivated Developed Forest Herbaceous Shrubland
-#>   <dbl> <chr>  <dbl>      <dbl>     <dbl>  <dbl>      <dbl>     <dbl>
-#> 1     1 leve…  98285         62      4205 298299        235    203701
-#> # … with 1 more variable: Wetlands <dbl>
+#>      ID key    Barren Cultivated Developed Forest Herbaceous Shrubland Wetlands
+#>   <dbl> <chr>   <dbl>      <dbl>     <dbl>  <dbl>      <dbl>     <dbl>    <dbl>
+#> 1     1 levels  98285         62      4205 298299        235    203701      679
 ```
 
 <div class="figure" style="text-align: center">

@@ -190,10 +190,8 @@ fit
 #>     family = binomial(), data = lsl)
 #> 
 #> Coefficients:
-#> (Intercept)        slope        cplan        cprof         elev  
-#>    1.97e+00     9.30e-02    -2.57e+01    -1.43e+01     2.41e-05  
-#> log10_carea  
-#>   -2.12e+00  
+#> (Intercept)        slope        cplan        cprof         elev  log10_carea  
+#>    1.97e+00     9.30e-02    -2.57e+01    -1.43e+01     2.41e-05    -2.12e+00  
 #> 
 #> Degrees of Freedom: 349 Total (i.e. Null);  344 Residual
 #> Null Deviance:	    485 
@@ -365,6 +363,12 @@ listLearners(task, warn.missing.packages = FALSE) %>%
  </thead>
 <tbody>
   <tr>
+   <td style="text-align:left;"> classif.adaboostm1 </td>
+   <td style="text-align:left;"> ada Boosting M1 </td>
+   <td style="text-align:left;"> adaboostm1 </td>
+   <td style="text-align:left;"> RWeka </td>
+  </tr>
+  <tr>
    <td style="text-align:left;"> classif.binomial </td>
    <td style="text-align:left;"> Binomial Regression </td>
    <td style="text-align:left;"> binomial </td>
@@ -389,16 +393,10 @@ listLearners(task, warn.missing.packages = FALSE) %>%
    <td style="text-align:left;"> kernlab </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> classif.knn </td>
-   <td style="text-align:left;"> k-Nearest Neighbor </td>
-   <td style="text-align:left;"> knn </td>
-   <td style="text-align:left;"> class </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> classif.ksvm </td>
-   <td style="text-align:left;"> Support Vector Machines </td>
-   <td style="text-align:left;"> ksvm </td>
-   <td style="text-align:left;"> kernlab </td>
+   <td style="text-align:left;"> classif.IBk </td>
+   <td style="text-align:left;"> k-Nearest Neighbours </td>
+   <td style="text-align:left;"> ibk </td>
+   <td style="text-align:left;"> RWeka </td>
   </tr>
 </tbody>
 </table>

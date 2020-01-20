@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Geometry operations | Geocomputation with R</title>
   <meta name="description" content="Chapter 5 Geometry operations | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Geometry operations | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -1155,10 +1153,9 @@ This is illustrated with a land cover dataset (<code>nlcd</code>) from the <stro
 <a class="sourceLine" id="cb193-6" data-line-number="6"><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">spread</span>(value, n, <span class="dt">fill =</span> <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb193-7" data-line-number="7"><span class="co">#&gt; # A tibble: 1 x 9</span></a>
 <a class="sourceLine" id="cb193-8" data-line-number="8"><span class="co">#&gt; # Groups:   ID, key [1]</span></a>
-<a class="sourceLine" id="cb193-9" data-line-number="9"><span class="co">#&gt;      ID key   Barren Cultivated Developed Forest Herbaceous Shrubland</span></a>
-<a class="sourceLine" id="cb193-10" data-line-number="10"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb193-11" data-line-number="11"><span class="co">#&gt; 1     1 leve…  98285         62      4205 298299        235    203701</span></a>
-<a class="sourceLine" id="cb193-12" data-line-number="12"><span class="co">#&gt; # … with 1 more variable: Wetlands &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb193-9" data-line-number="9"><span class="co">#&gt;      ID key    Barren Cultivated Developed Forest Herbaceous Shrubland Wetlands</span></a>
+<a class="sourceLine" id="cb193-10" data-line-number="10"><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb193-11" data-line-number="11"><span class="co">#&gt; 1     1 levels  98285         62      4205 298299        235    203701      679</span></a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:polyextr"></span>
 <img src="figures/polyextr-1.png" alt="Area used for continuous (left) and categorical (right) raster extraction." width="100%" />
 <p class="caption">
@@ -1398,23 +1395,6 @@ Using these objects:
 <p>Wickham, Hadley. 2014a. <em>Advanced R</em>. CRC Press.</p>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="19">
-<li id="fn19"><p>
-Simplification of multipolygon objects can remove small internal polygons, even if the <code>keep_shapes</code> argument is set to TRUE. To prevent this, you need to set <code>explode = TRUE</code>. This option converts all mutlipolygons into separate polygons before its simplification.<a href="geometric-operations.html#fnref19" class="footnote-back">↩</a></p></li>
-<li id="fn20"><p>
-A description of how <code>st_point_on_surface()</code> works is provided at <a href="https://gis.stackexchange.com/q/76498" class="uri">https://gis.stackexchange.com/q/76498</a>.<a href="geometric-operations.html#fnref20" class="footnote-back">↩</a></p></li>
-<li id="fn21"><p>
-If the origins of two raster datasets are just marginally apart, it sometimes is sufficient to simply increase the <code>tolerance</code> argument of <code>raster::rasterOptions()</code>.<a href="geometric-operations.html#fnref21" class="footnote-back">↩</a></p></li>
-<li id="fn22"><p>
-Here we refer to spatial resolution.
-In remote sensing the spectral (spectral bands), temporal (observations through time of the same area) and radiometric (color depth) resolution are also important.
-Check out the <code>stackApply()</code> example in the documentation for getting an idea on how to do temporal raster aggregation.<a href="geometric-operations.html#fnref22" class="footnote-back">↩</a></p></li>
-<li id="fn23"><p>
-See more at <a href="http://gdal.org/gdal_rasterize.html" class="uri">http://gdal.org/gdal_rasterize.html</a>.<a href="geometric-operations.html#fnref23" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
 <script>
 /*
 Sorts the references alphabetically.
@@ -1460,6 +1440,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

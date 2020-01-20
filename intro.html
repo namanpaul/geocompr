@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Introduction | Geocomputation with R</title>
   <meta name="description" content="Chapter 1 Introduction | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Introduction | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -552,8 +550,8 @@ This is demonstrated by the following code chunk, which creates Figure <a href="
 <a class="sourceLine" id="cb3-6" data-line-number="6">             <span class="dt">lat =</span> <span class="kw">c</span>(<span class="dv">52</span>, <span class="dv">53</span>, <span class="dv">49</span>), </a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">             <span class="dt">popup =</span> popup)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:interactive"></span>
-<div id="htmlwidget-9b841de324d41155df19" style="width:100%;height:355.968px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9b841de324d41155df19">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["NASAGIBS.ViirsEarthAtNight2012",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[52,53,49],[-3,23,11],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Robin","Jakub","Jannes"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[49,53],"lng":[-3,23]}},"evals":[],"jsHooks":[]}</script>
+<iframe src="figures/interactive.html" width="100%" height="400px">
+</iframe>
 <p class="caption">
 FIGURE 1.1: The blue markers indicate where the authors are from. The basemap is a tiled image of the Earth at night provided by NASA. Interact with the online version at geocompr.robinlovelace.net, for example by zooming in and clicking on the popups.
 </p>
@@ -903,26 +901,6 @@ As of 2018 map making in R is a hot topic with dedicated packages such as <stron
 <p>Wulf, Andrea. 2015. <em>The Invention of Nature: Alexander von Humboldt’s New World</em>. New York: Alfred A. Knopf.</p>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>
-The conference took place at the University of Leeds, where one of the authors (Robin) is currently based.
-The 21<sup>st</sup> GeoComputation conference was also hosted at the University of Leeds, during which Robin and Jakub presented, led a workshop on ‘tidy’ spatial data analysis and collaborated on the book (see www.geocomputation.org for more on the conference series, and papers/presentations spanning two decades).<a href="intro.html#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>
-A laptop with 4GB running a modern operating system such as Ubuntu 16.04 onward should also be able to reproduce the contents of this book.
-A laptop with this specification or above can be acquired second-hand for ~US$100 in many countries nowadays, reducing the financial/hardware barrier to geocomputation far below the levels in operation in the early 2000s, when high-performance computers were unaffordable for most people.<a href="intro.html#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>
-Python modules providing access to geoalgorithms include <code>grass.script</code> for GRASS,
-<!-- (https://grasswiki.osgeo.org/wiki/GRASS_and_Python), -->
-<code>saga-python</code> for SAGA-GIS,
-<!-- (http://saga-python.readthedocs.io/en/latest/), -->
-<code>processing</code> for QGIS and <code>arcpy</code> for ArcGIS.<a href="intro.html#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>
-An overview of R’s spatial ecosystem can be found in the CRAN Task View on the Analysis of Spatial Data
-(see <a href="https://cran.r-project.org/web/views/Spatial.html" class="uri">https://cran.r-project.org/web/views/Spatial.html</a>).<a href="intro.html#fnref4" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
 <script>
 /*
 Sorts the references alphabetically.
@@ -968,6 +946,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

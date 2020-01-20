@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 13 Geomarketing | Geocomputation with R</title>
   <meta name="description" content="Chapter 13 Geomarketing | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 13 Geomarketing | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -426,12 +424,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>This chapter requires the following packages (<strong>revgeo</strong> must also be installed):</li>
 </ul>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb418-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb418-3" data-line-number="3"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb418-4" data-line-number="4"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb418-5" data-line-number="5"><span class="kw">library</span>(osmdata)</a>
-<a class="sourceLine" id="cb418-6" data-line-number="6"><span class="kw">library</span>(spDataLarge)</a></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb416-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb416-3" data-line-number="3"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb416-4" data-line-number="4"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb416-5" data-line-number="5"><span class="kw">library</span>(osmdata)</a>
+<a class="sourceLine" id="cb416-6" data-line-number="6"><span class="kw">library</span>(spDataLarge)</a></code></pre></div>
 <ul>
 <li>Required data, that will be downloaded in due course</li>
 </ul>
@@ -487,20 +485,20 @@ The following sections will demonstrate how the techniques learned during the fi
 <p>The German government provides gridded census data at either 1 km or 100 m resolution.
 The following code chunk downloads, unzips and reads in the 1 km data.
 Please note that <code>census_de</code> is also available from the <strong>spDataLarge</strong> package (<code>data(&quot;census_de&quot;, package = &quot;spDataLarge&quot;</code>).</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="kw">download.file</span>(<span class="st">&quot;https://tinyurl.com/ybtpkwxz&quot;</span>, </a>
-<a class="sourceLine" id="cb419-2" data-line-number="2">              <span class="dt">destfile =</span> <span class="st">&quot;census.zip&quot;</span>, <span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>)</a>
-<a class="sourceLine" id="cb419-3" data-line-number="3"><span class="kw">unzip</span>(<span class="st">&quot;census.zip&quot;</span>) <span class="co"># unzip the files</span></a>
-<a class="sourceLine" id="cb419-4" data-line-number="4">census_de =<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv2</span>(<span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;Gitter.csv&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">download.file</span>(<span class="st">&quot;https://tinyurl.com/ybtpkwxz&quot;</span>, </a>
+<a class="sourceLine" id="cb417-2" data-line-number="2">              <span class="dt">destfile =</span> <span class="st">&quot;census.zip&quot;</span>, <span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>)</a>
+<a class="sourceLine" id="cb417-3" data-line-number="3"><span class="kw">unzip</span>(<span class="st">&quot;census.zip&quot;</span>) <span class="co"># unzip the files</span></a>
+<a class="sourceLine" id="cb417-4" data-line-number="4">census_de =<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv2</span>(<span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;Gitter.csv&quot;</span>))</a></code></pre></div>
 <p>The <code>census_de</code> object is a data frame containing 13 variables for more than 300,000 grid cells across Germany.
 For our work, we only need a subset of these: Easting (<code>x</code>) and Northing (<code>y</code>), number of inhabitants (population; <code>pop</code>), mean average age (<code>mean_age</code>), proportion of women (<code>women</code>) and average household size (<code>hh_size</code>).
 These variables are selected and renamed from German into English in the code chunk below and summarized in Table <a href="location.html#tab:census-desc">13.1</a>.
 Further, <code>mutate_all()</code> is used to convert values -1 and -9 (meaning unknown) to <code>NA</code>.</p>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1"><span class="co"># pop = population, hh_size = household size</span></a>
-<a class="sourceLine" id="cb420-2" data-line-number="2">input =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(census_de, <span class="dt">x =</span> x_mp_1km, <span class="dt">y =</span> y_mp_1km, <span class="dt">pop =</span> Einwohner,</a>
-<a class="sourceLine" id="cb420-3" data-line-number="3">                      <span class="dt">women =</span> Frauen_A, <span class="dt">mean_age =</span> Alter_D,</a>
-<a class="sourceLine" id="cb420-4" data-line-number="4">                      <span class="dt">hh_size =</span> HHGroesse_D)</a>
-<a class="sourceLine" id="cb420-5" data-line-number="5"><span class="co"># set -1 and -9 to NA</span></a>
-<a class="sourceLine" id="cb420-6" data-line-number="6">input_tidy =<span class="st"> </span><span class="kw">mutate_all</span>(input, <span class="kw">list</span>(<span class="op">~</span><span class="kw">ifelse</span>(. <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-9</span>), <span class="ot">NA</span>, .)))</a></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="co"># pop = population, hh_size = household size</span></a>
+<a class="sourceLine" id="cb418-2" data-line-number="2">input =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(census_de, <span class="dt">x =</span> x_mp_1km, <span class="dt">y =</span> y_mp_1km, <span class="dt">pop =</span> Einwohner,</a>
+<a class="sourceLine" id="cb418-3" data-line-number="3">                      <span class="dt">women =</span> Frauen_A, <span class="dt">mean_age =</span> Alter_D,</a>
+<a class="sourceLine" id="cb418-4" data-line-number="4">                      <span class="dt">hh_size =</span> HHGroesse_D)</a>
+<a class="sourceLine" id="cb418-5" data-line-number="5"><span class="co"># set -1 and -9 to NA</span></a>
+<a class="sourceLine" id="cb418-6" data-line-number="6">input_tidy =<span class="st"> </span><span class="kw">mutate_all</span>(input, <span class="kw">list</span>(<span class="op">~</span><span class="kw">ifelse</span>(. <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-9</span>), <span class="ot">NA</span>, .)))</a></code></pre></div>
 <table>
 <caption><span id="tab:census-desc">TABLE 13.1: </span>Categories for each variable in census data from Datensatzbeschreibung…xlsx located in the downloaded file census.zip (see Figure 13.1 for their spatial distribution).</caption>
 <thead>
@@ -564,16 +562,16 @@ Further, <code>mutate_all()</code> is used to convert values -1 and -9 (meaning 
 <code>rasterFromXYZ()</code> makes this really easy.
 It requires an input data frame where the first two columns represent coordinates on a regular grid.
 All the remaining columns (here: <code>pop</code>, <code>women</code>, <code>mean_age</code>, <code>hh_size</code>) will serve as input for the raster brick layers (Figure <a href="location.html#fig:census-stack">13.1</a>; see also <code>code/13-location-jm.R</code> in our github repository).</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">input_ras =<span class="st"> </span><span class="kw">rasterFromXYZ</span>(input_tidy, <span class="dt">crs =</span> <span class="kw">st_crs</span>(<span class="dv">3035</span>)<span class="op">$</span>proj4string)</a></code></pre></div>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1">input_ras</a>
-<a class="sourceLine" id="cb422-2" data-line-number="2"><span class="co">#&gt; class : RasterBrick</span></a>
-<a class="sourceLine" id="cb422-3" data-line-number="3"><span class="co">#&gt; dimensions : 868, 642, 557256, 4 (nrow, ncol, ncell, nlayers)</span></a>
-<a class="sourceLine" id="cb422-4" data-line-number="4"><span class="co">#&gt; resolution : 1000, 1000 (x, y)</span></a>
-<a class="sourceLine" id="cb422-5" data-line-number="5"><span class="co">#&gt; extent : 4031000, 4673000, 2684000, 3552000 (xmin, xmax, ymin, ymax)</span></a>
-<a class="sourceLine" id="cb422-6" data-line-number="6"><span class="co">#&gt; coord. ref. : +proj=laea +lat_0=52 +lon_0=10</span></a>
-<a class="sourceLine" id="cb422-7" data-line-number="7"><span class="co">#&gt; names       :  pop, women, mean_age, hh_size </span></a>
-<a class="sourceLine" id="cb422-8" data-line-number="8"><span class="co">#&gt; min values  :    1,     1,        1,       1 </span></a>
-<a class="sourceLine" id="cb422-9" data-line-number="9"><span class="co">#&gt; max values  :    6,     5,        5,       5</span></a></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1">input_ras =<span class="st"> </span><span class="kw">rasterFromXYZ</span>(input_tidy, <span class="dt">crs =</span> <span class="kw">st_crs</span>(<span class="dv">3035</span>)<span class="op">$</span>proj4string)</a></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1">input_ras</a>
+<a class="sourceLine" id="cb420-2" data-line-number="2"><span class="co">#&gt; class : RasterBrick</span></a>
+<a class="sourceLine" id="cb420-3" data-line-number="3"><span class="co">#&gt; dimensions : 868, 642, 557256, 4 (nrow, ncol, ncell, nlayers)</span></a>
+<a class="sourceLine" id="cb420-4" data-line-number="4"><span class="co">#&gt; resolution : 1000, 1000 (x, y)</span></a>
+<a class="sourceLine" id="cb420-5" data-line-number="5"><span class="co">#&gt; extent : 4031000, 4673000, 2684000, 3552000 (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb420-6" data-line-number="6"><span class="co">#&gt; coord. ref. : +proj=laea +lat_0=52 +lon_0=10</span></a>
+<a class="sourceLine" id="cb420-7" data-line-number="7"><span class="co">#&gt; names       :  pop, women, mean_age, hh_size </span></a>
+<a class="sourceLine" id="cb420-8" data-line-number="8"><span class="co">#&gt; min values  :    1,     1,        1,       1 </span></a>
+<a class="sourceLine" id="cb420-9" data-line-number="9"><span class="co">#&gt; max values  :    6,     5,        5,       5</span></a></code></pre></div>
 
 <div class="rmdnote">
 Note that we are using an equal-area projection (EPSG:3035; Lambert Equal Area Europe), i.e., a projected CRS where each grid cell has the same area, here 1000 x 1000 square meters.
@@ -598,51 +596,51 @@ However, the level of detail is sufficient to delineate metropolitan areas (see 
 Class 1 in the variable <code>women</code>, for instance, represents areas in which 0 to 40% of the population is female;
 these are reclassified with a comparatively high weight of 3 because the target demographic is predominantly male.
 Similarly, the classes containing the youngest people and highest proportion of single households are reclassified to have high weights.</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1">rcl_pop =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">127</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">375</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1250</span>, </a>
-<a class="sourceLine" id="cb423-2" data-line-number="2">                   <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3000</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6000</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8000</span>), </a>
-<a class="sourceLine" id="cb423-3" data-line-number="3">                 <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb423-4" data-line-number="4">rcl_women =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">0</span>), </a>
-<a class="sourceLine" id="cb423-5" data-line-number="5">                   <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb423-6" data-line-number="6">rcl_age =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb423-7" data-line-number="7">                 <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb423-8" data-line-number="8">rcl_hh =<span class="st"> </span>rcl_women</a>
-<a class="sourceLine" id="cb423-9" data-line-number="9">rcl =<span class="st"> </span><span class="kw">list</span>(rcl_pop, rcl_women, rcl_age, rcl_hh)</a></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">rcl_pop =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">127</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">375</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1250</span>, </a>
+<a class="sourceLine" id="cb421-2" data-line-number="2">                   <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3000</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6000</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8000</span>), </a>
+<a class="sourceLine" id="cb421-3" data-line-number="3">                 <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb421-4" data-line-number="4">rcl_women =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">0</span>), </a>
+<a class="sourceLine" id="cb421-5" data-line-number="5">                   <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb421-6" data-line-number="6">rcl_age =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb421-7" data-line-number="7">                 <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb421-8" data-line-number="8">rcl_hh =<span class="st"> </span>rcl_women</a>
+<a class="sourceLine" id="cb421-9" data-line-number="9">rcl =<span class="st"> </span><span class="kw">list</span>(rcl_pop, rcl_women, rcl_age, rcl_hh)</a></code></pre></div>
 <p>Note that we have made sure that the order of the reclassification matrices in the list is the same as for the elements of <code>input_ras</code>.
 For instance, the first element corresponds in both cases to the population.
 Subsequently, the <code>for</code>-loop applies the reclassification matrix to the corresponding raster layer.
 Finally, the code chunk below ensures the <code>reclass</code> layers have the same name as the layers of <code>input_ras</code>.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">reclass =<span class="st"> </span>input_ras</a>
-<a class="sourceLine" id="cb424-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(<span class="kw">nlayers</span>(reclass))) {</a>
-<a class="sourceLine" id="cb424-3" data-line-number="3">  reclass[[i]] =<span class="st"> </span><span class="kw">reclassify</span>(<span class="dt">x =</span> reclass[[i]], <span class="dt">rcl =</span> rcl[[i]], <span class="dt">right =</span> <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb424-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb424-5" data-line-number="5"><span class="kw">names</span>(reclass) =<span class="st"> </span><span class="kw">names</span>(input_ras)</a></code></pre></div>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1">reclass</a>
-<a class="sourceLine" id="cb425-2" data-line-number="2"><span class="co">#&gt; ... (full output not shown)</span></a>
-<a class="sourceLine" id="cb425-3" data-line-number="3"><span class="co">#&gt; names       :  pop, women, mean_age, hh_size </span></a>
-<a class="sourceLine" id="cb425-4" data-line-number="4"><span class="co">#&gt; min values  :  127,     0,        0,       0 </span></a>
-<a class="sourceLine" id="cb425-5" data-line-number="5"><span class="co">#&gt; max values  : 8000,     3,        3,       3</span></a></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1">reclass =<span class="st"> </span>input_ras</a>
+<a class="sourceLine" id="cb422-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(<span class="kw">nlayers</span>(reclass))) {</a>
+<a class="sourceLine" id="cb422-3" data-line-number="3">  reclass[[i]] =<span class="st"> </span><span class="kw">reclassify</span>(<span class="dt">x =</span> reclass[[i]], <span class="dt">rcl =</span> rcl[[i]], <span class="dt">right =</span> <span class="ot">NA</span>)</a>
+<a class="sourceLine" id="cb422-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb422-5" data-line-number="5"><span class="kw">names</span>(reclass) =<span class="st"> </span><span class="kw">names</span>(input_ras)</a></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1">reclass</a>
+<a class="sourceLine" id="cb423-2" data-line-number="2"><span class="co">#&gt; ... (full output not shown)</span></a>
+<a class="sourceLine" id="cb423-3" data-line-number="3"><span class="co">#&gt; names       :  pop, women, mean_age, hh_size </span></a>
+<a class="sourceLine" id="cb423-4" data-line-number="4"><span class="co">#&gt; min values  :  127,     0,        0,       0 </span></a>
+<a class="sourceLine" id="cb423-5" data-line-number="5"><span class="co">#&gt; max values  : 8000,     3,        3,       3</span></a></code></pre></div>
 </div>
 <div id="define-metropolitan-areas" class="section level2">
 <h2><span class="header-section-number">13.5</span> Define metropolitan areas</h2>
 <p>We define metropolitan areas as pixels of 20 km<sup>2</sup> inhabited by more than 500,000 people.
 Pixels at this coarse resolution can rapidly be created using <code>aggregate()</code>, as introduced in Section <a href="geometric-operations.html#aggregation-and-disaggregation">5.3.3</a>.
 The command below uses the argument <code>fact = 20</code> to reduce the resolution of the result twenty-fold (recall the original raster resolution was 1 km<sup>2</sup>):</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">pop_agg =<span class="st"> </span><span class="kw">aggregate</span>(reclass<span class="op">$</span>pop, <span class="dt">fact =</span> <span class="dv">20</span>, <span class="dt">fun =</span> sum)</a></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">pop_agg =<span class="st"> </span><span class="kw">aggregate</span>(reclass<span class="op">$</span>pop, <span class="dt">fact =</span> <span class="dv">20</span>, <span class="dt">fun =</span> sum)</a></code></pre></div>
 <p>The next stage is to keep only cells with more than half a million people.</p>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1">pop_agg =<span class="st"> </span>pop_agg[pop_agg <span class="op">&gt;</span><span class="st"> </span><span class="dv">500000</span>, drop =<span class="st"> </span><span class="ot">FALSE</span>] </a></code></pre></div>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1">pop_agg =<span class="st"> </span>pop_agg[pop_agg <span class="op">&gt;</span><span class="st"> </span><span class="dv">500000</span>, drop =<span class="st"> </span><span class="ot">FALSE</span>] </a></code></pre></div>
 <p>Plotting this reveals eight metropolitan regions (Figure <a href="location.html#fig:metro-areas">13.2</a>).
 Each region consists of one or more raster cells.
 It would be nice if we could join all cells belonging to one region.
 <strong>raster</strong>’s <code>clump()</code> command does exactly that.
 Subsequently, <code>rasterToPolygons()</code> converts the raster object into spatial polygons, and <code>st_as_sf()</code> converts it into an <code>sf</code>-object.</p>
-<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1">polys =<span class="st"> </span>pop_agg <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb428-2" data-line-number="2"><span class="st">  </span><span class="kw">clump</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb428-3" data-line-number="3"><span class="st">  </span><span class="kw">rasterToPolygons</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb428-4" data-line-number="4"><span class="st">  </span><span class="kw">st_as_sf</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">polys =<span class="st"> </span>pop_agg <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb426-2" data-line-number="2"><span class="st">  </span><span class="kw">clump</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb426-3" data-line-number="3"><span class="st">  </span><span class="kw">rasterToPolygons</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb426-4" data-line-number="4"><span class="st">  </span><span class="kw">st_as_sf</span>()</a></code></pre></div>
 <p><code>polys</code> now features a column named <code>clumps</code> which indicates to which metropolitan region each polygon belongs and which we will use to dissolve the polygons into coherent single regions (see also Section <a href="geometric-operations.html#geometry-unions">5.2.6</a>):</p>
-<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1">metros =<span class="st"> </span>polys <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb429-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(clumps) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb429-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1">metros =<span class="st"> </span>polys <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb427-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(clumps) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb427-3" data-line-number="3"><span class="st">  </span><span class="kw">summarize</span>()</a></code></pre></div>
 <p>Given no other column as input, <code>summarize()</code> only dissolves the geometry.</p>
 <!-- maybe a good if advanced exercise
 This requires finding the nearest neighbors (`st_intersects()`), and some additional processing.
@@ -723,15 +721,15 @@ Consequently, extracting the centroid coordinate of each metropolitan area can s
 The <strong>revgeo</strong> package provides access to the open source Photon geocoder for OpenStreetMap, Google Maps and Bing.
 By default, it uses the Photon API.
 <code>revgeo::revgeo()</code> only accepts geographical coordinates (latitude/longitude); therefore, the first requirement is to bring the metropolitan polygons into an appropriate coordinate reference system (Chapter <a href="reproj-geo-data.html#reproj-geo-data">6</a>).</p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1">metros_wgs =<span class="st"> </span><span class="kw">st_transform</span>(metros, <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb430-2" data-line-number="2">coords =<span class="st"> </span><span class="kw">st_centroid</span>(metros_wgs) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb430-3" data-line-number="3"><span class="st">  </span><span class="kw">st_coordinates</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb430-4" data-line-number="4"><span class="st">  </span><span class="kw">round</span>(<span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1">metros_wgs =<span class="st"> </span><span class="kw">st_transform</span>(metros, <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb428-2" data-line-number="2">coords =<span class="st"> </span><span class="kw">st_centroid</span>(metros_wgs) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb428-3" data-line-number="3"><span class="st">  </span><span class="kw">st_coordinates</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb428-4" data-line-number="4"><span class="st">  </span><span class="kw">round</span>(<span class="dv">4</span>)</a></code></pre></div>
 <!-- It is a great feature of `revgeo::revgeo()` that it accepts also more than one coordinate pair as input (parameters `longitude` and `latitude`), which spares us the need for writing a loop. -->
 <p>Choosing <code>frame</code> as <code>revgeocode()</code>’s <code>output</code> option will give back a <code>data.frame</code> with several columns referring to the location including the street name, house number and city.</p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1"><span class="kw">library</span>(revgeo)</a>
-<a class="sourceLine" id="cb431-2" data-line-number="2">metro_names =<span class="st"> </span><span class="kw">revgeo</span>(<span class="dt">longitude =</span> coords[, <span class="dv">1</span>], <span class="dt">latitude =</span> coords[, <span class="dv">2</span>], </a>
-<a class="sourceLine" id="cb431-3" data-line-number="3">                     <span class="dt">output =</span> <span class="st">&quot;frame&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1"><span class="kw">library</span>(revgeo)</a>
+<a class="sourceLine" id="cb429-2" data-line-number="2">metro_names =<span class="st"> </span><span class="kw">revgeo</span>(<span class="dt">longitude =</span> coords[, <span class="dv">1</span>], <span class="dt">latitude =</span> coords[, <span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb429-3" data-line-number="3">                     <span class="dt">output =</span> <span class="st">&quot;frame&quot;</span>)</a></code></pre></div>
 <p>To make sure that the reader uses the exact same results, we have put them into <strong>spDataLarge</strong> as the object <code>metro_names</code>.</p>
 <table>
 <caption><span id="tab:metro-names">TABLE 13.2: </span>Result of the reverse geocoding.</caption>
@@ -779,9 +777,9 @@ By default, it uses the Photon API.
 <p>Overall, we are satisfied with the <code>city</code> column serving as metropolitan names (Table <a href="location.html#tab:metro-names">13.2</a>) apart from one exception, namely Wülfrath which belongs to the greater region of Düsseldorf.
 Hence, we replace Wülfrath with Düsseldorf (Figure <a href="location.html#fig:metro-areas">13.2</a>).
 Umlauts like <code>ü</code> might lead to trouble further on, for example when determining the bounding box of a metropolitan area with <code>opq()</code> (see further below), which is why we avoid them.</p>
-<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1">metro_names =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">pull</span>(metro_names, city) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="st">  </span><span class="kw">as.character</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb432-3" data-line-number="3"><span class="st">  </span><span class="kw">ifelse</span>(. <span class="op">==</span><span class="st"> &quot;Wülfrath&quot;, &quot;</span>Duesseldorf<span class="st">&quot;, .)</span></a></code></pre></div>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1">metro_names =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">pull</span>(metro_names, city) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb430-2" data-line-number="2"><span class="st">  </span><span class="kw">as.character</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb430-3" data-line-number="3"><span class="st">  </span><span class="kw">ifelse</span>(. <span class="op">==</span><span class="st"> &quot;Wülfrath&quot;, &quot;</span>Duesseldorf<span class="st">&quot;, .)</span></a></code></pre></div>
 </div>
 <div id="points-of-interest" class="section level2">
 <h2><span class="header-section-number">13.6</span> Points of interest</h2>
@@ -799,37 +797,37 @@ Before running this code: please consider it will download almost 2GB of data.
 To save time and resources, we have put the output named <code>shops</code> into <strong>spDataLarge</strong>.
 To make it available in your environment ensure that the <strong>spDataLarge</strong> package is loaded, or run <code>data(&quot;shops&quot;, package = &quot;spDataLarge&quot;)</code>.</li>
 </ul>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1">shops =<span class="st"> </span><span class="kw">map</span>(metro_names, <span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb433-2" data-line-number="2">  <span class="kw">message</span>(<span class="st">&quot;Downloading shops of: &quot;</span>, x, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb433-3" data-line-number="3">  <span class="co"># give the server a bit time</span></a>
-<a class="sourceLine" id="cb433-4" data-line-number="4">  <span class="kw">Sys.sleep</span>(<span class="kw">sample</span>(<span class="kw">seq</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="fl">0.1</span>), <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb433-5" data-line-number="5">  query =<span class="st"> </span><span class="kw">opq</span>(x) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb433-6" data-line-number="6"><span class="st">    </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">&quot;shop&quot;</span>)</a>
-<a class="sourceLine" id="cb433-7" data-line-number="7">  points =<span class="st"> </span><span class="kw">osmdata_sf</span>(query)</a>
-<a class="sourceLine" id="cb433-8" data-line-number="8">  <span class="co"># request the same data again if nothing has been downloaded</span></a>
-<a class="sourceLine" id="cb433-9" data-line-number="9">  iter =<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb433-10" data-line-number="10">  <span class="cf">while</span> (<span class="kw">nrow</span>(points<span class="op">$</span>osm_points) <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>iter <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb433-11" data-line-number="11">    points =<span class="st"> </span><span class="kw">osmdata_sf</span>(query)</a>
-<a class="sourceLine" id="cb433-12" data-line-number="12">    iter =<span class="st"> </span>iter <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb433-13" data-line-number="13">  }</a>
-<a class="sourceLine" id="cb433-14" data-line-number="14">  points =<span class="st"> </span><span class="kw">st_set_crs</span>(points<span class="op">$</span>osm_points, <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb433-15" data-line-number="15">})</a></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1">shops =<span class="st"> </span><span class="kw">map</span>(metro_names, <span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb431-2" data-line-number="2">  <span class="kw">message</span>(<span class="st">&quot;Downloading shops of: &quot;</span>, x, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb431-3" data-line-number="3">  <span class="co"># give the server a bit time</span></a>
+<a class="sourceLine" id="cb431-4" data-line-number="4">  <span class="kw">Sys.sleep</span>(<span class="kw">sample</span>(<span class="kw">seq</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="fl">0.1</span>), <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb431-5" data-line-number="5">  query =<span class="st"> </span><span class="kw">opq</span>(x) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb431-6" data-line-number="6"><span class="st">    </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">&quot;shop&quot;</span>)</a>
+<a class="sourceLine" id="cb431-7" data-line-number="7">  points =<span class="st"> </span><span class="kw">osmdata_sf</span>(query)</a>
+<a class="sourceLine" id="cb431-8" data-line-number="8">  <span class="co"># request the same data again if nothing has been downloaded</span></a>
+<a class="sourceLine" id="cb431-9" data-line-number="9">  iter =<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb431-10" data-line-number="10">  <span class="cf">while</span> (<span class="kw">nrow</span>(points<span class="op">$</span>osm_points) <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>iter <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb431-11" data-line-number="11">    points =<span class="st"> </span><span class="kw">osmdata_sf</span>(query)</a>
+<a class="sourceLine" id="cb431-12" data-line-number="12">    iter =<span class="st"> </span>iter <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb431-13" data-line-number="13">  }</a>
+<a class="sourceLine" id="cb431-14" data-line-number="14">  points =<span class="st"> </span><span class="kw">st_set_crs</span>(points<span class="op">$</span>osm_points, <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb431-15" data-line-number="15">})</a></code></pre></div>
 <p>It is highly unlikely that there are no shops in any of our defined metropolitan areas.
 The following <code>if</code> condition simply checks if there is at least one shop for each region.
 If not, we recommend to try to download the shops again for this/these specific region/s.</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="co"># checking if we have downloaded shops for each metropolitan area</span></a>
-<a class="sourceLine" id="cb434-2" data-line-number="2">ind =<span class="st"> </span><span class="kw">map</span>(shops, nrow) <span class="op">==</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb434-3" data-line-number="3"><span class="cf">if</span> (<span class="kw">any</span>(ind)) {</a>
-<a class="sourceLine" id="cb434-4" data-line-number="4">  <span class="kw">message</span>(<span class="st">&quot;There are/is still (a) metropolitan area/s without any features:</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb434-5" data-line-number="5">          <span class="kw">paste</span>(metro_names[ind], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">Please fix it!&quot;</span>)</a>
-<a class="sourceLine" id="cb434-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1"><span class="co"># checking if we have downloaded shops for each metropolitan area</span></a>
+<a class="sourceLine" id="cb432-2" data-line-number="2">ind =<span class="st"> </span><span class="kw">map</span>(shops, nrow) <span class="op">==</span><span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb432-3" data-line-number="3"><span class="cf">if</span> (<span class="kw">any</span>(ind)) {</a>
+<a class="sourceLine" id="cb432-4" data-line-number="4">  <span class="kw">message</span>(<span class="st">&quot;There are/is still (a) metropolitan area/s without any features:</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb432-5" data-line-number="5">          <span class="kw">paste</span>(metro_names[ind], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">Please fix it!&quot;</span>)</a>
+<a class="sourceLine" id="cb432-6" data-line-number="6">}</a></code></pre></div>
 <p>To make sure that each list element (an <code>sf</code> data frame) comes with the same columns, we only keep the <code>osm_id</code> and the <code>shop</code> columns with the help of another <code>map</code> loop.
 This is not a given since OSM contributors are not equally meticulous when collecting data.
 Finally, we <code>rbind</code> all shops into one large <code>sf</code> object.</p>
-<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb435-1" data-line-number="1"><span class="co"># select only specific columns</span></a>
-<a class="sourceLine" id="cb435-2" data-line-number="2">shops =<span class="st"> </span><span class="kw">map</span>(shops, dplyr<span class="op">::</span>select, osm_id, shop)</a>
-<a class="sourceLine" id="cb435-3" data-line-number="3"><span class="co"># putting all list elements into a single data frame</span></a>
-<a class="sourceLine" id="cb435-4" data-line-number="4">shops =<span class="st"> </span><span class="kw">do.call</span>(rbind, shops)</a></code></pre></div>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1"><span class="co"># select only specific columns</span></a>
+<a class="sourceLine" id="cb433-2" data-line-number="2">shops =<span class="st"> </span><span class="kw">map</span>(shops, dplyr<span class="op">::</span>select, osm_id, shop)</a>
+<a class="sourceLine" id="cb433-3" data-line-number="3"><span class="co"># putting all list elements into a single data frame</span></a>
+<a class="sourceLine" id="cb433-4" data-line-number="4">shops =<span class="st"> </span><span class="kw">do.call</span>(rbind, shops)</a></code></pre></div>
 <p>It would have been easier to simply use <code>map_dfr()</code>.
 Unfortunately, so far it does not work in harmony with <code>sf</code> objects.
 Note: <code>shops</code> is provided in the <code>spDataLarge</code> package.</p>
@@ -844,22 +842,22 @@ This is because the <code>shop</code> column contains <code>NA</code> values, wh
 
 <p>The result of the subsequent code chunk is therefore an estimate of shop density (shops/km<sup>2</sup>).
 <code>st_transform()</code> is used before <code>rasterize()</code> to ensure the CRS of both inputs match.</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1">shops =<span class="st"> </span><span class="kw">st_transform</span>(shops, <span class="kw">proj4string</span>(reclass))</a>
-<a class="sourceLine" id="cb436-2" data-line-number="2"><span class="co"># create poi raster</span></a>
-<a class="sourceLine" id="cb436-3" data-line-number="3">poi =<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> shops, <span class="dt">y =</span> reclass, <span class="dt">field =</span> <span class="st">&quot;osm_id&quot;</span>, <span class="dt">fun =</span> <span class="st">&quot;count&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1">shops =<span class="st"> </span><span class="kw">st_transform</span>(shops, <span class="kw">proj4string</span>(reclass))</a>
+<a class="sourceLine" id="cb434-2" data-line-number="2"><span class="co"># create poi raster</span></a>
+<a class="sourceLine" id="cb434-3" data-line-number="3">poi =<span class="st"> </span><span class="kw">rasterize</span>(<span class="dt">x =</span> shops, <span class="dt">y =</span> reclass, <span class="dt">field =</span> <span class="st">&quot;osm_id&quot;</span>, <span class="dt">fun =</span> <span class="st">&quot;count&quot;</span>)</a></code></pre></div>
 <p>As with the other raster layers (population, women, mean age, household size) the <code>poi</code> raster is reclassified into four classes (see Section <a href="location.html#create-census-rasters">13.4</a>).
 Defining class intervals is an arbitrary undertaking to a certain degree.
 One can use equal breaks, quantile breaks, fixed values or others.
 Here, we choose the Fisher-Jenks natural breaks approach which minimizes within-class variance, the result of which provides an input for the reclassification matrix.</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb437-1" data-line-number="1"><span class="co"># construct reclassification matrix</span></a>
-<a class="sourceLine" id="cb437-2" data-line-number="2">int =<span class="st"> </span>classInt<span class="op">::</span><span class="kw">classIntervals</span>(<span class="kw">values</span>(poi), <span class="dt">n =</span> <span class="dv">4</span>, <span class="dt">style =</span> <span class="st">&quot;fisher&quot;</span>)</a>
-<a class="sourceLine" id="cb437-3" data-line-number="3">int =<span class="st"> </span><span class="kw">round</span>(int<span class="op">$</span>brks)</a>
-<a class="sourceLine" id="cb437-4" data-line-number="4">rcl_poi =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(int[<span class="dv">1</span>], <span class="kw">rep</span>(int[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">length</span>(int))], <span class="dt">each =</span> <span class="dv">2</span>), </a>
-<a class="sourceLine" id="cb437-5" data-line-number="5">                   int[<span class="kw">length</span>(int)] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb437-6" data-line-number="6">rcl_poi =<span class="st"> </span><span class="kw">cbind</span>(rcl_poi, <span class="dv">0</span><span class="op">:</span><span class="dv">3</span>)  </a>
-<a class="sourceLine" id="cb437-7" data-line-number="7"><span class="co"># reclassify</span></a>
-<a class="sourceLine" id="cb437-8" data-line-number="8">poi =<span class="st"> </span><span class="kw">reclassify</span>(poi, <span class="dt">rcl =</span> rcl_poi, <span class="dt">right =</span> <span class="ot">NA</span>) </a>
-<a class="sourceLine" id="cb437-9" data-line-number="9"><span class="kw">names</span>(poi) =<span class="st"> &quot;poi&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb435-1" data-line-number="1"><span class="co"># construct reclassification matrix</span></a>
+<a class="sourceLine" id="cb435-2" data-line-number="2">int =<span class="st"> </span>classInt<span class="op">::</span><span class="kw">classIntervals</span>(<span class="kw">values</span>(poi), <span class="dt">n =</span> <span class="dv">4</span>, <span class="dt">style =</span> <span class="st">&quot;fisher&quot;</span>)</a>
+<a class="sourceLine" id="cb435-3" data-line-number="3">int =<span class="st"> </span><span class="kw">round</span>(int<span class="op">$</span>brks)</a>
+<a class="sourceLine" id="cb435-4" data-line-number="4">rcl_poi =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(int[<span class="dv">1</span>], <span class="kw">rep</span>(int[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">length</span>(int))], <span class="dt">each =</span> <span class="dv">2</span>), </a>
+<a class="sourceLine" id="cb435-5" data-line-number="5">                   int[<span class="kw">length</span>(int)] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb435-6" data-line-number="6">rcl_poi =<span class="st"> </span><span class="kw">cbind</span>(rcl_poi, <span class="dv">0</span><span class="op">:</span><span class="dv">3</span>)  </a>
+<a class="sourceLine" id="cb435-7" data-line-number="7"><span class="co"># reclassify</span></a>
+<a class="sourceLine" id="cb435-8" data-line-number="8">poi =<span class="st"> </span><span class="kw">reclassify</span>(poi, <span class="dt">rcl =</span> rcl_poi, <span class="dt">right =</span> <span class="ot">NA</span>) </a>
+<a class="sourceLine" id="cb435-9" data-line-number="9"><span class="kw">names</span>(poi) =<span class="st"> &quot;poi&quot;</span></a></code></pre></div>
 </div>
 <div id="identifying-suitable-locations" class="section level2">
 <h2><span class="header-section-number">13.7</span> Identifying suitable locations</h2>
@@ -869,14 +867,14 @@ First of all, we have already delineated metropolitan areas, that is areas where
 Second, though it is advantageous to have many potential customers within a specific catchment area, the sheer number alone might not actually represent the desired target group.
 For instance, residential tower blocks are areas with a high population density but not necessarily with a high purchasing power for expensive cycle components.
 This is achieved with the complementary functions <code>addLayer()</code> and <code>dropLayer()</code>:</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" data-line-number="1"><span class="co"># add poi raster</span></a>
-<a class="sourceLine" id="cb438-2" data-line-number="2">reclass =<span class="st"> </span><span class="kw">addLayer</span>(reclass, poi)</a>
-<a class="sourceLine" id="cb438-3" data-line-number="3"><span class="co"># delete population raster</span></a>
-<a class="sourceLine" id="cb438-4" data-line-number="4">reclass =<span class="st"> </span><span class="kw">dropLayer</span>(reclass, <span class="st">&quot;pop&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1"><span class="co"># add poi raster</span></a>
+<a class="sourceLine" id="cb436-2" data-line-number="2">reclass =<span class="st"> </span><span class="kw">addLayer</span>(reclass, poi)</a>
+<a class="sourceLine" id="cb436-3" data-line-number="3"><span class="co"># delete population raster</span></a>
+<a class="sourceLine" id="cb436-4" data-line-number="4">reclass =<span class="st"> </span><span class="kw">dropLayer</span>(reclass, <span class="st">&quot;pop&quot;</span>)</a></code></pre></div>
 <p>In common with other data science projects, data retrieval and ‘tidying’ have consumed much of the overall workload so far.
 With clean data, the final step — calculating a final score by summing all raster layers — can be accomplished in a single line of code.</p>
-<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb439-1" data-line-number="1"><span class="co"># calculate the total score</span></a>
-<a class="sourceLine" id="cb439-2" data-line-number="2">result =<span class="st"> </span><span class="kw">sum</span>(reclass)</a></code></pre></div>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb437-1" data-line-number="1"><span class="co"># calculate the total score</span></a>
+<a class="sourceLine" id="cb437-2" data-line-number="2">result =<span class="st"> </span><span class="kw">sum</span>(reclass)</a></code></pre></div>
 <p>For instance, a score greater than 9 might be a suitable threshold indicating raster cells where a bike shop could be placed (Figure <a href="location.html#fig:bikeshop-berlin">13.3</a>; see also <code>code/13-location-jm.R</code>).</p>
 <div class="figure" style="text-align: center"><span id="fig:bikeshop-berlin"></span>
 <div id="htmlwidget-841de324d41155df19a0" style="width:100%;height:355.968px;" class="leaflet html-widget"></div>
@@ -962,9 +960,7 @@ Change the age raster accordingly, repeat the remaining analyses and compare the
 </div>
 <div class="footnotes">
 <hr />
-<ol start="74">
-<li id="fn74"><p>
-The potential error introduced during this reclassification stage will be explored in the exercises.<a href="location.html#fnref74" class="footnote-back">↩</a></p></li>
+<ol start="75">
 <li id="fn75"><p>The OSM-download will sometimes fail at the first attempt.<a href="location.html#fnref75" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
@@ -1013,6 +1009,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

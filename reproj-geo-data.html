@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Reprojecting geographic data | Geocomputation with R</title>
   <meta name="description" content="Chapter 6 Reprojecting geographic data | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Reprojecting geographic data | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -693,7 +691,7 @@ The code below gives the map centered on New York City (Figure <a href="reproj-g
 <!-- plot(world_laea2$geom) -->
 <!-- plot(world_laea2$geom, graticule = TRUE) -->
 <div class="figure" style="text-align: center"><span id="fig:laeaproj2"></span>
-<img src="figures/laeaproj2-1.png" alt="Lambert azimuthal equal-area projection of the world centered on New York City." width="100%" />
+<img src="https://user-images.githubusercontent.com/1825120/72223267-c79a4780-3564-11ea-9d7e-9644523e349b.png" alt="Lambert azimuthal equal-area projection of the world centered on New York City." width="100%" />
 <p class="caption">
 FIGURE 6.5: Lambert azimuthal equal-area projection of the world centered on New York City.
 </p>
@@ -886,34 +884,6 @@ Plot and compare a map before and after the transformation.</p></li>
 <p>Maling, D. H. 1992. <em>Coordinate Systems and Map Projections</em>. Second. Oxford ; New York: Pergamon Press.</p>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="24">
-<li id="fn24"><p>
-The CRS can also be added when creating <code>sf</code> objects with the <code>crs</code> argument (e.g., <code>st_sf(geometry = st_sfc(st_point(c(-0.1, 51.5))), crs = 4326)</code>).
-The same argument can also be used to set the CRS when creating raster datasets (e.g., <code>raster(crs = &quot;+proj=longlat&quot;)</code>).<a href="reproj-geo-data.html#fnref24" class="footnote-back">↩</a></p></li>
-<li id="fn25"><p>
-For a short description of the most relevant projection parameters and related concepts, see the fourth lecture by Jochen Albrecht hosted at
-<a href="http://www.geography.hunter.cuny.edu/~jochen/GTECH361/lectures/" class="uri">http://www.geography.hunter.cuny.edu/~jochen/GTECH361/lectures/</a> and information at <a href="https://proj.org/usage/projections.html" class="uri">https://proj.org/usage/projections.html</a>.
-<!-- [geography.hunter.cuny.edu/~jochen/GTECH361/lectures/](http://www.geography.hunter.cuny.edu/~jochen/GTECH361/lectures/lecture04/concepts/Map%20coordinate%20systems/Projection%20parameters.htm) as well as [http://proj4.org/parameters.html](http://proj4.org/parameters.html). -->
-Other great resources on projections are spatialreference.org and progonos.com/furuti/MapProj.<a href="reproj-geo-data.html#fnref25" class="footnote-back">↩</a></p></li>
-<li id="fn26"><p>
-The difference in location between the two points is not due to imperfections in the transforming operation (which is in fact very accurate) but the low precision of the manually-created coordinates that created <code>london</code> and <code>london_proj</code>.
-Also surprising may be that the result is provided in a matrix with units of meters.
-This is because <code>st_distance()</code> can provide distances between many features and because the CRS has units of meters.
-Use <code>as.numeric()</code> to coerce the result into a regular number.<a href="reproj-geo-data.html#fnref26" class="footnote-back">↩</a></p></li>
-<li id="fn27"><p>
-Many thanks to an anonymous reviewer whose comments formed the basis of this advice.<a href="reproj-geo-data.html#fnref27" class="footnote-back">↩</a></p></li>
-<li id="fn28"><p>
-The Wikipedia page ‘List of map projections’ has 70+ projections and illustrations.<a href="reproj-geo-data.html#fnref28" class="footnote-back">↩</a></p></li>
-<li id="fn29"><p>
-This projection is used, among others, by the National Geographic Society.<a href="reproj-geo-data.html#fnref29" class="footnote-back">↩</a></p></li>
-<li id="fn30"><p>
-Another minor change, that is not represented in Table <a href="reproj-geo-data.html#tab:rastercrs">6.2</a>, is that the class of the values in the new projected raster dataset is <code>numeric</code>.
-This is because the <code>bilinear</code> method works with continuous data and the results are rarely coerced into whole integer values.
-This can have implications for file sizes when raster datasets are saved.<a href="reproj-geo-data.html#fnref30" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
 <script>
 /*
 Sorts the references alphabetically.
@@ -959,6 +929,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

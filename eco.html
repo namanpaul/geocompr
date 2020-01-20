@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Ecology | Geocomputation with R</title>
   <meta name="description" content="Chapter 14 Ecology | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Ecology | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -426,12 +424,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This chapter assumes you have a strong grasp of geographic data analysis and processing, covered in Chapters <a href="spatial-class.html#spatial-class">2</a> to <a href="geometric-operations.html#geometric-operations">5</a>.
 In it you will also make use of R’s interfaces to dedicated GIS software, and spatial cross-validation, topics covered in Chapters <a href="gis.html#gis">9</a> and <a href="spatial-cv.html#spatial-cv">11</a>, respectively.</p>
 <p>The chapter uses the following packages:</p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb440-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb440-3" data-line-number="3"><span class="kw">library</span>(RQGIS)</a>
-<a class="sourceLine" id="cb440-4" data-line-number="4"><span class="kw">library</span>(mlr)</a>
-<a class="sourceLine" id="cb440-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb440-6" data-line-number="6"><span class="kw">library</span>(vegan)</a></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb438-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb438-3" data-line-number="3"><span class="kw">library</span>(RQGIS)</a>
+<a class="sourceLine" id="cb438-4" data-line-number="4"><span class="kw">library</span>(mlr)</a>
+<a class="sourceLine" id="cb438-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb438-6" data-line-number="6"><span class="kw">library</span>(vegan)</a></code></pre></div>
 </div>
 <div id="introduction-9" class="section level2">
 <h2><span class="header-section-number">14.1</span> Introduction</h2>
@@ -474,20 +472,20 @@ To guarantee an optimal prediction, it is advisable to tune beforehand the hyper
 <div id="data-and-data-preparation" class="section level2">
 <h2><span class="header-section-number">14.2</span> Data and data preparation</h2>
 <p>All the data needed for the subsequent analyses is available via the <strong>RQGIS</strong> package.</p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;study_area&quot;</span>, <span class="st">&quot;random_points&quot;</span>, <span class="st">&quot;comm&quot;</span>, <span class="st">&quot;dem&quot;</span>, <span class="st">&quot;ndvi&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;RQGIS&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb439-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;study_area&quot;</span>, <span class="st">&quot;random_points&quot;</span>, <span class="st">&quot;comm&quot;</span>, <span class="st">&quot;dem&quot;</span>, <span class="st">&quot;ndvi&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;RQGIS&quot;</span>)</a></code></pre></div>
 <p><code>study_area</code> is an <code>sf</code> polygon representing the outlines of the study area.
 <code>random_points</code> is an <code>sf</code> object, and contains the 100 randomly chosen sites.
 <code>comm</code> is a community matrix of the wide data format <span class="citation">(Wickham <a href="#ref-wickham_tidy_2014">2014</a><a href="#ref-wickham_tidy_2014">b</a>)</span> where the rows represent the visited sites in the field and the columns the observed species.<a href="#fn77" class="footnote-ref" id="fnref77"><sup>77</sup></a></p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="co"># sites 35 to 40 and corresponding occurrences of the first five species in the</span></a>
-<a class="sourceLine" id="cb442-2" data-line-number="2"><span class="co"># community matrix</span></a>
-<a class="sourceLine" id="cb442-3" data-line-number="3">comm[<span class="dv">35</span><span class="op">:</span><span class="dv">40</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
-<a class="sourceLine" id="cb442-4" data-line-number="4"><span class="co">#&gt;    Alon_meri Alst_line Alte_hali Alte_porr Anth_eccr</span></a>
-<a class="sourceLine" id="cb442-5" data-line-number="5"><span class="co">#&gt; 35         0         0         0       0.0     1.000</span></a>
-<a class="sourceLine" id="cb442-6" data-line-number="6"><span class="co">#&gt; 36         0         0         1       0.0     0.500</span></a>
-<a class="sourceLine" id="cb442-7" data-line-number="7"><span class="co">#&gt; 37         0         0         0       0.0     0.125</span></a>
-<a class="sourceLine" id="cb442-8" data-line-number="8"><span class="co">#&gt; 38         0         0         0       0.0     3.000</span></a>
-<a class="sourceLine" id="cb442-9" data-line-number="9"><span class="co">#&gt; 39         0         0         0       0.0     2.000</span></a>
-<a class="sourceLine" id="cb442-10" data-line-number="10"><span class="co">#&gt; 40         0         0         0       0.2     0.125</span></a></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" data-line-number="1"><span class="co"># sites 35 to 40 and corresponding occurrences of the first five species in the</span></a>
+<a class="sourceLine" id="cb440-2" data-line-number="2"><span class="co"># community matrix</span></a>
+<a class="sourceLine" id="cb440-3" data-line-number="3">comm[<span class="dv">35</span><span class="op">:</span><span class="dv">40</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
+<a class="sourceLine" id="cb440-4" data-line-number="4"><span class="co">#&gt;    Alon_meri Alst_line Alte_hali Alte_porr Anth_eccr</span></a>
+<a class="sourceLine" id="cb440-5" data-line-number="5"><span class="co">#&gt; 35         0         0         0       0.0     1.000</span></a>
+<a class="sourceLine" id="cb440-6" data-line-number="6"><span class="co">#&gt; 36         0         0         1       0.0     0.500</span></a>
+<a class="sourceLine" id="cb440-7" data-line-number="7"><span class="co">#&gt; 37         0         0         0       0.0     0.125</span></a>
+<a class="sourceLine" id="cb440-8" data-line-number="8"><span class="co">#&gt; 38         0         0         0       0.0     3.000</span></a>
+<a class="sourceLine" id="cb440-9" data-line-number="9"><span class="co">#&gt; 39         0         0         0       0.0     2.000</span></a>
+<a class="sourceLine" id="cb440-10" data-line-number="10"><span class="co">#&gt; 40         0         0         0       0.2     0.125</span></a></code></pre></div>
 <p>The values represent species cover per site, and were recorded as the area covered by a species in proportion to the site area in percentage points (%; please note that one site can have &gt;100% due to overlapping cover between individual plants).
 The rownames of <code>comm</code> correspond to the <code>id</code> column of <code>random_points</code>.
 <code>dem</code> is the digital elevation model (DEM) for the study area, and <code>ndvi</code> is the Normalized Difference Vegetation Index (NDVI) computed from the red and near-infrared channels of a Landsat scene (see Section <a href="spatial-operations.html#local-operations">4.3.3</a> and <code>?ndvi</code>).
@@ -505,45 +503,45 @@ Curvatures might also represent valuable predictors, in the Exercise section you
 <p>To compute catchment area and catchment slope, we will make use of the <code>saga:sagawetnessindex</code> function.<a href="#fn78" class="footnote-ref" id="fnref78"><sup>78</sup></a>
 <code>get_usage()</code> returns all function parameters and default values of a specific geoalgorithm.
 Here, we present only a selection of the complete output.</p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1"><span class="kw">get_usage</span>(<span class="st">&quot;saga:sagawetnessindex&quot;</span>)</a>
-<a class="sourceLine" id="cb443-2" data-line-number="2"><span class="co">#&gt;ALGORITHM: Saga wetness index</span></a>
-<a class="sourceLine" id="cb443-3" data-line-number="3"><span class="co">#&gt;  DEM &lt;ParameterRaster&gt;</span></a>
-<a class="sourceLine" id="cb443-4" data-line-number="4"><span class="co">#&gt;  ...</span></a>
-<a class="sourceLine" id="cb443-5" data-line-number="5"><span class="co">#&gt;  SLOPE_TYPE &lt;ParameterSelection&gt;</span></a>
-<a class="sourceLine" id="cb443-6" data-line-number="6"><span class="co">#&gt;  ...</span></a>
-<a class="sourceLine" id="cb443-7" data-line-number="7"><span class="co">#&gt;  AREA &lt;OutputRaster&gt;</span></a>
-<a class="sourceLine" id="cb443-8" data-line-number="8"><span class="co">#&gt;  SLOPE &lt;OutputRaster&gt;</span></a>
-<a class="sourceLine" id="cb443-9" data-line-number="9"><span class="co">#&gt;  AREA_MOD &lt;OutputRaster&gt;</span></a>
-<a class="sourceLine" id="cb443-10" data-line-number="10"><span class="co">#&gt;  TWI &lt;OutputRaster&gt;</span></a>
-<a class="sourceLine" id="cb443-11" data-line-number="11"><span class="co">#&gt; ...</span></a>
-<a class="sourceLine" id="cb443-12" data-line-number="12"><span class="co">#&gt;SLOPE_TYPE(Type of Slope)</span></a>
-<a class="sourceLine" id="cb443-13" data-line-number="13"><span class="co">#&gt;  0 - [0] local slope</span></a>
-<a class="sourceLine" id="cb443-14" data-line-number="14"><span class="co">#&gt;  1 - [1] catchment slope</span></a>
-<a class="sourceLine" id="cb443-15" data-line-number="15"><span class="co">#&gt; ...</span></a></code></pre></div>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="kw">get_usage</span>(<span class="st">&quot;saga:sagawetnessindex&quot;</span>)</a>
+<a class="sourceLine" id="cb441-2" data-line-number="2"><span class="co">#&gt;ALGORITHM: Saga wetness index</span></a>
+<a class="sourceLine" id="cb441-3" data-line-number="3"><span class="co">#&gt;  DEM &lt;ParameterRaster&gt;</span></a>
+<a class="sourceLine" id="cb441-4" data-line-number="4"><span class="co">#&gt;  ...</span></a>
+<a class="sourceLine" id="cb441-5" data-line-number="5"><span class="co">#&gt;  SLOPE_TYPE &lt;ParameterSelection&gt;</span></a>
+<a class="sourceLine" id="cb441-6" data-line-number="6"><span class="co">#&gt;  ...</span></a>
+<a class="sourceLine" id="cb441-7" data-line-number="7"><span class="co">#&gt;  AREA &lt;OutputRaster&gt;</span></a>
+<a class="sourceLine" id="cb441-8" data-line-number="8"><span class="co">#&gt;  SLOPE &lt;OutputRaster&gt;</span></a>
+<a class="sourceLine" id="cb441-9" data-line-number="9"><span class="co">#&gt;  AREA_MOD &lt;OutputRaster&gt;</span></a>
+<a class="sourceLine" id="cb441-10" data-line-number="10"><span class="co">#&gt;  TWI &lt;OutputRaster&gt;</span></a>
+<a class="sourceLine" id="cb441-11" data-line-number="11"><span class="co">#&gt; ...</span></a>
+<a class="sourceLine" id="cb441-12" data-line-number="12"><span class="co">#&gt;SLOPE_TYPE(Type of Slope)</span></a>
+<a class="sourceLine" id="cb441-13" data-line-number="13"><span class="co">#&gt;  0 - [0] local slope</span></a>
+<a class="sourceLine" id="cb441-14" data-line-number="14"><span class="co">#&gt;  1 - [1] catchment slope</span></a>
+<a class="sourceLine" id="cb441-15" data-line-number="15"><span class="co">#&gt; ...</span></a></code></pre></div>
 <p>Subsequently, we can specify the needed parameters using R named arguments (see Section <a href="gis.html#rqgis">9.2</a>).
 Remember that we can use a <code>RasterLayer</code> living in R’s global environment to specify the input raster <code>DEM</code> (see Section <a href="gis.html#rqgis">9.2</a>).
 Specifying 1 as the <code>SLOPE_TYPE</code> makes sure that the algorithm will return the catchment slope.
 The resulting output rasters should be saved to temporary files with an <code>.sdat</code> extension which is a SAGA raster format.
 Setting <code>load_output</code> to <code>TRUE</code> ensures that the resulting rasters will be imported into R.</p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" data-line-number="1"><span class="co"># environmental predictors: catchment slope and catchment area</span></a>
-<a class="sourceLine" id="cb444-2" data-line-number="2">ep =<span class="st"> </span><span class="kw">run_qgis</span>(<span class="dt">alg =</span> <span class="st">&quot;saga:sagawetnessindex&quot;</span>,</a>
-<a class="sourceLine" id="cb444-3" data-line-number="3">              <span class="dt">DEM =</span> dem,</a>
-<a class="sourceLine" id="cb444-4" data-line-number="4">              <span class="dt">SLOPE_TYPE =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb444-5" data-line-number="5">              <span class="dt">SLOPE =</span> <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.sdat&quot;</span>),</a>
-<a class="sourceLine" id="cb444-6" data-line-number="6">              <span class="dt">AREA =</span> <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.sdat&quot;</span>),</a>
-<a class="sourceLine" id="cb444-7" data-line-number="7">              <span class="dt">load_output =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb444-8" data-line-number="8">              <span class="dt">show_output_paths =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="co"># environmental predictors: catchment slope and catchment area</span></a>
+<a class="sourceLine" id="cb442-2" data-line-number="2">ep =<span class="st"> </span><span class="kw">run_qgis</span>(<span class="dt">alg =</span> <span class="st">&quot;saga:sagawetnessindex&quot;</span>,</a>
+<a class="sourceLine" id="cb442-3" data-line-number="3">              <span class="dt">DEM =</span> dem,</a>
+<a class="sourceLine" id="cb442-4" data-line-number="4">              <span class="dt">SLOPE_TYPE =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb442-5" data-line-number="5">              <span class="dt">SLOPE =</span> <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.sdat&quot;</span>),</a>
+<a class="sourceLine" id="cb442-6" data-line-number="6">              <span class="dt">AREA =</span> <span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;.sdat&quot;</span>),</a>
+<a class="sourceLine" id="cb442-7" data-line-number="7">              <span class="dt">load_output =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb442-8" data-line-number="8">              <span class="dt">show_output_paths =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>This returns a list named <code>ep</code> consisting of two elements: <code>AREA</code> and <code>SLOPE</code>.
 Let us add two more raster objects to the list, namely <code>dem</code> and <code>ndvi</code>, and convert it into a raster stack (see Section <a href="spatial-class.html#raster-classes">2.3.3</a>).</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1">ep =<span class="st"> </span><span class="kw">stack</span>(<span class="kw">c</span>(dem, ndvi, ep))</a>
-<a class="sourceLine" id="cb445-2" data-line-number="2"><span class="kw">names</span>(ep) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dem&quot;</span>, <span class="st">&quot;ndvi&quot;</span>, <span class="st">&quot;carea&quot;</span>, <span class="st">&quot;cslope&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1">ep =<span class="st"> </span><span class="kw">stack</span>(<span class="kw">c</span>(dem, ndvi, ep))</a>
+<a class="sourceLine" id="cb443-2" data-line-number="2"><span class="kw">names</span>(ep) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dem&quot;</span>, <span class="st">&quot;ndvi&quot;</span>, <span class="st">&quot;carea&quot;</span>, <span class="st">&quot;cslope&quot;</span>)</a></code></pre></div>
 <p>Additionally, the catchment area values are highly skewed to the right (<code>hist(ep$carea)</code>).
 A log10-transformation makes the distribution more normal.</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1">ep<span class="op">$</span>carea =<span class="st"> </span><span class="kw">log10</span>(ep<span class="op">$</span>carea)</a></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" data-line-number="1">ep<span class="op">$</span>carea =<span class="st"> </span><span class="kw">log10</span>(ep<span class="op">$</span>carea)</a></code></pre></div>
 <p>As a convenience to the reader, we have added <code>ep</code> to <strong>spDataLarge</strong>:</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;ep&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;ep&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a></code></pre></div>
 <p>Finally, we can extract the terrain attributes to our field observations (see also Section <a href="geometric-operations.html#raster-extraction">5.4.2</a>).</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1">random_points[, <span class="kw">names</span>(ep)] =<span class="st"> </span>raster<span class="op">::</span><span class="kw">extract</span>(ep, random_points)</a></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1">random_points[, <span class="kw">names</span>(ep)] =<span class="st"> </span>raster<span class="op">::</span><span class="kw">extract</span>(ep, random_points)</a></code></pre></div>
 </div>
 <div id="nmds" class="section level2">
 <h2><span class="header-section-number">14.3</span> Reducing dimensionality</h2>
@@ -570,41 +568,41 @@ Often ordinations using presence-absence data yield better results (in terms of 
 <code>decostand()</code> converts numerical observations into presences and absences with 1 indicating the occurrence of a species and 0 the absence of a species.
 Ordination techniques such as NMDS require at least one observation per site.
 Hence, we need to dismiss all sites in which no species were found.</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1"><span class="co"># presence-absence matrix</span></a>
-<a class="sourceLine" id="cb449-2" data-line-number="2">pa =<span class="st"> </span><span class="kw">decostand</span>(comm, <span class="st">&quot;pa&quot;</span>)  <span class="co"># 100 rows (sites), 69 columns (species)</span></a>
-<a class="sourceLine" id="cb449-3" data-line-number="3"><span class="co"># keep only sites in which at least one species was found</span></a>
-<a class="sourceLine" id="cb449-4" data-line-number="4">pa =<span class="st"> </span>pa[<span class="kw">rowSums</span>(pa) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>, ]  <span class="co"># 84 rows, 69 columns</span></a></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1"><span class="co"># presence-absence matrix</span></a>
+<a class="sourceLine" id="cb447-2" data-line-number="2">pa =<span class="st"> </span><span class="kw">decostand</span>(comm, <span class="st">&quot;pa&quot;</span>)  <span class="co"># 100 rows (sites), 69 columns (species)</span></a>
+<a class="sourceLine" id="cb447-3" data-line-number="3"><span class="co"># keep only sites in which at least one species was found</span></a>
+<a class="sourceLine" id="cb447-4" data-line-number="4">pa =<span class="st"> </span>pa[<span class="kw">rowSums</span>(pa) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>, ]  <span class="co"># 84 rows, 69 columns</span></a></code></pre></div>
 <p>The resulting output matrix serves as input for the NMDS.
 <code>k</code> specifies the number of output axes, here, set to 4.<a href="#fn79" class="footnote-ref" id="fnref79"><sup>79</sup></a>
 NMDS is an iterative procedure trying to make the ordinated space more similar to the input matrix in each step.
 To make sure that the algorithm converges, we set the number of steps to 500 (<code>try</code> parameter).</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">25072018</span>)</a>
-<a class="sourceLine" id="cb450-2" data-line-number="2">nmds =<span class="st"> </span><span class="kw">metaMDS</span>(<span class="dt">comm =</span> pa, <span class="dt">k =</span> <span class="dv">4</span>, <span class="dt">try =</span> <span class="dv">500</span>)</a>
-<a class="sourceLine" id="cb450-3" data-line-number="3">nmds<span class="op">$</span>stress</a>
-<a class="sourceLine" id="cb450-4" data-line-number="4"><span class="co">#&gt; ...</span></a>
-<a class="sourceLine" id="cb450-5" data-line-number="5"><span class="co">#&gt; Run 498 stress 0.08834745 </span></a>
-<a class="sourceLine" id="cb450-6" data-line-number="6"><span class="co">#&gt; ... Procrustes: rmse 0.004100446  max resid 0.03041186 </span></a>
-<a class="sourceLine" id="cb450-7" data-line-number="7"><span class="co">#&gt; Run 499 stress 0.08874805 </span></a>
-<a class="sourceLine" id="cb450-8" data-line-number="8"><span class="co">#&gt; ... Procrustes: rmse 0.01822361  max resid 0.08054538 </span></a>
-<a class="sourceLine" id="cb450-9" data-line-number="9"><span class="co">#&gt; Run 500 stress 0.08863627 </span></a>
-<a class="sourceLine" id="cb450-10" data-line-number="10"><span class="co">#&gt; ... Procrustes: rmse 0.01421176  max resid 0.04985418 </span></a>
-<a class="sourceLine" id="cb450-11" data-line-number="11"><span class="co">#&gt; *** Solution reached</span></a>
-<a class="sourceLine" id="cb450-12" data-line-number="12"><span class="co">#&gt; 0.08831395</span></a></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">25072018</span>)</a>
+<a class="sourceLine" id="cb448-2" data-line-number="2">nmds =<span class="st"> </span><span class="kw">metaMDS</span>(<span class="dt">comm =</span> pa, <span class="dt">k =</span> <span class="dv">4</span>, <span class="dt">try =</span> <span class="dv">500</span>)</a>
+<a class="sourceLine" id="cb448-3" data-line-number="3">nmds<span class="op">$</span>stress</a>
+<a class="sourceLine" id="cb448-4" data-line-number="4"><span class="co">#&gt; ...</span></a>
+<a class="sourceLine" id="cb448-5" data-line-number="5"><span class="co">#&gt; Run 498 stress 0.08834745 </span></a>
+<a class="sourceLine" id="cb448-6" data-line-number="6"><span class="co">#&gt; ... Procrustes: rmse 0.004100446  max resid 0.03041186 </span></a>
+<a class="sourceLine" id="cb448-7" data-line-number="7"><span class="co">#&gt; Run 499 stress 0.08874805 </span></a>
+<a class="sourceLine" id="cb448-8" data-line-number="8"><span class="co">#&gt; ... Procrustes: rmse 0.01822361  max resid 0.08054538 </span></a>
+<a class="sourceLine" id="cb448-9" data-line-number="9"><span class="co">#&gt; Run 500 stress 0.08863627 </span></a>
+<a class="sourceLine" id="cb448-10" data-line-number="10"><span class="co">#&gt; ... Procrustes: rmse 0.01421176  max resid 0.04985418 </span></a>
+<a class="sourceLine" id="cb448-11" data-line-number="11"><span class="co">#&gt; *** Solution reached</span></a>
+<a class="sourceLine" id="cb448-12" data-line-number="12"><span class="co">#&gt; 0.08831395</span></a></code></pre></div>
 <p>A stress value of 9 represents a very good result, which means that the reduced ordination space represents the large majority of the variance of the input matrix.
 Overall, NMDS puts objects that are more similar (in terms of species composition) closer together in ordination space.
 However, as opposed to most other ordination techniques, the axes are arbitrary and not necessarily ordered by importance <span class="citation">(Borcard, Gillet, and Legendre <a href="#ref-borcard_numerical_2011">2011</a>)</span>.
 However, we already know that humidity represents the main gradient in the study area <span class="citation">(J. Muenchow, Bräuning, et al. <a href="#ref-muenchow_predictive_2013">2013</a>; Muenchow, Schratz, and Brenning <a href="#ref-muenchow_rqgis:_2017">2017</a>)</span>.
 Since humidity is highly correlated with elevation, we rotate the NMDS axes in accordance with elevation (see also <code>?MDSrotate</code> for more details on rotating NMDS axes).
 Plotting the result reveals that the first axis is, as intended, clearly associated with altitude (Figure <a href="eco.html#fig:xy-nmds">14.3</a>).</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1">elev =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(random_points, id <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(pa)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb451-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">pull</span>(dem)</a>
-<a class="sourceLine" id="cb451-3" data-line-number="3"><span class="co"># rotating NMDS in accordance with altitude (proxy for humidity)</span></a>
-<a class="sourceLine" id="cb451-4" data-line-number="4">rotnmds =<span class="st"> </span><span class="kw">MDSrotate</span>(nmds, elev)</a>
-<a class="sourceLine" id="cb451-5" data-line-number="5"><span class="co"># extracting the first two axes</span></a>
-<a class="sourceLine" id="cb451-6" data-line-number="6">sc =<span class="st"> </span><span class="kw">scores</span>(rotnmds, <span class="dt">choices =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb451-7" data-line-number="7"><span class="co"># plotting the first axis against altitude</span></a>
-<a class="sourceLine" id="cb451-8" data-line-number="8"><span class="kw">plot</span>(<span class="dt">y =</span> sc[, <span class="dv">1</span>], <span class="dt">x =</span> elev, <span class="dt">xlab =</span> <span class="st">&quot;elevation in m&quot;</span>, </a>
-<a class="sourceLine" id="cb451-9" data-line-number="9">     <span class="dt">ylab =</span> <span class="st">&quot;First NMDS axis&quot;</span>, <span class="dt">cex.lab =</span> <span class="fl">0.8</span>, <span class="dt">cex.axis =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1">elev =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">filter</span>(random_points, id <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(pa)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb449-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">pull</span>(dem)</a>
+<a class="sourceLine" id="cb449-3" data-line-number="3"><span class="co"># rotating NMDS in accordance with altitude (proxy for humidity)</span></a>
+<a class="sourceLine" id="cb449-4" data-line-number="4">rotnmds =<span class="st"> </span><span class="kw">MDSrotate</span>(nmds, elev)</a>
+<a class="sourceLine" id="cb449-5" data-line-number="5"><span class="co"># extracting the first two axes</span></a>
+<a class="sourceLine" id="cb449-6" data-line-number="6">sc =<span class="st"> </span><span class="kw">scores</span>(rotnmds, <span class="dt">choices =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb449-7" data-line-number="7"><span class="co"># plotting the first axis against altitude</span></a>
+<a class="sourceLine" id="cb449-8" data-line-number="8"><span class="kw">plot</span>(<span class="dt">y =</span> sc[, <span class="dv">1</span>], <span class="dt">x =</span> elev, <span class="dt">xlab =</span> <span class="st">&quot;elevation in m&quot;</span>, </a>
+<a class="sourceLine" id="cb449-9" data-line-number="9">     <span class="dt">ylab =</span> <span class="st">&quot;First NMDS axis&quot;</span>, <span class="dt">cex.lab =</span> <span class="fl">0.8</span>, <span class="dt">cex.axis =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:xy-nmds"></span>
 <img src="figures/xy-nmds-1.png" alt="Plotting the first NMDS axis against altitude." width="60%" />
 <p class="caption">
@@ -622,17 +620,17 @@ Here, we shortly introduce decision trees and bagging, since they form the basis
 We refer the reader to <span class="citation">James et al. (<a href="#ref-james_introduction_2013">2013</a>)</span> for a more detailed description of random forests and related techniques.</p>
 <p>To introduce decision trees by example, we first construct a response-predictor matrix by joining the rotated NMDS scores to the field observations (<code>random_points</code>).
 We will also use the resulting data frame for the <strong>mlr</strong> modeling later on.</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="co"># construct response-predictor matrix</span></a>
-<a class="sourceLine" id="cb452-2" data-line-number="2"><span class="co"># id- and response variable</span></a>
-<a class="sourceLine" id="cb452-3" data-line-number="3">rp =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="kw">as.numeric</span>(<span class="kw">rownames</span>(sc)), <span class="dt">sc =</span> sc[, <span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb452-4" data-line-number="4"><span class="co"># join the predictors (dem, ndvi and terrain attributes)</span></a>
-<a class="sourceLine" id="cb452-5" data-line-number="5">rp =<span class="st"> </span><span class="kw">inner_join</span>(random_points, rp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1"><span class="co"># construct response-predictor matrix</span></a>
+<a class="sourceLine" id="cb450-2" data-line-number="2"><span class="co"># id- and response variable</span></a>
+<a class="sourceLine" id="cb450-3" data-line-number="3">rp =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id =</span> <span class="kw">as.numeric</span>(<span class="kw">rownames</span>(sc)), <span class="dt">sc =</span> sc[, <span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb450-4" data-line-number="4"><span class="co"># join the predictors (dem, ndvi and terrain attributes)</span></a>
+<a class="sourceLine" id="cb450-5" data-line-number="5">rp =<span class="st"> </span><span class="kw">inner_join</span>(random_points, rp, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a></code></pre></div>
 <p>Decision trees split the predictor space into a number of regions.
 To illustrate this, we apply a decision tree to our data using the scores of the first NMDS axis as the response (<code>sc</code>) and altitude (<code>dem</code>) as the only predictor.</p>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tree&quot;</span>)</a>
-<a class="sourceLine" id="cb453-2" data-line-number="2">tree_mo =<span class="st"> </span><span class="kw">tree</span>(sc <span class="op">~</span><span class="st"> </span>dem, <span class="dt">data =</span> rp)</a>
-<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="kw">plot</span>(tree_mo)</a>
-<a class="sourceLine" id="cb453-4" data-line-number="4"><span class="kw">text</span>(tree_mo, <span class="dt">pretty =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;tree&quot;</span>)</a>
+<a class="sourceLine" id="cb451-2" data-line-number="2">tree_mo =<span class="st"> </span><span class="kw">tree</span>(sc <span class="op">~</span><span class="st"> </span>dem, <span class="dt">data =</span> rp)</a>
+<a class="sourceLine" id="cb451-3" data-line-number="3"><span class="kw">plot</span>(tree_mo)</a>
+<a class="sourceLine" id="cb451-4" data-line-number="4"><span class="kw">text</span>(tree_mo, <span class="dt">pretty =</span> <span class="dv">0</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:tree"></span>
 <img src="figures/14_tree.png" alt="Simple example of a decision tree with three internal nodes and four terminal nodes." width="100%" />
 <p class="caption">
@@ -678,29 +676,29 @@ This means, the inner hyperparameter tuning level is no longer needed which make
 Therefore, we tune the hyperparameters for a good spatial prediction on the complete dataset via a 5-fold spatial CV with one repetition.
 <!-- If we used more than one repetition (say 2) we would retrieve multiple optimal tuned hyperparameter combinations (say 2) --></p>
 <p>The preparation for the modeling using the <strong>mlr</strong> package includes the construction of a response-predictor matrix containing only variables which should be used in the modeling and the construction of a separate coordinate data frame.</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1"><span class="co"># extract the coordinates into a separate data frame</span></a>
-<a class="sourceLine" id="cb454-2" data-line-number="2">coords =<span class="st"> </span>sf<span class="op">::</span><span class="kw">st_coordinates</span>(rp) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb454-3" data-line-number="3"><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb454-4" data-line-number="4"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y)</a>
-<a class="sourceLine" id="cb454-5" data-line-number="5"><span class="co"># only keep response and predictors which should be used for the modeling</span></a>
-<a class="sourceLine" id="cb454-6" data-line-number="6">rp =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(rp, <span class="op">-</span>id, <span class="op">-</span>spri) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb454-7" data-line-number="7"><span class="st">  </span><span class="kw">st_drop_geometry</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="co"># extract the coordinates into a separate data frame</span></a>
+<a class="sourceLine" id="cb452-2" data-line-number="2">coords =<span class="st"> </span>sf<span class="op">::</span><span class="kw">st_coordinates</span>(rp) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb452-3" data-line-number="3"><span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb452-4" data-line-number="4"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y)</a>
+<a class="sourceLine" id="cb452-5" data-line-number="5"><span class="co"># only keep response and predictors which should be used for the modeling</span></a>
+<a class="sourceLine" id="cb452-6" data-line-number="6">rp =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(rp, <span class="op">-</span>id, <span class="op">-</span>spri) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb452-7" data-line-number="7"><span class="st">  </span><span class="kw">st_drop_geometry</span>()</a></code></pre></div>
 <p>Having constructed the input variables, we are all set for specifying the <strong>mlr</strong> building blocks (task, learner, and resampling).
 We will use a regression task since the response variable is numeric.
 The learner is a random forest model implementation from the <strong>ranger</strong> package.</p>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="co"># create task</span></a>
-<a class="sourceLine" id="cb455-2" data-line-number="2">task =<span class="st"> </span><span class="kw">makeRegrTask</span>(<span class="dt">data =</span> rp, <span class="dt">target =</span> <span class="st">&quot;sc&quot;</span>, <span class="dt">coordinates =</span> coords)</a>
-<a class="sourceLine" id="cb455-3" data-line-number="3"><span class="co"># learner</span></a>
-<a class="sourceLine" id="cb455-4" data-line-number="4">lrn_rf =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;regr.ranger&quot;</span>, <span class="dt">predict.type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="co"># create task</span></a>
+<a class="sourceLine" id="cb453-2" data-line-number="2">task =<span class="st"> </span><span class="kw">makeRegrTask</span>(<span class="dt">data =</span> rp, <span class="dt">target =</span> <span class="st">&quot;sc&quot;</span>, <span class="dt">coordinates =</span> coords)</a>
+<a class="sourceLine" id="cb453-3" data-line-number="3"><span class="co"># learner</span></a>
+<a class="sourceLine" id="cb453-4" data-line-number="4">lrn_rf =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;regr.ranger&quot;</span>, <span class="dt">predict.type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
 <p>As opposed to for example support vector machines (see Section <a href="spatial-cv.html#svm">11.5.2</a>), random forests often already show good performances when used with the default values of their hyperparameters (which may be one reason for their popularity).
 Still, tuning often moderately improves model results, and thus is worth the effort <span class="citation">(Probst, Wright, and Boulesteix <a href="#ref-probst_hyperparameters_2018">2018</a>)</span>.
 Since we deal with geographic data, we will again make use of spatial cross-validation to tune the hyperparameters (see Sections <a href="spatial-cv.html#intro-cv">11.4</a> and <a href="spatial-cv.html#spatial-cv-with-mlr">11.5</a>).
 Specifically, we will use a five-fold spatial partitioning with only one repetition (<code>makeResampleDesc()</code>).
 In each of these spatial partitions, we run 50 models (<code>makeTuneControlRandom()</code>) to find the optimal hyperparameter combination.</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1"><span class="co"># spatial partitioning</span></a>
-<a class="sourceLine" id="cb456-2" data-line-number="2">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="st">&quot;SpCV&quot;</span>, <span class="dt">iters =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb456-3" data-line-number="3"><span class="co"># specifying random search</span></a>
-<a class="sourceLine" id="cb456-4" data-line-number="4">ctrl =<span class="st"> </span><span class="kw">makeTuneControlRandom</span>(<span class="dt">maxit =</span> 50L)</a></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1"><span class="co"># spatial partitioning</span></a>
+<a class="sourceLine" id="cb454-2" data-line-number="2">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="st">&quot;SpCV&quot;</span>, <span class="dt">iters =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb454-3" data-line-number="3"><span class="co"># specifying random search</span></a>
+<a class="sourceLine" id="cb454-4" data-line-number="4">ctrl =<span class="st"> </span><span class="kw">makeTuneControlRandom</span>(<span class="dt">maxit =</span> 50L)</a></code></pre></div>
 <p>In random forests, the hyperparameters <code>mtry</code>, <code>min.node.size</code> and <code>sample.fraction</code> determine the degree of randomness, and should be tuned <span class="citation">(Probst, Wright, and Boulesteix <a href="#ref-probst_hyperparameters_2018">2018</a>)</span>.
 <code>mtry</code> indicates how many predictor variables should be used in each tree.
 If all predictors are used, then this corresponds in fact to bagging (see beginning of Section <a href="eco.html#modeling-the-floristic-gradient">14.4</a>).
@@ -710,29 +708,29 @@ The <code>min.node.size</code> parameter indicates the number of observations a 
 Naturally, as trees and computing time become larger, the lower the <code>min.node.size</code>.</p>
 <p>Hyperparameter combinations will be selected randomly but should fall inside specific tuning limits (<code>makeParamSet()</code>).
 <code>mtry</code> should range between 1 and the number of predictors (4), <code>sample.fraction</code> should range between 0.2 and 0.9 and <code>min.node.size</code> should range between 1 and 10.</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"><span class="co"># specifying the search space</span></a>
-<a class="sourceLine" id="cb457-2" data-line-number="2">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
-<a class="sourceLine" id="cb457-3" data-line-number="3">  <span class="kw">makeIntegerParam</span>(<span class="st">&quot;mtry&quot;</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="kw">ncol</span>(rp) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb457-4" data-line-number="4">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;sample.fraction&quot;</span>, <span class="dt">lower =</span> <span class="fl">0.2</span>, <span class="dt">upper =</span> <span class="fl">0.9</span>),</a>
-<a class="sourceLine" id="cb457-5" data-line-number="5">  <span class="kw">makeIntegerParam</span>(<span class="st">&quot;min.node.size&quot;</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb457-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="co"># specifying the search space</span></a>
+<a class="sourceLine" id="cb455-2" data-line-number="2">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb455-3" data-line-number="3">  <span class="kw">makeIntegerParam</span>(<span class="st">&quot;mtry&quot;</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="kw">ncol</span>(rp) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb455-4" data-line-number="4">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;sample.fraction&quot;</span>, <span class="dt">lower =</span> <span class="fl">0.2</span>, <span class="dt">upper =</span> <span class="fl">0.9</span>),</a>
+<a class="sourceLine" id="cb455-5" data-line-number="5">  <span class="kw">makeIntegerParam</span>(<span class="st">&quot;min.node.size&quot;</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb455-6" data-line-number="6">)</a></code></pre></div>
 <p>Finally, <code>tuneParams()</code> runs the hyperparameter tuning, and will find the optimal hyperparameter combination for the specified parameters.
 The performance measure is the root mean squared error (RMSE).</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="co"># hyperparamter tuning</span></a>
-<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">02082018</span>)</a>
-<a class="sourceLine" id="cb458-3" data-line-number="3">tune =<span class="st"> </span><span class="kw">tuneParams</span>(<span class="dt">learner =</span> lrn_rf, </a>
-<a class="sourceLine" id="cb458-4" data-line-number="4">                  <span class="dt">task =</span> task,</a>
-<a class="sourceLine" id="cb458-5" data-line-number="5">                  <span class="dt">resampling =</span> perf_level,</a>
-<a class="sourceLine" id="cb458-6" data-line-number="6">                  <span class="dt">par.set =</span> ps,</a>
-<a class="sourceLine" id="cb458-7" data-line-number="7">                  <span class="dt">control =</span> ctrl, </a>
-<a class="sourceLine" id="cb458-8" data-line-number="8">                  <span class="dt">measures =</span> mlr<span class="op">::</span>rmse)</a>
-<a class="sourceLine" id="cb458-9" data-line-number="9"><span class="co">#&gt;...</span></a>
-<a class="sourceLine" id="cb458-10" data-line-number="10"><span class="co">#&gt; [Tune-x] 49: mtry=3; sample.fraction=0.533; min.node.size=5</span></a>
-<a class="sourceLine" id="cb458-11" data-line-number="11"><span class="co">#&gt; [Tune-y] 49: rmse.test.rmse=0.5636692; time: 0.0 min</span></a>
-<a class="sourceLine" id="cb458-12" data-line-number="12"><span class="co">#&gt; [Tune-x] 50: mtry=1; sample.fraction=0.68; min.node.size=5</span></a>
-<a class="sourceLine" id="cb458-13" data-line-number="13"><span class="co">#&gt; [Tune-y] 50: rmse.test.rmse=0.6314249; time: 0.0 min</span></a>
-<a class="sourceLine" id="cb458-14" data-line-number="14"><span class="co">#&gt; [Tune] Result: mtry=4; sample.fraction=0.887; min.node.size=10 :</span></a>
-<a class="sourceLine" id="cb458-15" data-line-number="15"><span class="co">#&gt; rmse.test.rmse=0.5104918</span></a></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1"><span class="co"># hyperparamter tuning</span></a>
+<a class="sourceLine" id="cb456-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">02082018</span>)</a>
+<a class="sourceLine" id="cb456-3" data-line-number="3">tune =<span class="st"> </span><span class="kw">tuneParams</span>(<span class="dt">learner =</span> lrn_rf, </a>
+<a class="sourceLine" id="cb456-4" data-line-number="4">                  <span class="dt">task =</span> task,</a>
+<a class="sourceLine" id="cb456-5" data-line-number="5">                  <span class="dt">resampling =</span> perf_level,</a>
+<a class="sourceLine" id="cb456-6" data-line-number="6">                  <span class="dt">par.set =</span> ps,</a>
+<a class="sourceLine" id="cb456-7" data-line-number="7">                  <span class="dt">control =</span> ctrl, </a>
+<a class="sourceLine" id="cb456-8" data-line-number="8">                  <span class="dt">measures =</span> mlr<span class="op">::</span>rmse)</a>
+<a class="sourceLine" id="cb456-9" data-line-number="9"><span class="co">#&gt;...</span></a>
+<a class="sourceLine" id="cb456-10" data-line-number="10"><span class="co">#&gt; [Tune-x] 49: mtry=3; sample.fraction=0.533; min.node.size=5</span></a>
+<a class="sourceLine" id="cb456-11" data-line-number="11"><span class="co">#&gt; [Tune-y] 49: rmse.test.rmse=0.5636692; time: 0.0 min</span></a>
+<a class="sourceLine" id="cb456-12" data-line-number="12"><span class="co">#&gt; [Tune-x] 50: mtry=1; sample.fraction=0.68; min.node.size=5</span></a>
+<a class="sourceLine" id="cb456-13" data-line-number="13"><span class="co">#&gt; [Tune-y] 50: rmse.test.rmse=0.6314249; time: 0.0 min</span></a>
+<a class="sourceLine" id="cb456-14" data-line-number="14"><span class="co">#&gt; [Tune] Result: mtry=4; sample.fraction=0.887; min.node.size=10 :</span></a>
+<a class="sourceLine" id="cb456-15" data-line-number="15"><span class="co">#&gt; rmse.test.rmse=0.5104918</span></a></code></pre></div>
 <p>An <code>mtry</code> of 4, a <code>sample.fraction</code> of 0.887, and a <code>min.node.size</code> of 10 represent the best hyperparameter combination.
 A RMSE of 0.51 is relatively good when considering the range of the response variable which is 3.04 (<code>diff(range(rp$sc))</code>).</p>
 </div>
@@ -740,36 +738,36 @@ A RMSE of 0.51 is relatively good when considering the range of the response var
 <h3><span class="header-section-number">14.4.2</span> Predictive mapping</h3>
 <p>The tuned hyperparameters can now be used for the prediction.
 We simply have to modify our learner using the result of the hyperparameter tuning, and run the corresponding model.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb459-1" data-line-number="1"><span class="co"># learning using the best hyperparameter combination</span></a>
-<a class="sourceLine" id="cb459-2" data-line-number="2">lrn_rf =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;regr.ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb459-3" data-line-number="3">                     <span class="dt">predict.type =</span> <span class="st">&quot;response&quot;</span>,</a>
-<a class="sourceLine" id="cb459-4" data-line-number="4">                     <span class="dt">mtry =</span> tune<span class="op">$</span>x<span class="op">$</span>mtry, </a>
-<a class="sourceLine" id="cb459-5" data-line-number="5">                     <span class="dt">sample.fraction =</span> tune<span class="op">$</span>x<span class="op">$</span>sample.fraction,</a>
-<a class="sourceLine" id="cb459-6" data-line-number="6">                     <span class="dt">min.node.size =</span> tune<span class="op">$</span>x<span class="op">$</span>min.node.size)</a>
-<a class="sourceLine" id="cb459-7" data-line-number="7"><span class="co"># doing the same more elegantly using setHyperPars()</span></a>
-<a class="sourceLine" id="cb459-8" data-line-number="8"><span class="co"># lrn_rf = setHyperPars(makeLearner(&quot;regr.ranger&quot;, predict.type = &quot;response&quot;),</span></a>
-<a class="sourceLine" id="cb459-9" data-line-number="9"><span class="co">#                       par.vals = tune$x)</span></a>
-<a class="sourceLine" id="cb459-10" data-line-number="10"><span class="co"># train model</span></a>
-<a class="sourceLine" id="cb459-11" data-line-number="11">model_rf =<span class="st"> </span><span class="kw">train</span>(lrn_rf, task)</a>
-<a class="sourceLine" id="cb459-12" data-line-number="12"><span class="co"># to retrieve the ranger output, run:</span></a>
-<a class="sourceLine" id="cb459-13" data-line-number="13"><span class="co"># mlr::getLearnerModel(model_rf)</span></a>
-<a class="sourceLine" id="cb459-14" data-line-number="14"><span class="co"># which corresponds to:</span></a>
-<a class="sourceLine" id="cb459-15" data-line-number="15"><span class="co"># ranger(sc ~ ., data = rp, </span></a>
-<a class="sourceLine" id="cb459-16" data-line-number="16"><span class="co">#        mtry = tune$x$mtry, </span></a>
-<a class="sourceLine" id="cb459-17" data-line-number="17"><span class="co">#        sample.fraction = tune$x$sample.fraction,</span></a>
-<a class="sourceLine" id="cb459-18" data-line-number="18"><span class="co">#        min.node.sie = tune$x$min.node.size)</span></a></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"><span class="co"># learning using the best hyperparameter combination</span></a>
+<a class="sourceLine" id="cb457-2" data-line-number="2">lrn_rf =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;regr.ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb457-3" data-line-number="3">                     <span class="dt">predict.type =</span> <span class="st">&quot;response&quot;</span>,</a>
+<a class="sourceLine" id="cb457-4" data-line-number="4">                     <span class="dt">mtry =</span> tune<span class="op">$</span>x<span class="op">$</span>mtry, </a>
+<a class="sourceLine" id="cb457-5" data-line-number="5">                     <span class="dt">sample.fraction =</span> tune<span class="op">$</span>x<span class="op">$</span>sample.fraction,</a>
+<a class="sourceLine" id="cb457-6" data-line-number="6">                     <span class="dt">min.node.size =</span> tune<span class="op">$</span>x<span class="op">$</span>min.node.size)</a>
+<a class="sourceLine" id="cb457-7" data-line-number="7"><span class="co"># doing the same more elegantly using setHyperPars()</span></a>
+<a class="sourceLine" id="cb457-8" data-line-number="8"><span class="co"># lrn_rf = setHyperPars(makeLearner(&quot;regr.ranger&quot;, predict.type = &quot;response&quot;),</span></a>
+<a class="sourceLine" id="cb457-9" data-line-number="9"><span class="co">#                       par.vals = tune$x)</span></a>
+<a class="sourceLine" id="cb457-10" data-line-number="10"><span class="co"># train model</span></a>
+<a class="sourceLine" id="cb457-11" data-line-number="11">model_rf =<span class="st"> </span><span class="kw">train</span>(lrn_rf, task)</a>
+<a class="sourceLine" id="cb457-12" data-line-number="12"><span class="co"># to retrieve the ranger output, run:</span></a>
+<a class="sourceLine" id="cb457-13" data-line-number="13"><span class="co"># mlr::getLearnerModel(model_rf)</span></a>
+<a class="sourceLine" id="cb457-14" data-line-number="14"><span class="co"># which corresponds to:</span></a>
+<a class="sourceLine" id="cb457-15" data-line-number="15"><span class="co"># ranger(sc ~ ., data = rp, </span></a>
+<a class="sourceLine" id="cb457-16" data-line-number="16"><span class="co">#        mtry = tune$x$mtry, </span></a>
+<a class="sourceLine" id="cb457-17" data-line-number="17"><span class="co">#        sample.fraction = tune$x$sample.fraction,</span></a>
+<a class="sourceLine" id="cb457-18" data-line-number="18"><span class="co">#        min.node.sie = tune$x$min.node.size)</span></a></code></pre></div>
 <p>The last step is to apply the model to the spatially available predictors, i.e., to the raster stack.
 So far, <code>raster::predict()</code> does not support the output of <strong>ranger</strong> models, hence, we will have to program the prediction ourselves.
 First, we convert <code>ep</code> into a prediction data frame which secondly serves as input for the <code>predict.ranger()</code> function.
 Thirdly, we put the predicted values back into a <code>RasterLayer</code> (see Section <a href="attr.html#raster-subsetting">3.3.1</a> and Figure <a href="eco.html#fig:rf-pred">14.5</a>).</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="co"># convert raster stack into a data frame</span></a>
-<a class="sourceLine" id="cb460-2" data-line-number="2">new_data =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.matrix</span>(ep))</a>
-<a class="sourceLine" id="cb460-3" data-line-number="3"><span class="co"># apply the model to the data frame</span></a>
-<a class="sourceLine" id="cb460-4" data-line-number="4">pred_rf =<span class="st"> </span><span class="kw">predict</span>(model_rf, <span class="dt">newdata =</span> new_data)</a>
-<a class="sourceLine" id="cb460-5" data-line-number="5"><span class="co"># put the predicted values into a raster</span></a>
-<a class="sourceLine" id="cb460-6" data-line-number="6">pred =<span class="st"> </span>dem</a>
-<a class="sourceLine" id="cb460-7" data-line-number="7"><span class="co"># replace altitudinal values by rf-prediction values</span></a>
-<a class="sourceLine" id="cb460-8" data-line-number="8">pred[] =<span class="st"> </span>pred_rf<span class="op">$</span>data<span class="op">$</span>response</a></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="co"># convert raster stack into a data frame</span></a>
+<a class="sourceLine" id="cb458-2" data-line-number="2">new_data =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.matrix</span>(ep))</a>
+<a class="sourceLine" id="cb458-3" data-line-number="3"><span class="co"># apply the model to the data frame</span></a>
+<a class="sourceLine" id="cb458-4" data-line-number="4">pred_rf =<span class="st"> </span><span class="kw">predict</span>(model_rf, <span class="dt">newdata =</span> new_data)</a>
+<a class="sourceLine" id="cb458-5" data-line-number="5"><span class="co"># put the predicted values into a raster</span></a>
+<a class="sourceLine" id="cb458-6" data-line-number="6">pred =<span class="st"> </span>dem</a>
+<a class="sourceLine" id="cb458-7" data-line-number="7"><span class="co"># replace altitudinal values by rf-prediction values</span></a>
+<a class="sourceLine" id="cb458-8" data-line-number="8">pred[] =<span class="st"> </span>pred_rf<span class="op">$</span>data<span class="op">$</span>response</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:rf-pred"></span>
 <img src="figures/rf-pred-1.png" alt="Predictive mapping of the floristic gradient clearly revealing distinct vegetation belts." width="100%" />
 <p class="caption">
@@ -938,6 +936,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

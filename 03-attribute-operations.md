@@ -423,12 +423,10 @@ This can be plotted as a map, as illustrated in Figure \@ref(fig:coffeemap), gen
 
 ```r
 names(world_coffee)
-#>  [1] "iso_a2"                 "name_long"             
-#>  [3] "continent"              "region_un"             
-#>  [5] "subregion"              "type"                  
-#>  [7] "area_km2"               "pop"                   
-#>  [9] "lifeExp"                "gdpPercap"             
-#> [11] "geom"                   "coffee_production_2016"
+#>  [1] "iso_a2"                 "name_long"              "continent"             
+#>  [4] "region_un"              "subregion"              "type"                  
+#>  [7] "area_km2"               "pop"                    "lifeExp"               
+#> [10] "gdpPercap"              "geom"                   "coffee_production_2016"
 #> [13] "coffee_production_2017"
 plot(world_coffee["coffee_production_2017"])
 ```
@@ -737,8 +735,8 @@ The following code chunk, for example, sets the upper left cell of `elev` to 0:
 ```r
 elev[1, 1] = 0
 elev[]
-#>  [1]  0  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-#> [24] 24 25 26 27 28 29 30 31 32 33 34 35 36
+#>  [1]  0  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#> [26] 26 27 28 29 30 31 32 33 34 35 36
 ```
 
 Leaving the square brackets empty is a shortcut version of `values()` for retrieving all values of a raster.

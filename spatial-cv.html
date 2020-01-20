@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Statistical learning | Geocomputation with R</title>
   <meta name="description" content="Chapter 11 Statistical learning | Geocomputation with R is for people who want to analyze, visualize and model geographic data with open source software. It is based on R, a statistical programming language that has powerful data processing, visualization, and geospatial capabilities. The book equips you with the knowledge and skills to tackle a wide range of issues manifested in geographic data, including those with scientific, societal, and environmental implications. This book will interest people from many backgrounds, especially Geographic Information Systems (GIS) users interested in applying their domain-specific knowledge in a powerful open source language for data science, and R users interested in extending their skills to handle spatial data." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Statistical learning | Geocomputation with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Robin Lovelace, Jakub Nowosad, Jannes Muenchow" />
 
 
-<meta name="date" content="2019-12-10" />
+<meta name="date" content="2020-01-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,9 +57,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
 <script src="libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
@@ -426,11 +424,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This chapter assumes proficiency with geographic data analysis, for example gained by studying the contents and working-through the exercises in Chapters <a href="spatial-class.html#spatial-class">2</a> to <a href="reproj-geo-data.html#reproj-geo-data">6</a>.
 A familiarity with generalized linear models (GLM) and machine learning is highly recommended <span class="citation">(for example from Zuur et al. <a href="#ref-zuur_mixed_2009">2009</a>; James et al. <a href="#ref-james_introduction_2013">2013</a>)</span>.</p>
 <p>The chapter uses the following packages:<a href="#fn61" class="footnote-ref" id="fnref61"><sup>61</sup></a></p>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb364-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="kw">library</span>(mlr)</a>
-<a class="sourceLine" id="cb364-4" data-line-number="4"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb364-5" data-line-number="5"><span class="kw">library</span>(parallelMap)</a></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb362-2" data-line-number="2"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb362-3" data-line-number="3"><span class="kw">library</span>(mlr)</a>
+<a class="sourceLine" id="cb362-4" data-line-number="4"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb362-5" data-line-number="5"><span class="kw">library</span>(parallelMap)</a></code></pre></div>
 <p>Required data will be attached in due course.</p>
 </div>
 <div id="intro-cv1" class="section level2">
@@ -471,33 +469,33 @@ Spatial CV alleviates this problem and is the <strong>central</strong> theme in 
 <h2><span class="header-section-number">11.2</span> Case study: Landslide susceptibility</h2>
 <p>This case study is based on a dataset of landslide locations in Southern Ecuador, illustrated in Figure <a href="spatial-cv.html#fig:lsl-map">11.1</a> and described in detail in <span class="citation">Muenchow, Brenning, and Richter (<a href="#ref-muenchow_geomorphic_2012">2012</a>)</span>.
 A subset of the dataset used in that paper is provided in the <strong>RSAGA</strong> package, which can be loaded as follows:</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;landslides&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;RSAGA&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;landslides&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;RSAGA&quot;</span>)</a></code></pre></div>
 <p>This should load three objects: a <code>data.frame</code> named <code>landslides</code>, a <code>list</code> named <code>dem</code>, and an <code>sf</code> object named <code>study_area</code>.
 <code>landslides</code> contains a factor column <code>lslpts</code> where <code>TRUE</code> corresponds to an observed landslide ‘initiation point’, with the coordinates stored in columns <code>x</code> and <code>y</code>.<a href="#fn63" class="footnote-ref" id="fnref63"><sup>63</sup></a></p>
 <p>There are 175 landslide points and 1360 non-landslide, as shown by <code>summary(landslides)</code>.
 The 1360 non-landslide points were sampled randomly from the study area, with the restriction that they must fall outside a small buffer around the landslide polygons.</p>
 <p>To make the number of landslide and non-landslide points balanced, let us sample 175 from the 1360 non-landslide points.<a href="#fn64" class="footnote-ref" id="fnref64"><sup>64</sup></a></p>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="co"># select non-landslide points</span></a>
-<a class="sourceLine" id="cb366-2" data-line-number="2">non_pts =<span class="st"> </span><span class="kw">filter</span>(landslides, lslpts <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb366-3" data-line-number="3"><span class="co"># select landslide points</span></a>
-<a class="sourceLine" id="cb366-4" data-line-number="4">lsl_pts =<span class="st"> </span><span class="kw">filter</span>(landslides, lslpts <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb366-5" data-line-number="5"><span class="co"># randomly select 175 non-landslide points</span></a>
-<a class="sourceLine" id="cb366-6" data-line-number="6"><span class="kw">set.seed</span>(<span class="dv">11042018</span>)</a>
-<a class="sourceLine" id="cb366-7" data-line-number="7">non_pts_sub =<span class="st"> </span><span class="kw">sample_n</span>(non_pts, <span class="dt">size =</span> <span class="kw">nrow</span>(lsl_pts))</a>
-<a class="sourceLine" id="cb366-8" data-line-number="8"><span class="co"># create smaller landslide dataset (lsl)</span></a>
-<a class="sourceLine" id="cb366-9" data-line-number="9">lsl =<span class="st"> </span><span class="kw">bind_rows</span>(non_pts_sub, lsl_pts)</a></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="co"># select non-landslide points</span></a>
+<a class="sourceLine" id="cb364-2" data-line-number="2">non_pts =<span class="st"> </span><span class="kw">filter</span>(landslides, lslpts <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="co"># select landslide points</span></a>
+<a class="sourceLine" id="cb364-4" data-line-number="4">lsl_pts =<span class="st"> </span><span class="kw">filter</span>(landslides, lslpts <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb364-5" data-line-number="5"><span class="co"># randomly select 175 non-landslide points</span></a>
+<a class="sourceLine" id="cb364-6" data-line-number="6"><span class="kw">set.seed</span>(<span class="dv">11042018</span>)</a>
+<a class="sourceLine" id="cb364-7" data-line-number="7">non_pts_sub =<span class="st"> </span><span class="kw">sample_n</span>(non_pts, <span class="dt">size =</span> <span class="kw">nrow</span>(lsl_pts))</a>
+<a class="sourceLine" id="cb364-8" data-line-number="8"><span class="co"># create smaller landslide dataset (lsl)</span></a>
+<a class="sourceLine" id="cb364-9" data-line-number="9">lsl =<span class="st"> </span><span class="kw">bind_rows</span>(non_pts_sub, lsl_pts)</a></code></pre></div>
 <p><code>dem</code> is a digital elevation model consisting of two elements:
 <code>dem$header</code>, a <code>list</code> which represents a raster ‘header’ (see Section <a href="spatial-class.html#raster-data">2.3</a>), and <code>dem$data</code>, a matrix with the altitude of each pixel.
 <code>dem</code> can be converted into a <code>raster</code> object with:</p>
 <!-- Idea: could create a function to do this -->
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1">dem =<span class="st"> </span><span class="kw">raster</span>(</a>
-<a class="sourceLine" id="cb367-2" data-line-number="2">  dem<span class="op">$</span>data, </a>
-<a class="sourceLine" id="cb367-3" data-line-number="3">  <span class="dt">crs =</span> dem<span class="op">$</span>header<span class="op">$</span>proj4string,</a>
-<a class="sourceLine" id="cb367-4" data-line-number="4">  <span class="dt">xmn =</span> dem<span class="op">$</span>header<span class="op">$</span>xllcorner, </a>
-<a class="sourceLine" id="cb367-5" data-line-number="5">  <span class="dt">xmx =</span> dem<span class="op">$</span>header<span class="op">$</span>xllcorner <span class="op">+</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>ncols <span class="op">*</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>cellsize,</a>
-<a class="sourceLine" id="cb367-6" data-line-number="6">  <span class="dt">ymn =</span> dem<span class="op">$</span>header<span class="op">$</span>yllcorner,</a>
-<a class="sourceLine" id="cb367-7" data-line-number="7">  <span class="dt">ymx =</span> dem<span class="op">$</span>header<span class="op">$</span>yllcorner <span class="op">+</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>nrows <span class="op">*</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>cellsize</a>
-<a class="sourceLine" id="cb367-8" data-line-number="8">  )</a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">dem =<span class="st"> </span><span class="kw">raster</span>(</a>
+<a class="sourceLine" id="cb365-2" data-line-number="2">  dem<span class="op">$</span>data, </a>
+<a class="sourceLine" id="cb365-3" data-line-number="3">  <span class="dt">crs =</span> dem<span class="op">$</span>header<span class="op">$</span>proj4string,</a>
+<a class="sourceLine" id="cb365-4" data-line-number="4">  <span class="dt">xmn =</span> dem<span class="op">$</span>header<span class="op">$</span>xllcorner, </a>
+<a class="sourceLine" id="cb365-5" data-line-number="5">  <span class="dt">xmx =</span> dem<span class="op">$</span>header<span class="op">$</span>xllcorner <span class="op">+</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>ncols <span class="op">*</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>cellsize,</a>
+<a class="sourceLine" id="cb365-6" data-line-number="6">  <span class="dt">ymn =</span> dem<span class="op">$</span>header<span class="op">$</span>yllcorner,</a>
+<a class="sourceLine" id="cb365-7" data-line-number="7">  <span class="dt">ymx =</span> dem<span class="op">$</span>header<span class="op">$</span>yllcorner <span class="op">+</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>nrows <span class="op">*</span><span class="st"> </span>dem<span class="op">$</span>header<span class="op">$</span>cellsize</a>
+<a class="sourceLine" id="cb365-8" data-line-number="8">  )</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:lsl-map"></span>
 <img src="figures/lsl-map-1.png" alt="Landslide initiation points (red) and points unaffected by landsliding (blue) in Southern Ecuador." width="100%" />
 <p class="caption">
@@ -517,10 +515,10 @@ We leave it as an exercise to the reader to compute the following terrain attrib
 </ul>
 <p>Data containing the landslide points, with the corresponding terrain attributes, is provided in the <strong>spDataLarge</strong> package, along with the terrain attribute raster stack from which the values were extracted.
 Hence, if you have not computed the predictors yourself, attach the corresponding data before running the code of the remaining chapter:</p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="co"># attach landslide points with terrain attributes</span></a>
-<a class="sourceLine" id="cb368-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;lsl&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a>
-<a class="sourceLine" id="cb368-3" data-line-number="3"><span class="co"># attach terrain attribute raster stack</span></a>
-<a class="sourceLine" id="cb368-4" data-line-number="4"><span class="kw">data</span>(<span class="st">&quot;ta&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="co"># attach landslide points with terrain attributes</span></a>
+<a class="sourceLine" id="cb366-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;lsl&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a>
+<a class="sourceLine" id="cb366-3" data-line-number="3"><span class="co"># attach terrain attribute raster stack</span></a>
+<a class="sourceLine" id="cb366-4" data-line-number="4"><span class="kw">data</span>(<span class="st">&quot;ta&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;spDataLarge&quot;</span>)</a></code></pre></div>
 <p>The first three rows of <code>lsl</code>, rounded to two significant digits, can be found in Table <a href="spatial-cv.html#tab:lslsummary">11.1</a>.</p>
 <table>
 <caption><span id="tab:lslsummary">TABLE 11.1: </span>Structure of the lsl dataset.</caption>
@@ -577,9 +575,9 @@ This introduction to supervised statistical learning provides the basis for doin
 <p>Supervised learning involves predicting a response variable as a function of predictors (Section <a href="spatial-cv.html#intro-cv">11.4</a>).
 In R, modeling functions are usually specified using formulas (see <code>?formula</code> and the detailed <a href="https://www.datacamp.com/community/tutorials/r-formula-tutorial">Formulas in R Tutorial</a> for details of R formulas).
 The following command specifies and runs a generalized linear model:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1">fit =<span class="st"> </span><span class="kw">glm</span>(lslpts <span class="op">~</span><span class="st"> </span>slope <span class="op">+</span><span class="st"> </span>cplan <span class="op">+</span><span class="st"> </span>cprof <span class="op">+</span><span class="st"> </span>elev <span class="op">+</span><span class="st"> </span>log10_carea,</a>
-<a class="sourceLine" id="cb369-2" data-line-number="2">          <span class="dt">family =</span> <span class="kw">binomial</span>(),</a>
-<a class="sourceLine" id="cb369-3" data-line-number="3">          <span class="dt">data =</span> lsl)</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1">fit =<span class="st"> </span><span class="kw">glm</span>(lslpts <span class="op">~</span><span class="st"> </span>slope <span class="op">+</span><span class="st"> </span>cplan <span class="op">+</span><span class="st"> </span>cprof <span class="op">+</span><span class="st"> </span>elev <span class="op">+</span><span class="st"> </span>log10_carea,</a>
+<a class="sourceLine" id="cb367-2" data-line-number="2">          <span class="dt">family =</span> <span class="kw">binomial</span>(),</a>
+<a class="sourceLine" id="cb367-3" data-line-number="3">          <span class="dt">data =</span> lsl)</a></code></pre></div>
 <p>It is worth understanding each of the three input arguments:</p>
 <ul>
 <li>A formula, which specifies landslide occurrence (<code>lslpts</code>) as a function of the predictors</li>
@@ -587,35 +585,33 @@ The following command specifies and runs a generalized linear model:</p>
 <li>The data frame which contains the response and the predictors</li>
 </ul>
 <p>The results of this model can be printed as follows (<code>summary(fit)</code> provides a more detailed account of the results):</p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">class</span>(fit)</a>
-<a class="sourceLine" id="cb370-2" data-line-number="2"><span class="co">#&gt; [1] &quot;glm&quot; &quot;lm&quot;</span></a>
-<a class="sourceLine" id="cb370-3" data-line-number="3">fit</a>
-<a class="sourceLine" id="cb370-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb370-5" data-line-number="5"><span class="co">#&gt; Call:  glm(formula = lslpts ~ slope + cplan + cprof + elev + log10_carea, </span></a>
-<a class="sourceLine" id="cb370-6" data-line-number="6"><span class="co">#&gt;     family = binomial(), data = lsl)</span></a>
-<a class="sourceLine" id="cb370-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb370-8" data-line-number="8"><span class="co">#&gt; Coefficients:</span></a>
-<a class="sourceLine" id="cb370-9" data-line-number="9"><span class="co">#&gt; (Intercept)        slope        cplan        cprof         elev  </span></a>
-<a class="sourceLine" id="cb370-10" data-line-number="10"><span class="co">#&gt;    1.97e+00     9.30e-02    -2.57e+01    -1.43e+01     2.41e-05  </span></a>
-<a class="sourceLine" id="cb370-11" data-line-number="11"><span class="co">#&gt; log10_carea  </span></a>
-<a class="sourceLine" id="cb370-12" data-line-number="12"><span class="co">#&gt;   -2.12e+00  </span></a>
-<a class="sourceLine" id="cb370-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb370-14" data-line-number="14"><span class="co">#&gt; Degrees of Freedom: 349 Total (i.e. Null);  344 Residual</span></a>
-<a class="sourceLine" id="cb370-15" data-line-number="15"><span class="co">#&gt; Null Deviance:       485 </span></a>
-<a class="sourceLine" id="cb370-16" data-line-number="16"><span class="co">#&gt; Residual Deviance: 361   AIC: 373</span></a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="kw">class</span>(fit)</a>
+<a class="sourceLine" id="cb368-2" data-line-number="2"><span class="co">#&gt; [1] &quot;glm&quot; &quot;lm&quot;</span></a>
+<a class="sourceLine" id="cb368-3" data-line-number="3">fit</a>
+<a class="sourceLine" id="cb368-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb368-5" data-line-number="5"><span class="co">#&gt; Call:  glm(formula = lslpts ~ slope + cplan + cprof + elev + log10_carea, </span></a>
+<a class="sourceLine" id="cb368-6" data-line-number="6"><span class="co">#&gt;     family = binomial(), data = lsl)</span></a>
+<a class="sourceLine" id="cb368-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb368-8" data-line-number="8"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb368-9" data-line-number="9"><span class="co">#&gt; (Intercept)        slope        cplan        cprof         elev  log10_carea  </span></a>
+<a class="sourceLine" id="cb368-10" data-line-number="10"><span class="co">#&gt;    1.97e+00     9.30e-02    -2.57e+01    -1.43e+01     2.41e-05    -2.12e+00  </span></a>
+<a class="sourceLine" id="cb368-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb368-12" data-line-number="12"><span class="co">#&gt; Degrees of Freedom: 349 Total (i.e. Null);  344 Residual</span></a>
+<a class="sourceLine" id="cb368-13" data-line-number="13"><span class="co">#&gt; Null Deviance:       485 </span></a>
+<a class="sourceLine" id="cb368-14" data-line-number="14"><span class="co">#&gt; Residual Deviance: 361   AIC: 373</span></a></code></pre></div>
 <p>The model object <code>fit</code>, of class <code>glm</code>, contains the coefficients defining the fitted relationship between response and predictors.
 It can also be used for prediction.
 This is done with the generic <code>predict()</code> method, which in this case calls the function <code>predict.glm()</code>.
 Setting <code>type</code> to <code>response</code> returns the predicted probabilities (of landslide occurrence) for each observation in <code>lsl</code>, as illustrated below (see <code>?predict.glm</code>):</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1">pred_glm =<span class="st"> </span><span class="kw">predict</span>(<span class="dt">object =</span> fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
-<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="kw">head</span>(pred_glm)</a>
-<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="co">#&gt;      1      2      3      4      5      6 </span></a>
-<a class="sourceLine" id="cb371-4" data-line-number="4"><span class="co">#&gt; 0.3327 0.4755 0.0995 0.1480 0.3486 0.6766</span></a></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1">pred_glm =<span class="st"> </span><span class="kw">predict</span>(<span class="dt">object =</span> fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb369-2" data-line-number="2"><span class="kw">head</span>(pred_glm)</a>
+<a class="sourceLine" id="cb369-3" data-line-number="3"><span class="co">#&gt;      1      2      3      4      5      6 </span></a>
+<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="co">#&gt; 0.3327 0.4755 0.0995 0.1480 0.3486 0.6766</span></a></code></pre></div>
 <p>Spatial predictions can be made by applying the coefficients to the predictor rasters.
 This can be done manually or with <code>raster::predict()</code>.
 In addition to a model object (<code>fit</code>), this function also expects a raster stack with the predictors named as in the model’s input data frame (Figure <a href="spatial-cv.html#fig:lsl-susc">11.2</a>).</p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="co"># making the prediction</span></a>
-<a class="sourceLine" id="cb372-2" data-line-number="2">pred =<span class="st"> </span>raster<span class="op">::</span><span class="kw">predict</span>(ta, <span class="dt">model =</span> fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="co"># making the prediction</span></a>
+<a class="sourceLine" id="cb370-2" data-line-number="2">pred =<span class="st"> </span>raster<span class="op">::</span><span class="kw">predict</span>(ta, <span class="dt">model =</span> fit, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:lsl-susc"></span>
 <img src="figures/lsl-susc-1.png" alt="Spatial prediction of landslide susceptibility using a GLM." width="100%" />
 <p class="caption">
@@ -644,8 +640,8 @@ This is a value between 0.5 and 1.0, with 0.5 indicating a model that is no bett
 Thus, the higher the AUROC, the better the model’s predictive power.
 The following code chunk computes the AUROC value of the model with <code>roc()</code>, which takes the response and the predicted values as inputs.
 <code>auc()</code> returns the area under the curve.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1">pROC<span class="op">::</span><span class="kw">auc</span>(pROC<span class="op">::</span><span class="kw">roc</span>(lsl<span class="op">$</span>lslpts, <span class="kw">fitted</span>(fit)))</a>
-<a class="sourceLine" id="cb373-2" data-line-number="2"><span class="co">#&gt; Area under the curve: 0.826</span></a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1">pROC<span class="op">::</span><span class="kw">auc</span>(pROC<span class="op">::</span><span class="kw">roc</span>(lsl<span class="op">$</span>lslpts, <span class="kw">fitted</span>(fit)))</a>
+<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="co">#&gt; Area under the curve: 0.826</span></a></code></pre></div>
 <p>An AUROC value of 0.83 represents a good fit.
 However, this is an overoptimistic estimation since we have computed it on the complete dataset.
 To derive a biased-reduced assessment, we have to use cross-validation and in the case of spatial data should make use of spatial CV.</p>
@@ -716,21 +712,21 @@ The first essential argument of these <code>make*()</code> functions is <code>da
 The <code>target</code> argument expects the name of a response variable and <code>positive</code> determines which of the two factor levels of the response variable indicate the landslide initiation point (in our case this is <code>TRUE</code>).
 All other variables of the <code>lsl</code> dataset will serve as predictors except for the coordinates (see the result of <code>getTaskFormula(task)</code> for the model formula).
 For spatial CV, the <code>coordinates</code> parameter is used (see Section <a href="spatial-cv.html#intro-cv">11.4</a> and Figure <a href="spatial-cv.html#fig:partitioning">11.3</a>) which expects the coordinates as a xy data frame.</p>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1"><span class="kw">library</span>(mlr)</a>
-<a class="sourceLine" id="cb374-2" data-line-number="2"><span class="co"># coordinates needed for the spatial partitioning</span></a>
-<a class="sourceLine" id="cb374-3" data-line-number="3">coords =<span class="st"> </span>lsl[, <span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)]</a>
-<a class="sourceLine" id="cb374-4" data-line-number="4"><span class="co"># select response and predictors to use in the modeling</span></a>
-<a class="sourceLine" id="cb374-5" data-line-number="5">data =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(lsl, <span class="op">-</span>x, <span class="op">-</span>y)</a>
-<a class="sourceLine" id="cb374-6" data-line-number="6"><span class="co"># create task</span></a>
-<a class="sourceLine" id="cb374-7" data-line-number="7">task =<span class="st"> </span><span class="kw">makeClassifTask</span>(<span class="dt">data =</span> data, <span class="dt">target =</span> <span class="st">&quot;lslpts&quot;</span>,</a>
-<a class="sourceLine" id="cb374-8" data-line-number="8">                       <span class="dt">positive =</span> <span class="st">&quot;TRUE&quot;</span>, <span class="dt">coordinates =</span> coords)</a></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="kw">library</span>(mlr)</a>
+<a class="sourceLine" id="cb372-2" data-line-number="2"><span class="co"># coordinates needed for the spatial partitioning</span></a>
+<a class="sourceLine" id="cb372-3" data-line-number="3">coords =<span class="st"> </span>lsl[, <span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)]</a>
+<a class="sourceLine" id="cb372-4" data-line-number="4"><span class="co"># select response and predictors to use in the modeling</span></a>
+<a class="sourceLine" id="cb372-5" data-line-number="5">data =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(lsl, <span class="op">-</span>x, <span class="op">-</span>y)</a>
+<a class="sourceLine" id="cb372-6" data-line-number="6"><span class="co"># create task</span></a>
+<a class="sourceLine" id="cb372-7" data-line-number="7">task =<span class="st"> </span><span class="kw">makeClassifTask</span>(<span class="dt">data =</span> data, <span class="dt">target =</span> <span class="st">&quot;lslpts&quot;</span>,</a>
+<a class="sourceLine" id="cb372-8" data-line-number="8">                       <span class="dt">positive =</span> <span class="st">&quot;TRUE&quot;</span>, <span class="dt">coordinates =</span> coords)</a></code></pre></div>
 <p><code>makeLearner()</code> determines the statistical learning method to use.
 All classification <strong>learners</strong> start with <code>classif.</code> and all regression learners with <code>regr.</code> (see <code>?makeLearners</code> for details).
 <code>listLearners()</code> helps to find out about all available learners and from which package <strong>mlr</strong> imports them (Table <a href="spatial-cv.html#tab:lrns">11.2</a>).
 For a specific task, we can run:</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1"><span class="kw">listLearners</span>(task, <span class="dt">warn.missing.packages =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(class, name, short.name, package) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb375-3" data-line-number="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="kw">listLearners</span>(task, <span class="dt">warn.missing.packages =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb373-2" data-line-number="2"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(class, name, short.name, package) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb373-3" data-line-number="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
 <table>
 <caption>
 <span id="tab:lrns">TABLE 11.2: </span>Sample of available learners for binomial tasks in the mlr package.
@@ -752,6 +748,20 @@ Package
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+classif.adaboostm1
+</td>
+<td style="text-align:left;">
+ada Boosting M1
+</td>
+<td style="text-align:left;">
+adaboostm1
+</td>
+<td style="text-align:left;">
+RWeka
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 classif.binomial
@@ -810,30 +820,16 @@ kernlab
 </tr>
 <tr>
 <td style="text-align:left;">
-classif.knn
+classif.IBk
 </td>
 <td style="text-align:left;">
-k-Nearest Neighbor
+k-Nearest Neighbours
 </td>
 <td style="text-align:left;">
-knn
+ibk
 </td>
 <td style="text-align:left;">
-class
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-classif.ksvm
-</td>
-<td style="text-align:left;">
-Support Vector Machines
-</td>
-<td style="text-align:left;">
-ksvm
-</td>
-<td style="text-align:left;">
-kernlab
+RWeka
 </td>
 </tr>
 </tbody>
@@ -842,13 +838,13 @@ kernlab
 We opt for the binomial classification method used in Section <a href="spatial-cv.html#conventional-model">11.3</a> and implemented as <code>classif.binomial</code> in <strong>mlr</strong>.
 Additionally, we must specify the link-function, <code>logit</code> in this case, which is also the default of the <code>binomial()</code> function.
 <code>predict.type</code> determines the type of the prediction with <code>prob</code> resulting in the predicted probability for landslide occurrence between 0 and 1 (this corresponds to <code>type = response</code> in <code>predict.glm</code>).</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;classif.binomial&quot;</span>,</a>
-<a class="sourceLine" id="cb376-2" data-line-number="2">                  <span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>,</a>
-<a class="sourceLine" id="cb376-3" data-line-number="3">                  <span class="dt">predict.type =</span> <span class="st">&quot;prob&quot;</span>,</a>
-<a class="sourceLine" id="cb376-4" data-line-number="4">                  <span class="dt">fix.factors.prediction =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="dt">cl =</span> <span class="st">&quot;classif.binomial&quot;</span>,</a>
+<a class="sourceLine" id="cb374-2" data-line-number="2">                  <span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>,</a>
+<a class="sourceLine" id="cb374-3" data-line-number="3">                  <span class="dt">predict.type =</span> <span class="st">&quot;prob&quot;</span>,</a>
+<a class="sourceLine" id="cb374-4" data-line-number="4">                  <span class="dt">fix.factors.prediction =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>To find out from which package the specified learner is taken and how to access the corresponding help pages, we can run:</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1"><span class="kw">getLearnerPackages</span>(lrn)</a>
-<a class="sourceLine" id="cb377-2" data-line-number="2"><span class="kw">helpLearner</span>(lrn)</a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1"><span class="kw">getLearnerPackages</span>(lrn)</a>
+<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="kw">helpLearner</span>(lrn)</a></code></pre></div>
 <!--
 Having specified a learner and a task, we can train our model which basically executes the `glm()` command in the background for our task. 
 
@@ -874,25 +870,25 @@ But remember, this single interface provides access to the 150+ learners shown b
 Further advantages are simple parallelization of resampling techniques and the ability to tune machine learning hyperparameters (see Section <a href="spatial-cv.html#svm">11.5.2</a>).
 Most importantly, (spatial) resampling in <strong>mlr</strong> is straightforward, requiring only two more steps: specifying a resampling method and running it.
 We will use a 100-repeated 5-fold spatial CV: five partitions will be chosen based on the provided coordinates in our <code>task</code> and the partitioning will be repeated 100 times:<a href="#fn65" class="footnote-ref" id="fnref65"><sup>65</sup></a></p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="dt">method =</span> <span class="st">&quot;SpRepCV&quot;</span>, <span class="dt">folds =</span> <span class="dv">5</span>, <span class="dt">reps =</span> <span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="dt">method =</span> <span class="st">&quot;SpRepCV&quot;</span>, <span class="dt">folds =</span> <span class="dv">5</span>, <span class="dt">reps =</span> <span class="dv">100</span>)</a></code></pre></div>
 <p>To execute the spatial resampling, we run <code>resample()</code> using the specified learner, task, resampling strategy and of course the performance measure, here the AUROC.
 This takes some time (around 10 seconds on a modern laptop) because it computes the AUROC for 500 models.
 Setting a seed ensures the reproducibility of the obtained result and will ensure the same spatial partitioning when re-running the code.</p>
 <!-- I just thought it might be worth showing the differences between an error on the fold level and repetition level but aggregating to the rep level is not a one-liner in mlr -->
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">012348</span>)</a>
-<a class="sourceLine" id="cb379-2" data-line-number="2">sp_cv =<span class="st"> </span>mlr<span class="op">::</span><span class="kw">resample</span>(<span class="dt">learner =</span> lrn, <span class="dt">task =</span> task,</a>
-<a class="sourceLine" id="cb379-3" data-line-number="3">                      <span class="dt">resampling =</span> perf_level, </a>
-<a class="sourceLine" id="cb379-4" data-line-number="4">                      <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">012348</span>)</a>
+<a class="sourceLine" id="cb377-2" data-line-number="2">sp_cv =<span class="st"> </span>mlr<span class="op">::</span><span class="kw">resample</span>(<span class="dt">learner =</span> lrn, <span class="dt">task =</span> task,</a>
+<a class="sourceLine" id="cb377-3" data-line-number="3">                      <span class="dt">resampling =</span> perf_level, </a>
+<a class="sourceLine" id="cb377-4" data-line-number="4">                      <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a></code></pre></div>
 <!-- sp_cv and conv_cv have been saved in spatialcv.Rdata. I needed to run the modeling outside of the book since knitr sets its own seed and I am not sure if this actually helps to make sure that the same partitions are used in the cv.
 I really don't understand why I have to load spatialcv.Rdata here a third time...-->
 <p>The output of the preceding code chunk is a bias-reduced assessment of the model’s predictive performance, as illustrated in the following code chunk (required input data is saved in the file <code>spatialcv.Rdata</code> in the book’s GitHub repo):</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="co"># summary statistics of the 500 models</span></a>
-<a class="sourceLine" id="cb380-2" data-line-number="2"><span class="kw">summary</span>(sp_cv<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
-<a class="sourceLine" id="cb380-3" data-line-number="3"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
-<a class="sourceLine" id="cb380-4" data-line-number="4"><span class="co">#&gt;   0.686   0.757   0.789   0.780   0.795   0.861</span></a>
-<a class="sourceLine" id="cb380-5" data-line-number="5"><span class="co"># mean AUROC of the 500 models</span></a>
-<a class="sourceLine" id="cb380-6" data-line-number="6"><span class="kw">mean</span>(sp_cv<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
-<a class="sourceLine" id="cb380-7" data-line-number="7"><span class="co">#&gt; [1] 0.78</span></a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="co"># summary statistics of the 500 models</span></a>
+<a class="sourceLine" id="cb378-2" data-line-number="2"><span class="kw">summary</span>(sp_cv<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
+<a class="sourceLine" id="cb378-3" data-line-number="3"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb378-4" data-line-number="4"><span class="co">#&gt;   0.686   0.757   0.789   0.780   0.795   0.861</span></a>
+<a class="sourceLine" id="cb378-5" data-line-number="5"><span class="co"># mean AUROC of the 500 models</span></a>
+<a class="sourceLine" id="cb378-6" data-line-number="6"><span class="kw">mean</span>(sp_cv<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
+<a class="sourceLine" id="cb378-7" data-line-number="7"><span class="co">#&gt; [1] 0.78</span></a></code></pre></div>
 <p>To put these results in perspective, let us compare them with AUROC values from a 100-repeated 5-fold non-spatial cross-validation (Figure <a href="spatial-cv.html#fig:boxplot-cv">11.5</a>; the code for the non-spatial cross-validation is not shown here but will be explored in the exercise section).
 As expected, the spatially cross-validated result yields lower AUROC values on average than the conventional cross-validation approach, underlining the over-optimistic predictive performance due to spatial autocorrelation of the latter.</p>
 <div class="figure" style="text-align: center"><span id="fig:boxplot-cv"></span>
@@ -925,24 +921,24 @@ This works for non-spatial data but is of less use for spatial data where ‘spa
 <p>Before defining spatial tuning, we will set up the <strong>mlr</strong> building blocks, introduced in Section <a href="spatial-cv.html#glm">11.5.1</a>, for the SVM.
 The classification task remains the same, hence we can simply reuse the <code>task</code> object created in Section <a href="spatial-cv.html#glm">11.5.1</a>.
 Learners implementing SVM can be found using <code>listLearners()</code> as follows:</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1">lrns =<span class="st"> </span><span class="kw">listLearners</span>(task, <span class="dt">warn.missing.packages =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb381-2" data-line-number="2"><span class="kw">filter</span>(lrns, <span class="kw">grepl</span>(<span class="st">&quot;svm&quot;</span>, class)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb381-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(class, name, short.name, package)</a>
-<a class="sourceLine" id="cb381-4" data-line-number="4"><span class="co">#&gt;            class                                 name short.name package</span></a>
-<a class="sourceLine" id="cb381-5" data-line-number="5"><span class="co">#&gt; 6   classif.ksvm              Support Vector Machines       ksvm kernlab</span></a>
-<a class="sourceLine" id="cb381-6" data-line-number="6"><span class="co">#&gt; 9  classif.lssvm Least Squares Support Vector Machine      lssvm kernlab</span></a>
-<a class="sourceLine" id="cb381-7" data-line-number="7"><span class="co">#&gt; 17   classif.svm     Support Vector Machines (libsvm)        svm   e1071</span></a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1">lrns =<span class="st"> </span><span class="kw">listLearners</span>(task, <span class="dt">warn.missing.packages =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="kw">filter</span>(lrns, <span class="kw">grepl</span>(<span class="st">&quot;svm&quot;</span>, class)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb379-3" data-line-number="3"><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(class, name, short.name, package)</a>
+<a class="sourceLine" id="cb379-4" data-line-number="4"><span class="co">#&gt;            class                                 name short.name package</span></a>
+<a class="sourceLine" id="cb379-5" data-line-number="5"><span class="co">#&gt; 6   classif.ksvm              Support Vector Machines       ksvm kernlab</span></a>
+<a class="sourceLine" id="cb379-6" data-line-number="6"><span class="co">#&gt; 9  classif.lssvm Least Squares Support Vector Machine      lssvm kernlab</span></a>
+<a class="sourceLine" id="cb379-7" data-line-number="7"><span class="co">#&gt; 17   classif.svm     Support Vector Machines (libsvm)        svm   e1071</span></a></code></pre></div>
 <p>Of the options illustrated above, we will use <code>ksvm()</code> from the <strong>kernlab</strong> package <span class="citation">(Karatzoglou et al. <a href="#ref-karatzoglou_kernlab_2004">2004</a>)</span>.
 To allow for non-linear relationships, we use the popular radial basis function (or Gaussian) kernel which is also the default of <code>ksvm()</code>.</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1">lrn_ksvm =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">&quot;classif.ksvm&quot;</span>,</a>
-<a class="sourceLine" id="cb382-2" data-line-number="2">                        <span class="dt">predict.type =</span> <span class="st">&quot;prob&quot;</span>,</a>
-<a class="sourceLine" id="cb382-3" data-line-number="3">                        <span class="dt">kernel =</span> <span class="st">&quot;rbfdot&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1">lrn_ksvm =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">&quot;classif.ksvm&quot;</span>,</a>
+<a class="sourceLine" id="cb380-2" data-line-number="2">                        <span class="dt">predict.type =</span> <span class="st">&quot;prob&quot;</span>,</a>
+<a class="sourceLine" id="cb380-3" data-line-number="3">                        <span class="dt">kernel =</span> <span class="st">&quot;rbfdot&quot;</span>)</a></code></pre></div>
 <p>The next stage is to specify a resampling strategy.
 Again we will use a 100-repeated 5-fold spatial CV.</p>
 <!-- Instead of saying "outer resampling" we concluded to use "performance estimation level" and "tuning level" (inner) in our paper
 # this is also what is shown in the nested CV figure so it would be more consistent -->
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="co"># performance estimation level</span></a>
-<a class="sourceLine" id="cb383-2" data-line-number="2">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="dt">method =</span> <span class="st">&quot;SpRepCV&quot;</span>, <span class="dt">folds =</span> <span class="dv">5</span>, <span class="dt">reps =</span> <span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="co"># performance estimation level</span></a>
+<a class="sourceLine" id="cb381-2" data-line-number="2">perf_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="dt">method =</span> <span class="st">&quot;SpRepCV&quot;</span>, <span class="dt">folds =</span> <span class="dv">5</span>, <span class="dt">reps =</span> <span class="dv">100</span>)</a></code></pre></div>
 <p>Note that this is the exact same code as used for the GLM in Section <a href="spatial-cv.html#glm">11.5.1</a>; we have simply repeated it here as a reminder.</p>
 <p>So far, the process has been identical to that described in Section <a href="spatial-cv.html#glm">11.5.1</a>.
 The next step is new, however: to tune the hyperparameters.
@@ -972,22 +968,22 @@ Questions Pat:
 talk in person (see also exercises):
 - can I compare the mean AUROC of the GLM and the SVM when using the same seed? Or is seeding not strictly necessary? I mean, ok, the partitions vary a bit but overall...
 -->
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="co"># five spatially disjoint partitions</span></a>
-<a class="sourceLine" id="cb384-2" data-line-number="2">tune_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="st">&quot;SpCV&quot;</span>, <span class="dt">iters =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb384-3" data-line-number="3"><span class="co"># use 50 randomly selected hyperparameters</span></a>
-<a class="sourceLine" id="cb384-4" data-line-number="4">ctrl =<span class="st"> </span><span class="kw">makeTuneControlRandom</span>(<span class="dt">maxit =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb384-5" data-line-number="5"><span class="co"># define the outer limits of the randomly selected hyperparameters</span></a>
-<a class="sourceLine" id="cb384-6" data-line-number="6">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
-<a class="sourceLine" id="cb384-7" data-line-number="7">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;C&quot;</span>, <span class="dt">lower =</span> <span class="dv">-12</span>, <span class="dt">upper =</span> <span class="dv">15</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),</a>
-<a class="sourceLine" id="cb384-8" data-line-number="8">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;sigma&quot;</span>, <span class="dt">lower =</span> <span class="dv">-15</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x)</a>
-<a class="sourceLine" id="cb384-9" data-line-number="9">  )</a></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1"><span class="co"># five spatially disjoint partitions</span></a>
+<a class="sourceLine" id="cb382-2" data-line-number="2">tune_level =<span class="st"> </span><span class="kw">makeResampleDesc</span>(<span class="st">&quot;SpCV&quot;</span>, <span class="dt">iters =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb382-3" data-line-number="3"><span class="co"># use 50 randomly selected hyperparameters</span></a>
+<a class="sourceLine" id="cb382-4" data-line-number="4">ctrl =<span class="st"> </span><span class="kw">makeTuneControlRandom</span>(<span class="dt">maxit =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb382-5" data-line-number="5"><span class="co"># define the outer limits of the randomly selected hyperparameters</span></a>
+<a class="sourceLine" id="cb382-6" data-line-number="6">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb382-7" data-line-number="7">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;C&quot;</span>, <span class="dt">lower =</span> <span class="dv">-12</span>, <span class="dt">upper =</span> <span class="dv">15</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),</a>
+<a class="sourceLine" id="cb382-8" data-line-number="8">  <span class="kw">makeNumericParam</span>(<span class="st">&quot;sigma&quot;</span>, <span class="dt">lower =</span> <span class="dv">-15</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x)</a>
+<a class="sourceLine" id="cb382-9" data-line-number="9">  )</a></code></pre></div>
 <p>The next stage is to modify the learner <code>lrn_ksvm</code> in accordance with all the characteristics defining the hyperparameter tuning with <code>makeTuneWrapper()</code>.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1">wrapped_lrn_ksvm =<span class="st"> </span><span class="kw">makeTuneWrapper</span>(<span class="dt">learner =</span> lrn_ksvm, </a>
-<a class="sourceLine" id="cb385-2" data-line-number="2">                                   <span class="dt">resampling =</span> tune_level,</a>
-<a class="sourceLine" id="cb385-3" data-line-number="3">                                   <span class="dt">par.set =</span> ps,</a>
-<a class="sourceLine" id="cb385-4" data-line-number="4">                                   <span class="dt">control =</span> ctrl, </a>
-<a class="sourceLine" id="cb385-5" data-line-number="5">                                   <span class="dt">show.info =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb385-6" data-line-number="6">                                   <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1">wrapped_lrn_ksvm =<span class="st"> </span><span class="kw">makeTuneWrapper</span>(<span class="dt">learner =</span> lrn_ksvm, </a>
+<a class="sourceLine" id="cb383-2" data-line-number="2">                                   <span class="dt">resampling =</span> tune_level,</a>
+<a class="sourceLine" id="cb383-3" data-line-number="3">                                   <span class="dt">par.set =</span> ps,</a>
+<a class="sourceLine" id="cb383-4" data-line-number="4">                                   <span class="dt">control =</span> ctrl, </a>
+<a class="sourceLine" id="cb383-5" data-line-number="5">                                   <span class="dt">show.info =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb383-6" data-line-number="6">                                   <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a></code></pre></div>
 <p>The <strong>mlr</strong> is now set-up to fit 250 models to determine optimal hyperparameters for one fold.
 Repeating this for each fold, we end up with 1250 (250 * 5) models for each repetition.
 Repeated 100 times means fitting a total of 125,000 models to identify optimal hyperparameters (Figure <a href="spatial-cv.html#fig:partitioning">11.3</a>).
@@ -1007,7 +1003,7 @@ Model runtime can be reduced with parallelization, which can be done in a number
 <p>Before starting the parallelization, we ensure that the processing continues even if one of the models throws an error by setting <code>on.learner.error</code> to <code>warn</code>.
 This avoids the process stopping just because of one failed model, which is desirable on large model runs.
 To inspect the failed models once the processing is completed, we dump them:</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">configureMlr</span>(<span class="dt">on.learner.error =</span> <span class="st">&quot;warn&quot;</span>, <span class="dt">on.error.dump =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">configureMlr</span>(<span class="dt">on.learner.error =</span> <span class="st">&quot;warn&quot;</span>, <span class="dt">on.error.dump =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p>To start the parallelization, we set the <code>mode</code> to <code>multicore</code> which will use <code>mclapply()</code> in the background on a single machine in the case of a Unix-based operating system.<a href="#fn67" class="footnote-ref" id="fnref67"><sup>67</sup></a>
 Equivalenty, <code>parallelStartSocket()</code> enables parallelization under Windows.
 <code>level</code> defines the level at which to enable parallelization, with <code>mlr.tuneParams</code> determining that the hyperparameter tuning level should be parallelized (see lower left part of Figure <a href="spatial-cv.html#fig:inner-outer">11.6</a>, <code>?parallelGetRegisteredLevels</code>, and the <strong>mlr</strong> <a href="https://mlr-org.github.io/mlr-tutorial/release/html/parallelization/index.html#parallelization-levels">parallelization tutorial</a> for details).
@@ -1015,20 +1011,20 @@ We will use half of the available cores (set with the <code>cpus</code> paramete
 <!-- the partitions are created before the parallelization by the normal set.seed() call. mc.set.seed makes sure that the randomly chosen hyperparameters for the tuning are reproducible. These will first set within the parallelization.-->
 Setting <code>mc.set.seed</code> to <code>TRUE</code> ensures that the randomly chosen hyperparameters during the tuning can be reproduced when running the code again.
 Unfortunately, <code>mc.set.seed</code> is only available under Unix-based systems.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="kw">library</span>(parallelMap)</a>
-<a class="sourceLine" id="cb387-2" data-line-number="2"><span class="cf">if</span> (<span class="kw">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Linux&quot;</span>, <span class="st">&quot;Darwin&quot;</span>)) {</a>
-<a class="sourceLine" id="cb387-3" data-line-number="3"><span class="kw">parallelStart</span>(<span class="dt">mode =</span> <span class="st">&quot;multicore&quot;</span>, </a>
-<a class="sourceLine" id="cb387-4" data-line-number="4">              <span class="co"># parallelize the hyperparameter tuning level</span></a>
-<a class="sourceLine" id="cb387-5" data-line-number="5">              <span class="dt">level =</span> <span class="st">&quot;mlr.tuneParams&quot;</span>, </a>
-<a class="sourceLine" id="cb387-6" data-line-number="6">              <span class="co"># just use half of the available cores</span></a>
-<a class="sourceLine" id="cb387-7" data-line-number="7">              <span class="dt">cpus =</span> <span class="kw">round</span>(parallel<span class="op">::</span><span class="kw">detectCores</span>() <span class="op">/</span><span class="st"> </span><span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb387-8" data-line-number="8">              <span class="dt">mc.set.seed =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb387-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb387-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb387-11" data-line-number="11"><span class="cf">if</span> (<span class="kw">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="op">==</span><span class="st"> &quot;Windows&quot;</span>) {</a>
-<a class="sourceLine" id="cb387-12" data-line-number="12">  <span class="kw">parallelStartSocket</span>(<span class="dt">level =</span> <span class="st">&quot;mlr.tuneParams&quot;</span>,</a>
-<a class="sourceLine" id="cb387-13" data-line-number="13">                      <span class="dt">cpus =</span>  <span class="kw">round</span>(parallel<span class="op">::</span><span class="kw">detectCores</span>() <span class="op">/</span><span class="st"> </span><span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb387-14" data-line-number="14">}</a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="kw">library</span>(parallelMap)</a>
+<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="cf">if</span> (<span class="kw">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Linux&quot;</span>, <span class="st">&quot;Darwin&quot;</span>)) {</a>
+<a class="sourceLine" id="cb385-3" data-line-number="3"><span class="kw">parallelStart</span>(<span class="dt">mode =</span> <span class="st">&quot;multicore&quot;</span>, </a>
+<a class="sourceLine" id="cb385-4" data-line-number="4">              <span class="co"># parallelize the hyperparameter tuning level</span></a>
+<a class="sourceLine" id="cb385-5" data-line-number="5">              <span class="dt">level =</span> <span class="st">&quot;mlr.tuneParams&quot;</span>, </a>
+<a class="sourceLine" id="cb385-6" data-line-number="6">              <span class="co"># just use half of the available cores</span></a>
+<a class="sourceLine" id="cb385-7" data-line-number="7">              <span class="dt">cpus =</span> <span class="kw">round</span>(parallel<span class="op">::</span><span class="kw">detectCores</span>() <span class="op">/</span><span class="st"> </span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb385-8" data-line-number="8">              <span class="dt">mc.set.seed =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb385-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb385-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb385-11" data-line-number="11"><span class="cf">if</span> (<span class="kw">Sys.info</span>()[<span class="st">&quot;sysname&quot;</span>] <span class="op">==</span><span class="st"> &quot;Windows&quot;</span>) {</a>
+<a class="sourceLine" id="cb385-12" data-line-number="12">  <span class="kw">parallelStartSocket</span>(<span class="dt">level =</span> <span class="st">&quot;mlr.tuneParams&quot;</span>,</a>
+<a class="sourceLine" id="cb385-13" data-line-number="13">                      <span class="dt">cpus =</span>  <span class="kw">round</span>(parallel<span class="op">::</span><span class="kw">detectCores</span>() <span class="op">/</span><span class="st"> </span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb385-14" data-line-number="14">}</a></code></pre></div>
 <p>Now we are set up for computing the nested spatial CV.
 Using a seed allows us to recreate the exact same spatial partitions when re-running the code.
 Specifying the <code>resample()</code> parameters follows the exact same procedure as presented when using a GLM, the only difference being the <code>extract</code> argument.
@@ -1037,50 +1033,50 @@ After the processing, it is good practice to explicitly stop the parallelization
 Finally, we save the output object (<code>result</code>) to disk in case we would like to use it another R session.
 Before running the subsequent code, be aware that it is time-consuming:
 the 125,500 models took ~1/2hr on a server using 24 cores (see below).</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">12345</span>)</a>
-<a class="sourceLine" id="cb388-2" data-line-number="2">result =<span class="st"> </span>mlr<span class="op">::</span><span class="kw">resample</span>(<span class="dt">learner =</span> wrapped_lrn_ksvm, </a>
-<a class="sourceLine" id="cb388-3" data-line-number="3">                       <span class="dt">task =</span> task,</a>
-<a class="sourceLine" id="cb388-4" data-line-number="4">                       <span class="dt">resampling =</span> perf_level,</a>
-<a class="sourceLine" id="cb388-5" data-line-number="5">                       <span class="dt">extract =</span> getTuneResult,</a>
-<a class="sourceLine" id="cb388-6" data-line-number="6">                       <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a>
-<a class="sourceLine" id="cb388-7" data-line-number="7"><span class="co"># stop parallelization</span></a>
-<a class="sourceLine" id="cb388-8" data-line-number="8"><span class="kw">parallelStop</span>()</a>
-<a class="sourceLine" id="cb388-9" data-line-number="9"><span class="co"># save your result, e.g.:</span></a>
-<a class="sourceLine" id="cb388-10" data-line-number="10"><span class="co"># saveRDS(result, &quot;svm_sp_sp_rbf_50it.rds&quot;)</span></a></code></pre></div>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">12345</span>)</a>
+<a class="sourceLine" id="cb386-2" data-line-number="2">result =<span class="st"> </span>mlr<span class="op">::</span><span class="kw">resample</span>(<span class="dt">learner =</span> wrapped_lrn_ksvm, </a>
+<a class="sourceLine" id="cb386-3" data-line-number="3">                       <span class="dt">task =</span> task,</a>
+<a class="sourceLine" id="cb386-4" data-line-number="4">                       <span class="dt">resampling =</span> perf_level,</a>
+<a class="sourceLine" id="cb386-5" data-line-number="5">                       <span class="dt">extract =</span> getTuneResult,</a>
+<a class="sourceLine" id="cb386-6" data-line-number="6">                       <span class="dt">measures =</span> mlr<span class="op">::</span>auc)</a>
+<a class="sourceLine" id="cb386-7" data-line-number="7"><span class="co"># stop parallelization</span></a>
+<a class="sourceLine" id="cb386-8" data-line-number="8"><span class="kw">parallelStop</span>()</a>
+<a class="sourceLine" id="cb386-9" data-line-number="9"><span class="co"># save your result, e.g.:</span></a>
+<a class="sourceLine" id="cb386-10" data-line-number="10"><span class="co"># saveRDS(result, &quot;svm_sp_sp_rbf_50it.rds&quot;)</span></a></code></pre></div>
 <p>In case you do not want to run the code locally, we have saved a subset of the <a href="https://github.com/Robinlovelace/geocompr/blob/master/extdata/spatial_cv_result.rds">results</a> in the book’s GitHub repo.
 They can be loaded as follows:</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1">result =<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;extdata/spatial_cv_result.rds&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1">result =<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;extdata/spatial_cv_result.rds&quot;</span>)</a></code></pre></div>
 <p>Note that runtime depends on many aspects: CPU speed, the selected algorithm, the selected number of cores and the dataset.</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="co"># Exploring the results</span></a>
-<a class="sourceLine" id="cb390-2" data-line-number="2"><span class="co"># runtime in minutes</span></a>
-<a class="sourceLine" id="cb390-3" data-line-number="3"><span class="kw">round</span>(result<span class="op">$</span>runtime <span class="op">/</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb390-4" data-line-number="4"><span class="co">#&gt; [1] 37.4</span></a></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="co"># Exploring the results</span></a>
+<a class="sourceLine" id="cb388-2" data-line-number="2"><span class="co"># runtime in minutes</span></a>
+<a class="sourceLine" id="cb388-3" data-line-number="3"><span class="kw">round</span>(result<span class="op">$</span>runtime <span class="op">/</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb388-4" data-line-number="4"><span class="co">#&gt; [1] 37.4</span></a></code></pre></div>
 <!-- interestingly, running the code with 4 cores takes 41.67 minutes -->
 <p>Even more important than the runtime is the final aggregated AUROC: the model’s ability to discriminate the two classes.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1"><span class="co"># final aggregated AUROC </span></a>
-<a class="sourceLine" id="cb391-2" data-line-number="2">result<span class="op">$</span>aggr</a>
-<a class="sourceLine" id="cb391-3" data-line-number="3"><span class="co">#&gt; auc.test.mean </span></a>
-<a class="sourceLine" id="cb391-4" data-line-number="4"><span class="co">#&gt;         0.758</span></a>
-<a class="sourceLine" id="cb391-5" data-line-number="5"><span class="co"># same as</span></a>
-<a class="sourceLine" id="cb391-6" data-line-number="6"><span class="kw">mean</span>(result<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
-<a class="sourceLine" id="cb391-7" data-line-number="7"><span class="co">#&gt; [1] 0.758</span></a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="co"># final aggregated AUROC </span></a>
+<a class="sourceLine" id="cb389-2" data-line-number="2">result<span class="op">$</span>aggr</a>
+<a class="sourceLine" id="cb389-3" data-line-number="3"><span class="co">#&gt; auc.test.mean </span></a>
+<a class="sourceLine" id="cb389-4" data-line-number="4"><span class="co">#&gt;         0.758</span></a>
+<a class="sourceLine" id="cb389-5" data-line-number="5"><span class="co"># same as</span></a>
+<a class="sourceLine" id="cb389-6" data-line-number="6"><span class="kw">mean</span>(result<span class="op">$</span>measures.test<span class="op">$</span>auc)</a>
+<a class="sourceLine" id="cb389-7" data-line-number="7"><span class="co">#&gt; [1] 0.758</span></a></code></pre></div>
 <p>It appears that the GLM (aggregated AUROC was 0.78) is slightly better than the SVM in this specific case.
 However, using more than 50 iterations in the random search would probably yield hyperparameters that result in models with a better AUROC <span class="citation">(Schratz et al. <a href="#ref-schratz_performance_nodate">2018</a>)</span>.
 On the other hand, increasing the number of random search iterations would also increase the total number of models and thus runtime.</p>
 <p>The estimated optimal hyperparameters for each fold at the performance estimation level can also be viewed.
 The following command shows the best hyperparameter combination of the first fold of the first iteration (recall this results from the first 5 * 50 model runs):</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="co"># winning hyperparameters of tuning step, </span></a>
-<a class="sourceLine" id="cb392-2" data-line-number="2"><span class="co"># i.e. the best combination out of 50 * 5 models</span></a>
-<a class="sourceLine" id="cb392-3" data-line-number="3">result<span class="op">$</span>extract[[<span class="dv">1</span>]]<span class="op">$</span>x</a>
-<a class="sourceLine" id="cb392-4" data-line-number="4"><span class="co">#&gt; $C</span></a>
-<a class="sourceLine" id="cb392-5" data-line-number="5"><span class="co">#&gt; [1] 0.458</span></a>
-<a class="sourceLine" id="cb392-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb392-7" data-line-number="7"><span class="co">#&gt; $sigma</span></a>
-<a class="sourceLine" id="cb392-8" data-line-number="8"><span class="co">#&gt; [1] 0.023</span></a></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="co"># winning hyperparameters of tuning step, </span></a>
+<a class="sourceLine" id="cb390-2" data-line-number="2"><span class="co"># i.e. the best combination out of 50 * 5 models</span></a>
+<a class="sourceLine" id="cb390-3" data-line-number="3">result<span class="op">$</span>extract[[<span class="dv">1</span>]]<span class="op">$</span>x</a>
+<a class="sourceLine" id="cb390-4" data-line-number="4"><span class="co">#&gt; $C</span></a>
+<a class="sourceLine" id="cb390-5" data-line-number="5"><span class="co">#&gt; [1] 0.458</span></a>
+<a class="sourceLine" id="cb390-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb390-7" data-line-number="7"><span class="co">#&gt; $sigma</span></a>
+<a class="sourceLine" id="cb390-8" data-line-number="8"><span class="co">#&gt; [1] 0.023</span></a></code></pre></div>
 <p>The estimated hyperparameters have been used for the first fold in the first iteration of the performance estimation level which resulted in the following AUROC value:</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1">result<span class="op">$</span>measures.test[<span class="dv">1</span>, ]</a>
-<a class="sourceLine" id="cb393-2" data-line-number="2"><span class="co">#&gt;   iter   auc</span></a>
-<a class="sourceLine" id="cb393-3" data-line-number="3"><span class="co">#&gt; 1    1 0.799</span></a></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1">result<span class="op">$</span>measures.test[<span class="dv">1</span>, ]</a>
+<a class="sourceLine" id="cb391-2" data-line-number="2"><span class="co">#&gt;   iter   auc</span></a>
+<a class="sourceLine" id="cb391-3" data-line-number="3"><span class="co">#&gt; 1    1 0.799</span></a></code></pre></div>
 <!-- # maybe add a figure (boxplot) showing the differences between tuning and no tuning?-->
 <p>So far spatial CV has been used to assess the ability of learning algorithms to generalize to unseen data.
 For spatial predictions, one would tune the hyperparameters on the complete dataset.
@@ -1191,27 +1187,6 @@ For a discussion on the need for (spatial) tuning of hyperparameters, please ref
 <p>Zuur, Alain, Elena N. Ieno, Neil Walker, Anatoly A. Saveliev, and Graham M. Smith. 2009. <em>Mixed Effects Models and Extensions in Ecology with R</em>. Statistics for Biology and Health. New York: Springer-Verlag.</p>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="61">
-<li id="fn61"><p>
-Package <strong>kernlab</strong>, <strong>pROC</strong>, <strong>RSAGA</strong> and <strong>spDataLarge</strong> must also be installed although these do not need to be attached.<a href="spatial-cv.html#fnref61" class="footnote-back">↩</a></p></li>
-<li id="fn62"><p>
-Applying statistical techniques to geographic data has been an active topic of research for many decades in the fields of Geostatistics, Spatial Statistics and point pattern analysis <span class="citation">(Diggle and Ribeiro <a href="#ref-diggle_modelbased_2007">2007</a>; Gelfand et al. <a href="#ref-gelfand_handbook_2010">2010</a>; Baddeley, Rubak, and Turner <a href="#ref-baddeley_spatial_2015">2015</a>)</span>.<a href="spatial-cv.html#fnref62" class="footnote-back">↩</a></p></li>
-<li id="fn63"><p>
-The landslide initiation point is located in the scarp of a landslide polygon. See <span class="citation">Muenchow, Brenning, and Richter (<a href="#ref-muenchow_geomorphic_2012">2012</a>)</span> for further details.<a href="spatial-cv.html#fnref63" class="footnote-back">↩</a></p></li>
-<li id="fn64"><p>The <code>landslides</code> dataset has been used in classes and summer schools.
-To show how predictive performance of different algorithms changes with an unbalanced and highly spatially autocorrelated response variable, 1360 non-landslide points were randomly selected, i.e., many more absences than presences.
-However, especially a logistic regression with a log-link, as used in this chapter, expects roughly the same number of presences and absences in the response.<a href="spatial-cv.html#fnref64" class="footnote-back">↩</a></p></li>
-<li id="fn65"><p>Note that package <strong>sperrorest</strong> initially implemented spatial cross-validation in R <span class="citation">(A. Brenning <a href="#ref-brenning_spatial_2012">2012</a><a href="#ref-brenning_spatial_2012">b</a>)</span>.
-In the meantime, its functionality was integrated into the <strong>mlr</strong> package which is the reason why we are using <strong>mlr</strong> <span class="citation">(Schratz et al. <a href="#ref-schratz_performance_nodate">2018</a>)</span>.The <strong>caret</strong> package is another umbrella-package <span class="citation">(Kuhn and Johnson <a href="#ref-kuhn_applied_2013">2013</a>)</span> for streamlined modeling in R; however, so far it does not provide spatial CV which is why we refrain from using it for spatial data.<a href="spatial-cv.html#fnref65" class="footnote-back">↩</a></p></li>
-<li id="fn66"><p>
-For a detailed description of the difference between coefficients and hyperparameters, see the ‘machine mastery’ blog post on the subject.
-<!-- For a more detailed description of the difference between coefficients and hyperparameters, see the [machine mastery blog](https://machinelearningmastery.com/difference-between-a-parameter-and-a-hyperparameter/). --><a href="spatial-cv.html#fnref66" class="footnote-back">↩</a></p></li>
-<li id="fn67"><p>
-See <code>?parallelStart</code> for further modes and github.com/berndbischl/parallelMap for more on the unified interface to popular parallelization back-ends.<a href="spatial-cv.html#fnref67" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
 <script>
 /*
 Sorts the references alphabetically.
@@ -1257,6 +1232,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

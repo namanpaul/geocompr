@@ -175,9 +175,8 @@ We will use the `world` dataset provided by the **spData**, loaded at the beginn
 
 ```r
 names(world)
-#>  [1] "iso_a2"    "name_long" "continent" "region_un" "subregion"
-#>  [6] "type"      "area_km2"  "pop"       "lifeExp"   "gdpPercap"
-#> [11] "geom"
+#>  [1] "iso_a2"    "name_long" "continent" "region_un" "subregion" "type"     
+#>  [7] "area_km2"  "pop"       "lifeExp"   "gdpPercap" "geom"
 ```
 
 The contents of this `geom` column give `sf` objects their spatial powers: `world$geom` is a '[list column](https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html)' that contains all the coordinates of the country polygons.
@@ -616,7 +615,7 @@ polygon2 = st_polygon(polygon_list2)
 polygon_sfc = st_sfc(polygon1, polygon2)
 st_geometry_type(polygon_sfc)
 #> [1] POLYGON POLYGON
-#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON ... TRIANGLE
+#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE
 ```
 
 
@@ -631,7 +630,7 @@ multilinestring2 = st_multilinestring((multilinestring_list2))
 multilinestring_sfc = st_sfc(multilinestring1, multilinestring2)
 st_geometry_type(multilinestring_sfc)
 #> [1] MULTILINESTRING MULTILINESTRING
-#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON ... TRIANGLE
+#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE
 ```
 
 It is also possible to create an `sfc` object from `sfg` objects with different geometry types:
@@ -642,7 +641,7 @@ It is also possible to create an `sfc` object from `sfg` objects with different 
 point_multilinestring_sfc = st_sfc(point1, multilinestring1)
 st_geometry_type(point_multilinestring_sfc)
 #> [1] POINT           MULTILINESTRING
-#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON ... TRIANGLE
+#> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE
 ```
 
 <!-- if you want to use it - st_cast() to a proper geometry type -->
@@ -859,8 +858,8 @@ summary(new_raster)
 ```r
 # histogram of the values
 hist(new_raster)
-#> Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...):
-#> 47% of the raster cells were used. 100000 values used.
+#> Warning in .hist1(x, maxpixels = maxpixels, main = main, plot = plot, ...): 47%
+#> of the raster cells were used. 100000 values used.
 ```
 
 <img src="figures/new_raster-hist-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1161,8 +1160,8 @@ In cases when a coordinate reference system (CRS) is missing or the wrong CRS is
 
 ```r
 new_vector = st_set_crs(new_vector, 4326) # set CRS
-#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform
-#> for that
+#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform for
+#> that
 ```
 
 The warning message informs us that the `st_set_crs()` function does not transform data from one CRS to another.
